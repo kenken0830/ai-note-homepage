@@ -24,7 +24,15 @@ export function CtaButton({
 
   const classes = `inline-flex min-h-12 items-center justify-center rounded-[8px] px-5 py-3 text-sm font-bold transition ${variantClass} ${className}`;
 
-  if (href.startsWith("http") || href.startsWith("mailto:")) {
+  if (href.startsWith("mailto:")) {
+    return (
+      <a href={href} className={classes}>
+        {children}
+      </a>
+    );
+  }
+
+  if (href.startsWith("http")) {
     return (
       <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
         {children}
