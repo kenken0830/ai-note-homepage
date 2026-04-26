@@ -5,7 +5,7 @@ import { Section } from "@/components/Section";
 export const metadata: Metadata = {
   title: "法務・ポリシー入口",
   description:
-    "特商法、利用規約、プライバシーポリシー、ライセンス方針のplaceholder入口です。販売開始前に正式版へ差し替えます。",
+    "特商法、利用規約、プライバシーポリシー、ライセンス方針の準備中ページです。販売開始前に正式版へ差し替えます。",
 };
 
 const legalItems = [
@@ -21,7 +21,7 @@ export default function LegalPage() {
       <PageHero
         eyebrow="Legal"
         title="販売開始前に正式版へ差し替える法務入口。"
-        description="現時点ではplaceholderです。商品販売、メルマガ、フォーム連携を始める前に正式な文書へ更新してください。"
+        description="現時点では正式な法務文書ではありません。商品販売、メルマガ、フォーム連携を始める前に正式な文書へ更新してください。"
       />
       <Section>
         <div className="grid gap-5 md:grid-cols-2">
