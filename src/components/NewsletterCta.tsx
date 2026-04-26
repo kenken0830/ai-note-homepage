@@ -17,10 +17,10 @@ export function NewsletterCta() {
       <div className="rounded-[8px] bg-white p-4 text-stone-950">
         <div className="grid gap-3">
           <div className="min-h-12 rounded-[8px] border border-stone-200 px-4 py-3 text-stone-500">
-            メールアドレス
+            メールアドレス入力欄の配置予定地
           </div>
           <CtaButton href="/newsletter" variant="primary" className="w-full">
-            メルマガ導線を見る
+            フォーム接続は準備中
           </CtaButton>
         </div>
       </div>
