@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8faf7;
+  --foreground: #17231f;
+  --accent: #0f766e;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    Meiryo,
+    sans-serif;
+}
+
+::selection {
+  background: #b7f7ec;
+  color: #10231f;
+}
+
+.hero-image {
+  animation: slow-drift 18s ease-in-out infinite alternate;
+}
+
+.fade-up {
+  animation: fade-up 720ms ease both;
+}
+
+.fade-up-delay {
+  animation: fade-up 820ms 140ms ease both;
+}
+
+.float-line {
+  animation: float-line 7s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slow-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.08) translate3d(-18px, -10px, 0);
+  }
+}
+
+@keyframes float-line {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
