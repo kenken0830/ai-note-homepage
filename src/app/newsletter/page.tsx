@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "メルマガ登録",
   description:
-    "無料キットから有料テンプレート、メンバーシップ、相談までを案内するステップ配信の登録導線ページです。",
+    "Kit、Substack、LINEなどへ将来接続するためのメルマガ導線ページです。現時点では未接続です。",
 };
 
 const sequence = [
@@ -25,11 +25,24 @@ export default function NewsletterPage() {
     <main>
       <PageHero
         eyebrow="Newsletter"
-        title="無料キットのあとに、自然に学び続ける導線。"
-        description="Kit、Substack、LINEなどはまだ未接続です。公開前に差し替える前提で、登録CTAとステップ配信の設計を先に置きます。"
+        title="メルマガ登録フォームは未接続です。"
+        description="Kit、Substack、LINEなどの登録先はまだ接続していません。今はステップ配信の設計と、将来差し替えるCTAの置き場所を確認できます。"
         primaryCta={{ label: "無料キットを見る", href: "/free" }}
         secondaryCta={{ label: "商品一覧へ", href: "/products" }}
       />
+      <Section tone="soft">
+        <div className="rounded-[8px] border border-dashed border-stone-300 bg-white p-6 sm:p-8">
+          <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+            Connection Status
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+            登録サービスはまだ接続していません。
+          </h2>
+          <p className="mt-4 leading-8 text-stone-600">
+            このページは、将来Kit、Substack、LINE公式などへ接続するための構成確認用です。実際の登録フォーム、メール送信、ステップ配信はまだ動きません。
+          </p>
+        </div>
+      </Section>
       <Section>
         <NewsletterCta />
       </Section>
