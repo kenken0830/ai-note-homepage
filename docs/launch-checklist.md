@@ -26,6 +26,8 @@ AI Compass JournalをVercelで公開する前後に確認する項目です。
 - `NEXT_PUBLIC_SITE_URL`: 公開URL。例 `https://ai-note-homepage.vercel.app`
 - `NEXT_PUBLIC_NOTE_URL`: noteのURL。例 `https://note.com/life_to_ai`
 
+`NEXT_PUBLIC_SITE_URL` はsitemap、robots、OGPの基準URLになるため、Productionの本番URLに必ず設定してください。未設定時は一時的なfallback URLでビルドできますが、公開前に差し替える前提です。
+
 任意:
 
 - `NEXT_PUBLIC_CONTACT_EMAIL`
