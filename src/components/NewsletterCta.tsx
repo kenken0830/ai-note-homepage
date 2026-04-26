@@ -11,7 +11,7 @@ export function NewsletterCta() {
           無料キットのあとも、迷わずAIノートを育てる。
         </h2>
         <p className="mt-4 max-w-2xl leading-8 text-stone-300">
-          Kit、Substack、LINEなどは未接続です。今は登録導線のplaceholderとして設置し、後からフォームサービスへ差し替えます。
+          Kit、Substack、LINEなどはまだ未接続です。今は登録導線の見本として設置し、公開前にフォームサービスへ差し替えます。
         </p>
       </div>
       <div className="rounded-[8px] bg-white p-4 text-stone-950">
