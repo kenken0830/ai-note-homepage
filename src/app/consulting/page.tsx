@@ -50,7 +50,7 @@ export default function ConsultingPage() {
           </div>
         </div>
         <div className="mt-12 rounded-[8px] bg-stone-950 p-6 text-white sm:p-8">
-          <h2 className="text-3xl font-semibold">問い合わせplaceholder</h2>
+          <h2 className="text-3xl font-semibold">問い合わせ導線</h2>
           <p className="mt-4 max-w-2xl leading-8 text-stone-300">
             メールアドレスが設定されている場合はmailtoへ、未設定の場合はnote導線へつなぎます。
           </p>

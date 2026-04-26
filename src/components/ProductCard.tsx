@@ -49,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </CtaButton>
         ) : isPlaceholder ? (
           <div className="rounded-[8px] bg-stone-100 px-4 py-3 text-center text-sm font-bold text-stone-500">
-            URL設定待ち
+            外部URLは公開前に設定
           </div>
         ) : (
           <ExternalLink

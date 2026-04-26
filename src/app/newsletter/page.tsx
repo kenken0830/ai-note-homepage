@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "メルマガ登録",
   description:
-    "無料キットから有料テンプレート、メンバーシップ、相談までを案内するステップ配信のplaceholderページです。",
+    "無料キットから有料テンプレート、メンバーシップ、相談までを案内するステップ配信の登録導線ページです。",
 };
 
 const sequence = [
@@ -26,7 +26,7 @@ export default function NewsletterPage() {
       <PageHero
         eyebrow="Newsletter"
         title="無料キットのあとに、自然に学び続ける導線。"
-        description="Kit、Substack、LINEなどは未接続です。将来の差し替えを前提に、登録CTAとステップ配信の設計を先に置きます。"
+        description="Kit、Substack、LINEなどはまだ未接続です。公開前に差し替える前提で、登録CTAとステップ配信の設計を先に置きます。"
         primaryCta={{ label: "無料キットを見る", href: "/free" }}
         secondaryCta={{ label: "商品一覧へ", href: "/products" }}
       />

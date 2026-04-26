@@ -29,7 +29,7 @@ export const articles: Article[] = [
     id: "zenn-knowledge-base",
     title: "MarkdownとGitHubでAIナレッジベースを育てる",
     source: "zenn",
-    sourceUrl: "https://zenn.dev/placeholder",
+    sourceUrl: "#",
     description:
       "技術者向けに、AIメモをGitHub管理し、記事とテンプレートへ展開する方法をまとめます。",
     tags: ["GitHub", "Zenn", "Markdown"],
@@ -41,7 +41,7 @@ export const articles: Article[] = [
     id: "medium-workflows",
     title: "AI note-taking workflows for independent creators",
     source: "medium",
-    sourceUrl: "https://medium.com/@placeholder",
+    sourceUrl: "#",
     description:
       "English readers向けに、AI note workflows and product funnelsの全体像を紹介します。",
     tags: ["English", "Medium", "Workflow"],

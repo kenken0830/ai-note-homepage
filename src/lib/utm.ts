@@ -5,7 +5,7 @@ type UtmParams = {
   campaign: string;
 };
 
-const placeholderHosts = ["placeholder", "example.com"];
+const placeholderHosts = ["placeholder", "example.com", ".invalid"];
 
 export function isPlaceholderUrl(url: string | undefined) {
   if (!url) {
