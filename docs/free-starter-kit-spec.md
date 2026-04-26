@@ -13,6 +13,8 @@ AIノート無料スターターキット
 
 ## 同梱するファイル
 
+配布ファイルは `public/free-starter-kit/` で管理します。
+
 - `ai-note-basic-template.md`
 - `prompt-10-pack.md`
 - `seven-day-guide.md`
