@@ -1,61 +1,108 @@
-export type Article = {
-  title: string;
-  description: string;
-  publishedAt: string;
-  href?: string;
-  category: string;
-  featured?: boolean;
-};
+import type { Article } from "@/types/content";
 
 export const articles: Article[] = [
   {
-    title: "ChatGPTを仕事の相棒にする最初の10個の型",
+    id: "ai-note-order",
+    title: "AIノートを情報整理から商品導線まで使う順番",
+    source: "note",
+    sourceUrl: "https://note.com/life_to_ai",
     description:
-      "企画、調査、要約、メール作成まで、毎日の仕事にすぐ入れられるプロンプトの考え方を整理しました。",
+      "読む、試す、記録する、商品化するまでの基本ルートをnote読者向けに整理します。",
+    tags: ["AIノート", "導入", "note"],
+    funnelStage: "learn",
+    relatedProductIds: ["free-starter-kit", "booth-template-pack"],
     publishedAt: "2026-04-12",
-    category: "ChatGPT活用",
-    featured: true,
   },
   {
-    title: "生成AIニュースを読むときに見るべき3つの視点",
+    id: "prompt-first-ten",
+    title: "最初に使うべきAIノート用プロンプト10個",
+    source: "note",
+    sourceUrl: "https://note.com/life_to_ai",
     description:
-      "新モデルや機能追加の発表を、実務への影響、コスト、使いどころから読み解くためのチェックリストです。",
-    publishedAt: "2026-03-28",
-    category: "AIニュース解説",
-    featured: true,
+      "調査、要約、比較、記事化に使えるプロンプトを無料キットと連動して紹介します。",
+    tags: ["ChatGPT", "プロンプト", "無料キット"],
+    funnelStage: "download",
+    relatedProductIds: ["free-starter-kit", "prompt-card-pack"],
+    publishedAt: "2026-04-05",
   },
   {
-    title: "AI副業を始める前に決めたいサービス設計",
+    id: "zenn-knowledge-base",
+    title: "MarkdownとGitHubでAIナレッジベースを育てる",
+    source: "zenn",
+    sourceUrl: "https://zenn.dev/placeholder",
     description:
-      "ツール紹介で終わらせず、顧客の課題、納品物、価格の作り方まで実践寄りに解説します。",
-    publishedAt: "2026-03-17",
-    category: "AI副業",
-    featured: true,
+      "技術者向けに、AIメモをGitHub管理し、記事とテンプレートへ展開する方法をまとめます。",
+    tags: ["GitHub", "Zenn", "Markdown"],
+    funnelStage: "buy",
+    relatedProductIds: ["zenn-builder-kit"],
+    publishedAt: "2026-03-22",
   },
   {
-    title: "議事録作成をAIで15分短縮するワークフロー",
+    id: "medium-workflows",
+    title: "AI note-taking workflows for independent creators",
+    source: "medium",
+    sourceUrl: "https://medium.com/@placeholder",
     description:
-      "録音から要点整理、次のアクション抽出まで、チームで使いやすい形に落とし込む方法を紹介します。",
+      "English readers向けに、AI note workflows and product funnelsの全体像を紹介します。",
+    tags: ["English", "Medium", "Workflow"],
+    funnelStage: "discover",
+    relatedProductIds: ["free-starter-kit"],
+    publishedAt: "2026-03-10",
+  },
+  {
+    id: "workflow-library",
+    title: "AI発信をライブラリ化して迷わず再利用する方法",
+    source: "site",
+    sourceUrl: "/library",
+    description:
+      "note、Zenn、Medium、自サイトの記事を横断して、読者の段階別に案内する考え方です。",
+    tags: ["ライブラリ", "導線設計", "コンテンツ設計"],
+    funnelStage: "nurture",
+    relatedProductIds: ["booth-template-pack", "membership-lab"],
     publishedAt: "2026-02-26",
-    category: "仕事効率化",
-    featured: true,
   },
   {
-    title: "画像生成AIでブランドの世界観を崩さないコツ",
+    id: "meeting-workflow",
+    title: "議事録作成をAIノートで15分短縮するワークフロー",
+    source: "note",
+    sourceUrl: "https://note.com/life_to_ai",
     description:
-      "プロンプト、参照画像、チェック項目を分けて、安定したビジュアルを作るための基本をまとめました。",
-    publishedAt: "2026-02-11",
-    category: "生成AI",
+      "録音、要約、アクション整理を、チームで使えるAIノートに落とし込みます。",
+    tags: ["仕事効率化", "議事録", "ChatGPT"],
+    funnelStage: "learn",
+    relatedProductIds: ["prompt-card-pack"],
+    publishedAt: "2026-02-14",
   },
   {
-    title: "AIツール選びで失敗しない比較メモ",
+    id: "funnel-map-overview",
+    title: "noteから相談までをつなぐAI発信導線の設計",
+    source: "site",
+    sourceUrl: "/consulting",
     description:
-      "話題性だけで選ばず、利用頻度、連携、セキュリティ、学習コストから判断するための考え方です。",
+      "無料DL、メルマガ、商品、コミュニティ、相談をどの順番で置くかを解説します。",
+    tags: ["導線設計", "相談", "商品設計"],
+    funnelStage: "consult",
+    relatedProductIds: ["consulting-session"],
     publishedAt: "2026-01-30",
-    category: "生成AI",
+  },
+  {
+    id: "community-roadmap",
+    title: "AI Compass Labで作りたい継続実践コミュニティ",
+    source: "note",
+    sourceUrl: "https://note.com/life_to_ai",
+    description:
+      "メンバーシップ、Discord、LINE公式をどう使い分けるかの構想メモです。",
+    tags: ["コミュニティ", "メンバーシップ", "Discord"],
+    funnelStage: "join",
+    relatedProductIds: ["membership-lab"],
+    publishedAt: "2026-01-12",
   },
 ];
 
-export const featuredArticles = articles.filter((article) => article.featured);
+export const latestArticles = articles.slice(0, 5);
 
-export const latestNotes = articles.slice(0, 5);
+export const featuredArticles = articles.filter((article) =>
+  ["ai-note-order", "prompt-first-ten", "zenn-knowledge-base", "workflow-library"].includes(
+    article.id,
+  ),
+);
