@@ -16,7 +16,7 @@ const routes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = siteConfig.siteUrl ?? "https://ai-compass-journal.placeholder";
+  const baseUrl = siteConfig.siteUrl ?? siteConfig.fallbackSiteUrl;
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,
