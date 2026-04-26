@@ -8,23 +8,43 @@ type ProductCardProps = {
   product: Product;
 };
 
+const statusCopy = {
+  available: {
+    label: "公開中",
+    description: "ページまたは相談導線を確認できます。",
+    tone: "dark" as const,
+  },
+  planned: {
+    label: "近日公開",
+    description: "販売・配布ページは準備中です。",
+    tone: "stone" as const,
+  },
+  draft: {
+    label: "準備中",
+    description: "内容を設計中で、まだ販売していません。",
+    tone: "stone" as const,
+  },
+};
+
 export function ProductCard({ product }: ProductCardProps) {
   const isInternal = product.purchaseUrl.startsWith("/");
   const isPlaceholder = isPlaceholderUrl(product.purchaseUrl);
+  const status = statusCopy[product.status];
 
   return (
     <article className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
       <div>
         <div className="flex flex-wrap gap-2">
           <Badge>{product.type}</Badge>
-          <Badge tone={product.status === "available" ? "dark" : "stone"}>
-            {product.status === "available" ? "公開中" : "準備中"}
-          </Badge>
+          <Badge tone={status.tone}>{status.label}</Badge>
         </div>
         <h3 className="mt-5 text-2xl font-semibold leading-8 text-stone-950">
           {product.name}
         </h3>
         <p className="mt-3 leading-7 text-stone-600">{product.description}</p>
+        <p className="mt-4 rounded-[8px] bg-stone-100 px-4 py-3 text-sm font-semibold text-stone-600">
+          {status.description}
+        </p>
         <dl className="mt-6 grid gap-3 text-sm">
           <div>
             <dt className="font-bold text-stone-950">誰向け</dt>

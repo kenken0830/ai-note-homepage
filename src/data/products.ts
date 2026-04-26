@@ -12,9 +12,9 @@ export const products: Product[] = [
     priceLabel: "無料",
     platform: "BOOTH / Newsletter",
     purchaseUrl: "/free",
-    status: "available",
+    status: "planned",
     relatedArticleIds: ["ai-note-order", "prompt-first-ten"],
-    ctaLabel: "無料キットを見る",
+    ctaLabel: "配布準備を見る",
   },
   {
     id: "booth-template-pack",
@@ -42,7 +42,7 @@ export const products: Product[] = [
     purchaseUrl: siteConfig.links.note,
     status: "draft",
     relatedArticleIds: ["prompt-first-ten", "meeting-workflow"],
-    ctaLabel: "noteで読む",
+    ctaLabel: "準備状況を見る",
   },
   {
     id: "zenn-builder-kit",
