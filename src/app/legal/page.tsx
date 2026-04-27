@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 
@@ -31,6 +32,14 @@ export default function LegalPage() {
               <p className="mt-4 leading-7 text-stone-600">{text}</p>
             </article>
           ))}
+        </div>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <CtaButton href="/products" variant="secondary">
+            商品一覧へ戻る
+          </CtaButton>
+          <CtaButton href="/free" variant="secondary">
+            無料キットを見る
+          </CtaButton>
         </div>
       </Section>
     </main>

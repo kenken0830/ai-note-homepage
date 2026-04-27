@@ -11,6 +11,8 @@ export type PlatformId =
 
 export type ProductStatus = "available" | "planned" | "draft";
 
+export type ArticleStatus = "published" | "sample" | "planned";
+
 export type FunnelStage =
   | "discover"
   | "learn"
@@ -52,10 +54,21 @@ export type Article = {
   source: PlatformId | "site";
   sourceUrl: string;
   description: string;
+  status: ArticleStatus;
   tags: string[];
   funnelStage: FunnelStage;
   relatedProductIds: string[];
+  isPlaceholder: boolean;
   publishedAt: string;
+};
+
+export type UpdateItem = {
+  id: string;
+  date: string;
+  title: string;
+  description: string;
+  href: string;
+  category: string;
 };
 
 export type FunnelStep = {
