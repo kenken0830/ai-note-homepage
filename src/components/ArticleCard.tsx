@@ -13,8 +13,15 @@ const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
   day: "numeric",
 });
 
+const statusLabel = {
+  published: "公開中",
+  sample: "サンプル",
+  planned: "準備中",
+};
+
 export function ArticleCard({ article }: ArticleCardProps) {
   const isInternal = article.sourceUrl.startsWith("/");
+  const isReadable = article.status === "published" && !article.isPlaceholder;
 
   return (
     <article className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-teal-300 hover:shadow-xl hover:shadow-teal-900/10">
@@ -22,6 +29,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <div className="flex flex-wrap items-center gap-2">
           <Badge>{article.source}</Badge>
           <Badge tone="stone">{article.funnelStage}</Badge>
+          <Badge tone={isReadable ? "dark" : "stone"}>{statusLabel[article.status]}</Badge>
         </div>
         <time className="mt-4 block text-sm text-stone-500" dateTime={article.publishedAt}>
           {dateFormatter.format(new Date(article.publishedAt))}
@@ -39,7 +47,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
         </div>
       </div>
       <div className="mt-6 text-sm font-bold">
-        {isInternal ? (
+        {!isReadable ? (
+          <span
+            aria-label="記事は準備中です"
+            className="inline-flex rounded-[8px] bg-stone-100 px-3 py-2 text-stone-500"
+          >
+            記事は準備中
+          </span>
+        ) : isInternal ? (
           <Link href={article.sourceUrl} className="text-teal-700 hover:text-teal-900">
             記事導線を見る
           </Link>
