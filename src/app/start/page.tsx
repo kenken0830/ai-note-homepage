@@ -32,7 +32,7 @@ export default function StartPage() {
         title="はじめてのAIノートは、読む順番から決める。"
         description="AIツールを増やす前に、情報を集め、試し、記録し、商品や発信に変えるための流れを作ります。"
         primaryCta={{ label: "無料キットを見る", href: "/free" }}
-        secondaryCta={{ label: "記事ライブラリへ", href: "/library" }}
+        secondaryCta={{ label: "商品一覧へ", href: "/products" }}
       />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
@@ -68,6 +68,12 @@ export default function StartPage() {
           {starterProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+        <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <CtaButton href="/free">無料キットを使う</CtaButton>
+          <CtaButton href="/products" variant="secondary">
+            商品一覧を見る
+          </CtaButton>
         </div>
       </Section>
     </main>
