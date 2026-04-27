@@ -33,6 +33,19 @@ const kitItems = [
     description: "キットを使ったあとに読むnote記事、メルマガ、商品ページへ迷わず戻れる構成にします。",
     href: "/free-starter-kit/read-next.md",
   },
+  {
+    title: "利用条件",
+    description: "個人利用、社内利用、再配布不可など、正式legal前の暫定利用条件です。",
+    href: "/free-starter-kit/license.md",
+  },
+];
+
+const readingOrder = [
+  ["まずこれを開く", "AIノート基本テンプレート", "/free-starter-kit/ai-note-basic-template.md"],
+  ["次にコピペして試す", "プロンプト10個", "/free-starter-kit/prompt-10-pack.md"],
+  ["1週間だけ続ける", "7日間導入ガイド", "/free-starter-kit/seven-day-guide.md"],
+  ["次に読む導線を決める", "次に読むもの", "/free-starter-kit/read-next.md"],
+  ["利用条件を確認する", "利用条件", "/free-starter-kit/license.md"],
 ];
 
 const distributionOptions = [
@@ -56,6 +69,28 @@ export default function FreePage() {
         secondaryCta={{ label: "メルマガ準備状況を見る", href: "/newsletter" }}
       />
       <Section>
+        <div className="mb-12 rounded-[8px] border border-teal-200 bg-teal-50 p-6 sm:p-8">
+          <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+            Start Here
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+            まず基本テンプレートを開いて、1つだけAIノートを作る。
+          </h2>
+          <p className="mt-4 max-w-3xl leading-8 text-stone-700">
+            BOOTHやメルマガが未接続でも、このページだけで無料キットを使えます。最初はテンプレートを開き、プロンプトを1つ試し、7日間ガイドに沿って続けてください。
+          </p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <CtaButton href="/free-starter-kit/ai-note-basic-template.md">
+              まずこれを開く
+            </CtaButton>
+            <CtaButton href="/start" variant="secondary">
+              はじめての方へ戻る
+            </CtaButton>
+            <CtaButton href="/products" variant="secondary">
+              商品予定を見る
+            </CtaButton>
+          </div>
+        </div>
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeading
             eyebrow="Inside"
@@ -76,6 +111,34 @@ export default function FreePage() {
               </div>
             ))}
           </div>
+        </div>
+      </Section>
+      <Section tone="soft">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+          <SectionHeading
+            eyebrow="Reading Order"
+            title="読む順番。"
+            description="ファイルを全部読む必要はありません。まずテンプレート、次にプロンプト、最後に7日間ガイドの順で進めます。"
+          />
+          <ol className="grid gap-4">
+            {readingOrder.map(([title, file, href], index) => (
+              <li key={href} className="grid gap-4 rounded-[8px] bg-white p-5 shadow-sm sm:grid-cols-[44px_1fr_auto] sm:items-center">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-700 text-sm font-bold text-white">
+                  {index + 1}
+                </span>
+                <div>
+                  <p className="font-semibold text-stone-950">{title}</p>
+                  <p className="mt-1 text-sm text-stone-600">{file}</p>
+                </div>
+                <a
+                  href={href}
+                  className="inline-flex min-h-11 items-center justify-center rounded-[8px] border border-stone-300 px-4 py-2 text-sm font-bold text-stone-950 transition hover:border-teal-500 hover:text-teal-800"
+                >
+                  開く
+                </a>
+              </li>
+            ))}
+          </ol>
         </div>
       </Section>
       <Section id="distribution-status" tone="soft">
