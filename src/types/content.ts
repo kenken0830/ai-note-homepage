@@ -71,6 +71,35 @@ export type UpdateItem = {
   category: string;
 };
 
+export type GuideSection = {
+  id: string;
+  title: string;
+  description: string;
+  points: string[];
+};
+
+export type PromptExample = {
+  id: string;
+  title: string;
+  prompt: string;
+  useCase: string;
+};
+
+export type PromptCategory = {
+  id: string;
+  name: string;
+  description: string;
+  examples: PromptExample[];
+};
+
+export type Workflow = {
+  id: string;
+  title: string;
+  description: string;
+  steps: string[];
+  output: string;
+};
+
 export type FunnelStep = {
   id: string;
   label: string;
