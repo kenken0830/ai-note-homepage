@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "ai-use-cases-dictionary",
+    date: "2026-04-28",
+    title: "「AIでできること」ページを追加しました",
+    description:
+      "やりたいこと別に、AIで進める手順、プロンプト、確認ポイントを探せる実践辞典の入口を追加しました。",
+    href: "/ai-use-cases",
+    category: "辞典",
+  },
+  {
     id: "production-launch",
     date: "2026-04-27",
     title: "AI Compass Journalを本番公開しました",
