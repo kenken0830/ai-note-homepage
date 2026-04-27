@@ -7,6 +7,7 @@ const routes = [
   "/free",
   "/products",
   "/library",
+  "/updates",
   "/media",
   "/newsletter",
   "/community",
