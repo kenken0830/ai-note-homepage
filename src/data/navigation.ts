@@ -5,6 +5,7 @@ export const primaryNavigation: NavItem[] = [
   { label: "無料キット", href: "/free" },
   { label: "商品", href: "/products" },
   { label: "記事", href: "/library" },
+  { label: "更新情報", href: "/updates" },
   { label: "メディア", href: "/media" },
   { label: "メルマガ", href: "/newsletter" },
   { label: "相談", href: "/consulting" },
