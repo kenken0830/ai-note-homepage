@@ -3,6 +3,9 @@ import type { NavItem } from "@/types/content";
 export const primaryNavigation: NavItem[] = [
   { label: "はじめての方へ", href: "/start" },
   { label: "無料キット", href: "/free" },
+  { label: "ガイド", href: "/guides" },
+  { label: "プロンプト", href: "/prompts" },
+  { label: "ワークフロー", href: "/workflows" },
   { label: "商品", href: "/products" },
   { label: "記事", href: "/library" },
   { label: "更新情報", href: "/updates" },
