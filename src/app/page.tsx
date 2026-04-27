@@ -74,12 +74,12 @@ export default function Home() {
           </div>
           <div className="grid gap-4 rounded-[8px] border border-stone-200 bg-stone-50 p-5 shadow-sm">
             {[
-              "note / X / YouTubeで発見",
+              "noteや更新情報から発見",
               "ホームページで全体像を確認",
-              "無料キットを受け取る",
-              "メルマガで使い方を学ぶ",
-              "BOOTH / note有料 / Zenn本を選ぶ",
-              "コミュニティ・個別相談へ進む",
+              "無料キットを使う",
+              "更新情報で改善を追う",
+              "商品予定を確認する",
+              "相談ページを見る",
             ].map((item, index) => (
               <div key={item} className="grid grid-cols-[44px_1fr] items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-bold text-teal-700 shadow-sm">
