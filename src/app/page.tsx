@@ -9,15 +9,16 @@ import { ProductCard } from "@/components/ProductCard";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { featuredArticles } from "@/data/articles";
+import { aiUseCaseCategories, publishedAiUseCases } from "@/data/aiUseCases";
 import { primaryPlatforms } from "@/data/platforms";
 import { featuredProducts } from "@/data/products";
 import { latestUpdates } from "@/data/updates";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "AIノートの本店・導線ハブ",
+  title: "やりたいことから探すAI活用の実践辞典",
   description:
-    "AIノートを学ぶ、使う、作る、売るために、note、Zenn、Medium、BOOTH、GitHub、X、YouTube、メルマガ、相談を束ねるポータルです。",
+    "会議メモ、読書、note記事、調査、企画、学習、日々の整理を、AIで進める手順・プロンプト・テンプレートとして探せる実践辞典です。",
 };
 
 const liveActions = [
@@ -39,8 +40,8 @@ const launchStatuses = [
 
 const firstSteps = [
   { label: "/start を読む", href: "/start" },
+  { label: "/ai-use-cases でやりたいことを探す", href: "/ai-use-cases" },
   { label: "/free で無料キットを使う", href: "/free" },
-  { label: "/products で今後の商品予定を見る", href: "/products" },
 ];
 
 export default function Home() {
@@ -51,21 +52,21 @@ export default function Home() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <p className="text-sm font-bold tracking-[0.18em] text-teal-700 uppercase">
-              AI note portal
+              AI use case dictionary
             </p>
             <h1 className="mt-5 text-5xl font-semibold leading-[1.05] text-stone-950 sm:text-6xl lg:text-7xl">
               AI Compass Journal
             </h1>
             <p className="mt-6 max-w-3xl text-2xl font-medium leading-10 text-stone-900 sm:text-3xl">
-              AIノートを、学ぶ・使う・作る・売るための本店。
+              やりたいことから探す、AI活用の実践辞典。
             </p>
             <p className="mt-5 max-w-2xl text-base leading-8 text-stone-600 sm:text-lg">
-              note、Zenn、Medium、BOOTH、GitHub、X、YouTube、メルマガ、コミュニティ、相談を束ね、読者が次に進む導線を迷わない形に整理します。
+              会議メモ、読書、note記事、調査、企画、学習、日々の整理。やりたいことを選ぶだけで、AIで進める手順・プロンプト・テンプレートが見つかります。
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <CtaButton href="/free">無料スターターキットを見る</CtaButton>
-              <CtaButton href="/products" variant="secondary">
-                商品一覧を見る
+              <CtaButton href="/ai-use-cases">AIでできることを見る</CtaButton>
+              <CtaButton href="/free" variant="secondary">
+                無料スターターキット
               </CtaButton>
               <CtaButton href="/start" variant="secondary">
                 はじめての方へ
@@ -75,11 +76,11 @@ export default function Home() {
           <div className="grid gap-4 rounded-[8px] border border-stone-200 bg-stone-50 p-5 shadow-sm">
             {[
               "noteや更新情報から発見",
-              "ホームページで全体像を確認",
-              "無料キットを使う",
-              "更新情報で改善を追う",
-              "商品予定を確認する",
-              "相談ページを見る",
+              "やりたいことを選ぶ",
+              "手順とプロンプトを見る",
+              "無料キットで整理する",
+              "noteで実験ログを書く",
+              "完成版を辞典に育てる",
             ].map((item, index) => (
               <div key={item} className="grid grid-cols-[44px_1fr] items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-bold text-teal-700 shadow-sm">
@@ -91,6 +92,54 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <Section id="use-cases" tone="soft">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading
+            eyebrow="Use Case Dictionary"
+            title="AIでやりたいことから探す。"
+            description="AIノートは入口の整理術として残しつつ、ホームページは仕事・学習・発信・生活で再現できるAI活用辞典として育てます。"
+          />
+          <CtaButton href="/ai-use-cases" variant="secondary">
+            AIでできること一覧へ
+          </CtaButton>
+        </div>
+        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {aiUseCaseCategories.map((category) => (
+            <a
+              key={category}
+              href={`/ai-use-cases#${category}`}
+              className="rounded-[8px] border border-stone-200 bg-white p-5 shadow-sm transition hover:border-teal-400 hover:text-teal-800"
+            >
+              <h2 className="text-2xl font-semibold text-stone-950">{category}</h2>
+              <p className="mt-3 leading-7 text-stone-600">
+                手順、プロンプト、確認ポイントを用途別に整理します。
+              </p>
+            </a>
+          ))}
+        </div>
+        <div className="mt-10 grid gap-4 rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+              Published Guides
+            </p>
+            <h2 className="mt-3 text-2xl font-semibold text-stone-950">
+              まず読める5本。
+            </h2>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {publishedAiUseCases.map((item) => (
+              <a
+                key={item.id}
+                href={`/ai-use-cases/${item.slug}`}
+                className="rounded-[8px] bg-stone-100 px-4 py-3 text-sm font-bold leading-6 text-stone-700 transition hover:text-teal-800"
+              >
+                {item.title}
+              </a>
+            ))}
+          </div>
+        </div>
+      </Section>
 
       <Section id="live" tone="soft">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
@@ -147,7 +196,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="First Visit"
             title="はじめて来た人の3ステップ。"
-            description="読む順番を決め、無料キットを使い、今後の商品予定を確認するだけで一通り回れます。"
+            description="まず全体像を読み、やりたいこと別の手順を選び、無料キットでAIノートとして整理します。"
           />
           <ol className="grid gap-4">
             {firstSteps.map((step, index) => (
