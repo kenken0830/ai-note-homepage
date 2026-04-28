@@ -285,7 +285,7 @@ export const articleBacklog: ArticleBacklogItem[] = [
     priority: "high",
     status: "published",
     relatedPages: ["/prompts", "/free", "/ai-use-cases"],
-    suggestedSlug: "reusable-ai-prompt-template",
+    suggestedSlug: "make-prompt-template",
   },
   {
     id: "weekly-report-draft",
