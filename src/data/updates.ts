@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "research-summary-use-case-live",
+    date: "2026-04-29",
+    title: "調査メモを判断材料に要約する詳細ページを公開しました",
+    description:
+      "集めた情報を、要点、根拠、不明点、追加確認、判断可否に分けるAI活用手順を追加しました。",
+    href: "/ai-use-cases/summarize-research-notes",
+    category: "辞典",
+  },
+  {
     id: "editorial-agent-system",
     date: "2026-04-28",
     title: "編集エージェント運用と品質スコア基盤を追加しました",
