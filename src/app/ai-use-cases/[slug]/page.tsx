@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
-import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCases";
+import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 
 type AiUseCaseDetailPageProps = {
   params: Promise<{
