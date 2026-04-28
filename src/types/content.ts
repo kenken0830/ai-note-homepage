@@ -167,4 +167,5 @@ export type FunnelStep = {
 export type NavItem = {
   label: string;
   href: string;
+  showInHeader?: boolean;
 };
