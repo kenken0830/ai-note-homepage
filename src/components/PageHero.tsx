@@ -28,7 +28,7 @@ export function PageHero({
           {eyebrow}
         </p>
         <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
-          <h1 className="max-w-4xl text-4xl font-semibold leading-tight text-stone-950 sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-4xl text-balance break-keep text-4xl font-semibold leading-tight text-stone-950 sm:text-5xl lg:text-6xl">
             {title}
           </h1>
           <div>
