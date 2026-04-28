@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "todo-list-use-case-live",
+    date: "2026-04-28",
+    title: "散らかったメモをTODOリストにする詳細ページを公開しました",
+    description:
+      "思いつきや作業メモを、今日やること、今週やること、確認、保留、削除候補に分ける手順を追加しました。",
+    href: "/ai-use-cases/make-todo-list",
+    category: "辞典",
+  },
+  {
     id: "prompt-template-use-case-live",
     date: "2026-04-28",
     title: "プロンプトをテンプレ化する詳細ページを公開しました",

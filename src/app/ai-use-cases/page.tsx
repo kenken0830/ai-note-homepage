@@ -4,7 +4,7 @@ import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { aiUseCaseCategories, aiUseCases } from "@/data/aiUseCases";
+import { aiUseCaseCategories, aiUseCases } from "@/data/aiUseCaseRegistry";
 
 export const metadata: Metadata = {
   title: "AIでできること",

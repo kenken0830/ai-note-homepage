@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { publishedAiUseCases } from "@/data/aiUseCases";
+import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 
 const routes = [
   "",
