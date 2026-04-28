@@ -75,9 +75,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "メモを行動、確認、保留、削除に分ける",
     searchIntent: "メモ TODO化 AI",
     priority: "medium",
-    status: "candidate",
+    status: "published",
     relatedPages: ["/ai-use-cases", "/prompts", "/free"],
-    suggestedSlug: "messy-notes-to-todo-ai",
+    suggestedSlug: "make-todo-list",
   },
   {
     id: "research-summary-decision",
