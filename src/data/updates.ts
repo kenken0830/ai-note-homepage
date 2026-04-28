@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "editorial-agent-system",
+    date: "2026-04-28",
+    title: "編集エージェント運用と品質スコア基盤を追加しました",
+    description:
+      "HP記事を毎日候補化し、週3程度で公開し、週1で改善するためのCodexエージェント、Skills、80点品質スコアを整理しました。",
+    href: "/updates",
+    category: "運用",
+  },
+  {
     id: "todo-list-use-case-live",
     date: "2026-04-28",
     title: "散らかったメモをTODOリストにする詳細ページを公開しました",
