@@ -4,6 +4,64 @@ import {
   aiUseCases as baseAiUseCases,
 } from "@/data/aiUseCases";
 
+const emailReplyUseCase: AiUseCase = {
+  id: "email-reply",
+  slug: "write-email-reply",
+  title: "AIでメール返信を書く方法",
+  description:
+    "受信メールの要件を整理し、相手に失礼なく、短く、確認漏れの少ない返信文を作ります。",
+  category: "書く",
+  tags: ["メール", "文章作成", "仕事効率化"],
+  difficulty: "beginner",
+  timeToTry: "10分",
+  status: "published",
+  target:
+    "返信文が硬すぎる人、長くなりすぎる人、相手の要件を整理してから安全に返したい人向けです。",
+  scene:
+    "問い合わせへの返信、日程調整、依頼への回答、断りづらい相談への返答など、仕事のメールを送る前に使います。",
+  preparation: [
+    "受信メールの本文を用意する",
+    "こちらが答えられること、まだ確認が必要なことを分ける",
+    "返信の温度感を、丁寧、簡潔、やわらかめなどから選ぶ",
+  ],
+  prompt:
+    "以下の受信メールに返信します。1. 相手の要件、2. こちらが回答すべきこと、3. まだ確認が必要なこと、4. 返信文の下書きに分けてください。返信文は短めで、丁寧すぎて長くならないようにしてください。日付、金額、約束、担当者など不明な情報は推測せず「確認が必要」と書いてください。",
+  inputExample:
+    "受信メール: 来週の打ち合わせ日程を調整したいです。火曜か木曜の午後で空いている時間はありますか。あわせて、前回話していた資料も事前にもらえると助かります。こちらの状況: 木曜15時なら対応可能。資料はまだ最終確認中で、水曜午前に送れる見込み。",
+  outputExample:
+    "相手の要件: 打ち合わせ日程の調整、事前資料の共有。確認が必要: 資料の最終確認が予定どおり終わるか。返信文: ご連絡ありがとうございます。打ち合わせは木曜15時でしたら対応可能です。前回の資料は現在最終確認中のため、水曜午前を目安にお送りします。木曜15時で問題ないかご確認いただけますでしょうか。",
+  improvementPrompt:
+    "この返信文を、1. もっと短く、2. 少しやわらかく、3. 確認事項が目立つ形の3案に直してください。約束していない内容や未確認の情報が含まれていないかも確認してください。",
+  steps: [
+    "受信メールを貼る前に、こちらが答えられることと確認が必要なことを分ける",
+    "AIに、相手の要件、回答すべきこと、未確認事項、返信文へ整理してもらう",
+    "日付、金額、担当者、約束などの固有情報を自分で確認する",
+    "返信文を短くし、相手にしてほしい次の行動を1つ入れる",
+    "送信前に、未確認情報をAIが推測で埋めていないか見直す",
+  ],
+  checkPoints: [
+    "相手の質問に答えているか",
+    "こちらが約束していないことを書いていないか",
+    "日付、金額、担当者、添付資料などの固有情報が正しいか",
+    "相手に次にしてほしい確認や返答が明確か",
+  ],
+  commonMistakes: [
+    "受信メールだけを渡して、こちらの判断や制約を書かない",
+    "AIの丁寧な文面をそのまま使い、長く読みにくい返信にする",
+    "確認が必要な内容をAIの推測で埋める",
+    "断る、保留する、確認するなどの温度感を指定しない",
+  ],
+  noteAngle:
+    "noteでは、AIが作った返信案をどこまで短くし、どの未確認情報を人間が差し戻したかを実験ログとして書きます。ホームページでは、同じ流れを再現できる手順として整理しています。",
+  relatedPages: [
+    { label: "無料キット", href: "/free" },
+    { label: "プロンプト集", href: "/prompts" },
+    { label: "ワークフロー", href: "/workflows" },
+    { label: "完全ガイド", href: "/guides" },
+    { label: "AIでできること一覧", href: "/ai-use-cases" },
+  ],
+};
+
 const todoListUseCase: AiUseCase = {
   id: "todo-list",
   slug: "make-todo-list",
@@ -121,6 +179,7 @@ const researchSummaryUseCase: AiUseCase = {
 };
 
 const publishedOverrides = new Map<string, AiUseCase>([
+  [emailReplyUseCase.id, emailReplyUseCase],
   [todoListUseCase.id, todoListUseCase],
   [researchSummaryUseCase.id, researchSummaryUseCase],
 ]);
