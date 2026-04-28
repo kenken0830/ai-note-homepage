@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "email-reply-use-case-live",
+    date: "2026-04-29",
+    title: "メール返信を短く安全に整える詳細ページを公開しました",
+    description:
+      "受信メールの要件、回答すべきこと、未確認事項、返信文を分けて作るAI活用手順を追加しました。",
+    href: "/ai-use-cases/write-email-reply",
+    category: "辞典",
+  },
+  {
     id: "research-summary-use-case-live",
     date: "2026-04-29",
     title: "調査メモを判断材料に要約する詳細ページを公開しました",

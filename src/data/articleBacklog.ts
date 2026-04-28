@@ -49,9 +49,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "受信メールの要件整理、返信方針、確認、文面化を手順化する",
     searchIntent: "メール返信 AI 丁寧 短く",
     priority: "high",
-    status: "outline-ready",
+    status: "published",
     relatedPages: ["/ai-use-cases/write-email-reply", "/prompts", "/free"],
-    suggestedSlug: "ai-email-reply-tone-guide",
+    suggestedSlug: "write-email-reply",
   },
   {
     id: "weekly-review-loop",
