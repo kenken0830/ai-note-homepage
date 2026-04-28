@@ -1,19 +1,23 @@
 import type { NavItem } from "@/types/content";
 
 export const primaryNavigation: NavItem[] = [
-  { label: "はじめての方へ", href: "/start" },
-  { label: "無料キット", href: "/free" },
-  { label: "AIでできること", href: "/ai-use-cases" },
-  { label: "ガイド", href: "/guides" },
+  { label: "はじめて", href: "/start", showInHeader: true },
+  { label: "AIでできること", href: "/ai-use-cases", showInHeader: true },
+  { label: "無料キット", href: "/free", showInHeader: true },
+  { label: "ガイド", href: "/guides", showInHeader: true },
   { label: "プロンプト", href: "/prompts" },
   { label: "ワークフロー", href: "/workflows" },
   { label: "商品", href: "/products" },
   { label: "記事", href: "/library" },
-  { label: "更新情報", href: "/updates" },
+  { label: "更新情報", href: "/updates", showInHeader: true },
   { label: "メディア", href: "/media" },
   { label: "メルマガ", href: "/newsletter" },
-  { label: "相談", href: "/consulting" },
+  { label: "相談", href: "/consulting", showInHeader: true },
 ];
+
+export const headerNavigation = primaryNavigation.filter(
+  (item) => item.showInHeader,
+);
 
 export const footerNavigation: NavItem[] = [
   ...primaryNavigation,

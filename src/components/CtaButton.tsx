@@ -22,7 +22,7 @@ export function CtaButton({
     dark: "bg-stone-950 text-white hover:bg-stone-800",
   }[variant];
 
-  const classes = `inline-flex min-h-12 items-center justify-center rounded-[8px] px-5 py-3 text-sm font-bold transition ${variantClass} ${className}`;
+  const classes = `inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-[8px] px-5 py-3 text-sm font-bold transition ${variantClass} ${className}`;
 
   if (href.startsWith("mailto:")) {
     return (
