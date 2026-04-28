@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "weekly-review-use-case-live",
+    date: "2026-04-29",
+    title: "週次レビューを改善計画に変える詳細ページを公開しました",
+    description:
+      "1週間のメモを、成果、詰まり、続けること、やめること、次の実験に分けるAI活用手順を追加しました。",
+    href: "/ai-use-cases/make-weekly-review",
+    category: "辞典",
+  },
+  {
     id: "email-reply-use-case-live",
     date: "2026-04-29",
     title: "メール返信を短く安全に整える詳細ページを公開しました",

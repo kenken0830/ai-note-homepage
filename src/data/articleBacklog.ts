@@ -62,9 +62,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "成果、詰まり、継続、停止、次の実験を整理する",
     searchIntent: "週次レビュー AI 改善計画",
     priority: "high",
-    status: "outline-ready",
-    relatedPages: ["/ai-use-cases/make-weekly-review", "/workflows", "/updates"],
-    suggestedSlug: "ai-weekly-review-improvement-plan",
+    status: "published",
+    relatedPages: ["/ai-use-cases/make-weekly-review", "/workflows", "/free", "/updates"],
+    suggestedSlug: "make-weekly-review",
   },
   {
     id: "todo-from-messy-notes",
