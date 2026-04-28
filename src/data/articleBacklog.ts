@@ -283,7 +283,7 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "固定文、変数、出力形式、確認項目に分ける",
     searchIntent: "プロンプト テンプレート AI",
     priority: "high",
-    status: "candidate",
+    status: "published",
     relatedPages: ["/prompts", "/free", "/ai-use-cases"],
     suggestedSlug: "reusable-ai-prompt-template",
   },
