@@ -88,9 +88,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "調査メモを要点、根拠、不明点、次の確認に分ける",
     searchIntent: "調査メモ 要約 AI 判断材料",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/guides", "/free"],
-    suggestedSlug: "research-notes-ai-summary-decision",
+    status: "published",
+    relatedPages: ["/ai-use-cases/summarize-research-notes", "/guides", "/free"],
+    suggestedSlug: "summarize-research-notes",
   },
   {
     id: "comparison-table-simple",
