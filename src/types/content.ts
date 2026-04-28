@@ -119,7 +119,13 @@ export type AiUseCase = {
   difficulty: AiUseCaseDifficulty;
   timeToTry: string;
   status: AiUseCaseStatus;
+  target?: string;
+  scene?: string;
+  preparation?: string[];
   prompt: string;
+  inputExample?: string;
+  outputExample?: string;
+  improvementPrompt?: string;
   steps: string[];
   commonMistakes: string[];
   checkPoints: string[];
@@ -132,7 +138,8 @@ export type ArticleBacklogPriority = "high" | "medium" | "low";
 export type ArticleBacklogStatus =
   | "candidate"
   | "outline-ready"
-  | "needs-validation";
+  | "needs-validation"
+  | "published";
 
 export type ArticleBacklogItem = {
   id: string;
