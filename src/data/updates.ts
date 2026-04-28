@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "prompt-template-use-case-live",
+    date: "2026-04-28",
+    title: "プロンプトをテンプレ化する詳細ページを公開しました",
+    description:
+      "繰り返し使う依頼文を、目的、素材、条件、出力形式を差し替えられるテンプレートにする手順を追加しました。",
+    href: "/ai-use-cases/make-prompt-template",
+    category: "辞典",
+  },
+  {
     id: "hp-growth-operations",
     date: "2026-04-28",
     title: "HP成長運用ルールを追加しました",
