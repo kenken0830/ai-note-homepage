@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "hp-growth-operations",
+    date: "2026-04-28",
+    title: "HP成長運用ルールを追加しました",
+    description:
+      "更新頻度、記事品質チェック、Codexによる自動改善PR、HP向け記事候補バックログを整理しました。",
+    href: "/updates",
+    category: "運用",
+  },
+  {
     id: "ai-use-cases-dictionary",
     date: "2026-04-28",
     title: "「AIでできること」ページを追加しました",
