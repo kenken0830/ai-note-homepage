@@ -100,6 +100,33 @@ export type Workflow = {
   output: string;
 };
 
+export type AiUseCaseStatus = "published" | "planned";
+
+export type AiUseCaseDifficulty = "beginner" | "intermediate";
+
+export type AiUseCaseRelatedPage = {
+  label: string;
+  href: string;
+};
+
+export type AiUseCase = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  difficulty: AiUseCaseDifficulty;
+  timeToTry: string;
+  status: AiUseCaseStatus;
+  prompt: string;
+  steps: string[];
+  commonMistakes: string[];
+  checkPoints: string[];
+  noteAngle: string;
+  relatedPages: AiUseCaseRelatedPage[];
+};
+
 export type FunnelStep = {
   id: string;
   label: string;

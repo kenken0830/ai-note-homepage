@@ -9,14 +9,14 @@ import { products } from "@/data/products";
 export const metadata: Metadata = {
   title: "はじめてのAIノート導入",
   description:
-    "AIノートの読み方、使う順番、無料スターターキット、商品、メルマガへの入口をまとめた初心者向けページです。",
+    "やりたいことからAI活用を探し、無料スターターキット、AIでできること、ガイド、商品、相談へ進む初心者向けページです。",
 };
 
 const readingOrder = [
-  "AIノートで何を整理するかを決める",
+  "AIでやりたいことを選ぶ",
+  "AIでできること一覧から近い手順を探す",
   "無料スターターキットで1週間だけ試す",
   "完全ガイド、プロンプト、ワークフローから必要なテーマを読む",
-  "テンプレートやプロンプト集で運用を固定する",
   "更新情報と相談ページで継続改善する",
 ];
 
@@ -36,16 +36,16 @@ export default function StartPage() {
       <PageHero
         eyebrow="Start"
         title="はじめてのAIノートは、読む順番から決める。"
-        description="AIツールを増やす前に、情報を集め、試し、記録し、商品や発信に変えるための流れを作ります。"
-        primaryCta={{ label: "無料キットを見る", href: "/free" }}
-        secondaryCta={{ label: "商品一覧へ", href: "/products" }}
+        description="AIツール名からではなく、会議メモ、読書、記事作成、調査など、やりたいことからAI活用を選びます。AIノートは、その結果を整理して再利用する入口です。"
+        primaryCta={{ label: "AIでできることを見る", href: "/ai-use-cases" }}
+        secondaryCta={{ label: "無料キットを見る", href: "/free" }}
       />
       <Section>
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           <SectionHeading
             eyebrow="Reading Order"
             title="最初の5ステップ。"
-            description="記事を読むだけで終わらせず、無料キット、ガイド、商品、相談まで自然に進める順番です。"
+            description="やりたいことを選び、手順を読み、無料キットで整理し、必要なプロンプトやワークフローへ進む順番です。"
           />
           <ol className="grid gap-4">
             {readingOrder.map((item, index) => (
@@ -95,6 +95,9 @@ export default function StartPage() {
         </div>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <CtaButton href="/free">無料キットを使う</CtaButton>
+          <CtaButton href="/ai-use-cases" variant="secondary">
+            AIでできること
+          </CtaButton>
           <CtaButton href="/guides" variant="secondary">
             完全ガイドを見る
           </CtaButton>

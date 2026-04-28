@@ -23,9 +23,9 @@ export default function GuidesPage() {
       <PageHero
         eyebrow="Guides"
         title="AIノート完全ガイド。"
-        description="毎日のメモを、AIに渡しやすく、あとで記事・TODO・学習ノート・商品案に変えられる資産へ育てます。"
-        primaryCta={{ label: "無料キットを見る", href: "/free" }}
-        secondaryCta={{ label: "更新情報を見る", href: "/updates" }}
+        description="AI活用の考え方を整理するページです。やりたいこと別の実践手順は /ai-use-cases、コピペ用の依頼文は /prompts、複数ステップの流れは /workflows に分けています。"
+        primaryCta={{ label: "AIでできることを見る", href: "/ai-use-cases" }}
+        secondaryCta={{ label: "無料キットを見る", href: "/free" }}
       />
 
       <Section>
@@ -33,7 +33,7 @@ export default function GuidesPage() {
           <SectionHeading
             eyebrow="Foundations"
             title="AIノートの基本。"
-            description="noteで日々試し、ホームページでは長く使える完全版として整理します。"
+            description="AIノートは、やりたいことをAIで進めた結果を整理し、再現できる手順に育てるための土台です。"
           />
           <div className="grid gap-5">
             {guideSections.map((section) => (
