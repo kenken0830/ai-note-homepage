@@ -127,6 +127,27 @@ export type AiUseCase = {
   relatedPages: AiUseCaseRelatedPage[];
 };
 
+export type ArticleBacklogPriority = "high" | "medium" | "low";
+
+export type ArticleBacklogStatus =
+  | "candidate"
+  | "outline-ready"
+  | "needs-validation";
+
+export type ArticleBacklogItem = {
+  id: string;
+  title: string;
+  category: string;
+  target: string;
+  noteAngle: string;
+  homepageAngle: string;
+  searchIntent: string;
+  priority: ArticleBacklogPriority;
+  status: ArticleBacklogStatus;
+  relatedPages: string[];
+  suggestedSlug: string;
+};
+
 export type FunnelStep = {
   id: string;
   label: string;
