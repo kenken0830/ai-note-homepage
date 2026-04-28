@@ -98,6 +98,39 @@ export default async function AiUseCaseDetailPage({
         </div>
       </Section>
 
+      {(useCase.target || useCase.scene || useCase.preparation?.length) && (
+        <Section>
+          <div className="grid gap-6 lg:grid-cols-3">
+            {useCase.target && (
+              <div className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">どんな人向けか</h2>
+                <p className="mt-3 leading-7 text-stone-600">{useCase.target}</p>
+              </div>
+            )}
+            {useCase.scene && (
+              <div className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">使う場面</h2>
+                <p className="mt-3 leading-7 text-stone-600">{useCase.scene}</p>
+              </div>
+            )}
+            {useCase.preparation?.length ? (
+              <div className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">
+                  AIに渡す前に準備するもの
+                </h2>
+                <ul className="mt-3 grid gap-2">
+                  {useCase.preparation.map((item) => (
+                    <li key={item} className="leading-7 text-stone-600">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </Section>
+      )}
+
       <Section id="prompt">
         <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
@@ -116,6 +149,39 @@ export default async function AiUseCaseDetailPage({
           </div>
         </div>
       </Section>
+
+      {(useCase.inputExample || useCase.outputExample || useCase.improvementPrompt) && (
+        <Section tone="soft">
+          <div className="grid gap-6 lg:grid-cols-3">
+            {useCase.inputExample && (
+              <div className="rounded-[8px] bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">入力例</h2>
+                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                  {useCase.inputExample}
+                </p>
+              </div>
+            )}
+            {useCase.outputExample && (
+              <div className="rounded-[8px] bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">出力例</h2>
+                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                  {useCase.outputExample}
+                </p>
+              </div>
+            )}
+            {useCase.improvementPrompt && (
+              <div className="rounded-[8px] bg-white p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-stone-950">
+                  改善プロンプト
+                </h2>
+                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                  {useCase.improvementPrompt}
+                </p>
+              </div>
+            )}
+          </div>
+        </Section>
+      )}
 
       <Section tone="soft">
         <div className="grid gap-8 lg:grid-cols-2">
