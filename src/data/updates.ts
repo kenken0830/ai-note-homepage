@@ -7,7 +7,7 @@ export const updates: UpdateItem[] = [
     title: "文章をやさしく言い換える詳細ページを公開しました",
     description:
       "硬い説明文を、想定読者、文章の目的、残したい重要語句を指定して読みやすく整えるAI活用手順を追加しました。",
-    href: "/ai-use-cases/ai-beginner-friendly-explanation",
+    href: "/ai-use-cases/rewrite-friendly-text",
     category: "辞典",
   },
   {
