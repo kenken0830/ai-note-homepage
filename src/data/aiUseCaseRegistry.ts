@@ -295,12 +295,74 @@ const comparisonTableUseCase: AiUseCase = {
   ],
 };
 
+const beginnerFriendlyRewriteUseCase: AiUseCase = {
+  id: "explain-to-beginner",
+  slug: "ai-beginner-friendly-explanation",
+  title: "AIで文章をやさしく言い換える方法",
+  description:
+    "硬い説明文を、想定読者に合わせて意味を保ったまま読みやすい文章に整えます。",
+  category: "伝える",
+  tags: ["言い換え", "初心者向け", "説明"],
+  difficulty: "beginner",
+  timeToTry: "10分",
+  status: "published",
+  target:
+    "専門的な説明が硬くなりやすい人、メール、note、商品説明、社内文書を相手に伝わる言葉へ直したい人向けです。",
+  scene:
+    "初心者向けの説明、顧客向けの案内、社内共有、問い合わせ返信、noteの導入文など、相手に合わせて文章をやさしくしたい場面で使います。",
+  preparation: [
+    "言い換えたい原文を用意する",
+    "想定読者を、小学生向け、初心者向け、社内向け、顧客向けなど具体的に決める",
+    "残したい重要語句、数字、期限、責任範囲、避けたい表現を分ける",
+  ],
+  prompt:
+    "以下の原文を、想定読者に合わせてやさしく言い換えてください。原文の意味、重要な条件、数字、期限、責任範囲は勝手に変えないでください。専門用語は消すだけでなく、必要なら短い補足を付けてください。幼稚すぎる表現や失礼な表現は避けてください。出力は、1. 言い換え文、2. 残した重要語句、3. 意味が変わっていないかの確認ポイント、4. さらに短くする案に分けてください。\n\n原文: {原文}\n想定読者: {想定読者}\n文章の目的: {目的}\n残したい重要語句: {重要語句}\n避けたい表現: {避けたい表現}\n出力形式: {出力形式}",
+  inputExample:
+    "原文: 本資料は、生成AIを業務で利用する際に、入力情報の範囲、出力内容の確認、社内共有時の注意点を整理するためのものです。個人情報や未公開情報を含む内容は、利用前に社内ルールを確認してください。想定読者: 生成AIを使い始めた社内メンバー。文章の目的: 研修資料の冒頭説明。残したい重要語句: 入力情報の範囲、出力内容の確認、社内共有、個人情報、未公開情報、社内ルール。避けたい表現: 専門用語だけの説明、上から目線。出力形式: 200字以内の説明文。",
+  outputExample:
+    "言い換え文: この資料では、生成AIを仕事で使う前に確認したいポイントをまとめています。AIに入れてよい情報の範囲、AIが出した内容の見直し方、社内で共有するときの注意点を確認できます。個人情報やまだ公開していない情報を使う場合は、先に社内ルールを確認してください。確認ポイント: 重要語句、個人情報、未公開情報、社内ルールは残っています。責任範囲やルールの確認を不要にする表現にはしていません。",
+  improvementPrompt:
+    "この言い換え文を、想定読者がさらに読みやすい形に直してください。意味が変わった箇所、削りすぎた条件、幼稚または失礼に見える表現がないかを確認し、修正版を2案出してください。",
+  steps: [
+    "原文、想定読者、文章の目的を分けて書く",
+    "残したい重要語句、数字、期限、責任範囲を先に指定する",
+    "AIに、意味を変えずにやさしく言い換えてもらう",
+    "専門用語を消しすぎていないか、必要な補足があるか確認する",
+    "最後に人間が、失礼な表現や幼稚すぎる表現になっていないか見直す",
+  ],
+  checkPoints: [
+    "想定読者が具体的に指定されているか",
+    "原文の意味、条件、数字、期限、責任範囲が変わっていないか",
+    "専門用語を消すだけでなく、必要な補足が残っているか",
+    "顧客向け、社内向けなどの場面に合う温度感になっているか",
+    "最終的な文章を人間が確認する前提になっているか",
+  ],
+  commonMistakes: [
+    "やさしくすることを優先して、重要な条件や責任範囲を削る",
+    "想定読者を指定せず、誰向けか分からない文章にする",
+    "専門用語を全部消して、必要な意味まで抜ける",
+    "子ども向けのように言い換えすぎて、顧客や社内向けには不自然になる",
+  ],
+  noteAngle:
+    "noteでは、実際の文章をAIでやさしく言い換え、意味が変わった箇所、残すべき語句、読者に合わせて直した表現を実験ログとして書きます。ホームページでは、同じ流れを誰でも再現できる手順として整理しています。",
+  relatedPages: [
+    { label: "無料キット", href: "/free" },
+    { label: "プロンプト集", href: "/prompts" },
+    { label: "ワークフロー", href: "/workflows" },
+    { label: "完全ガイド", href: "/guides" },
+    { label: "AIでできること一覧", href: "/ai-use-cases" },
+    { label: "メール返信を書く方法", href: "/ai-use-cases/write-email-reply" },
+    { label: "プロンプトをテンプレ化する方法", href: "/ai-use-cases/make-prompt-template" },
+  ],
+};
+
 const publishedOverrides = new Map<string, AiUseCase>([
   [emailReplyUseCase.id, emailReplyUseCase],
   [todoListUseCase.id, todoListUseCase],
   [researchSummaryUseCase.id, researchSummaryUseCase],
   [weeklyReviewUseCase.id, weeklyReviewUseCase],
   [comparisonTableUseCase.id, comparisonTableUseCase],
+  [beginnerFriendlyRewriteUseCase.id, beginnerFriendlyRewriteUseCase],
 ]);
 
 export { aiUseCaseCategories };

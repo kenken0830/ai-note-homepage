@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "friendly-rewrite-use-case-live",
+    date: "2026-04-29",
+    title: "文章をやさしく言い換える詳細ページを公開しました",
+    description:
+      "硬い説明文を、想定読者、文章の目的、残したい重要語句を指定して読みやすく整えるAI活用手順を追加しました。",
+    href: "/ai-use-cases/ai-beginner-friendly-explanation",
+    category: "辞典",
+  },
+  {
     id: "learning-plan-use-case-live",
     date: "2026-04-29",
     title: "1週間の勉強計画を作る詳細ページを公開しました",
