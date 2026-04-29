@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "comparison-table-use-case-live",
+    date: "2026-04-29",
+    title: "比較表を作り選択肢を整理する詳細ページを公開しました",
+    description:
+      "複数の候補を、比較軸、メリット、注意点、未確認事項、次に確認することへ分けるAI活用手順を追加しました。",
+    href: "/ai-use-cases/make-comparison-table",
+    category: "辞典",
+  },
+  {
     id: "weekly-review-use-case-live",
     date: "2026-04-29",
     title: "週次レビューを改善計画に変える詳細ページを公開しました",

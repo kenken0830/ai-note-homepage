@@ -237,11 +237,70 @@ const weeklyReviewUseCase: AiUseCase = {
   ],
 };
 
+const comparisonTableUseCase: AiUseCase = {
+  id: "comparison-table",
+  slug: "make-comparison-table",
+  title: "AIで比較表を作る方法",
+  description:
+    "複数の選択肢を、比較軸、メリット、注意点、未確認事項に分けて整理します。",
+  category: "調べる",
+  tags: ["比較", "調査", "意思決定"],
+  difficulty: "beginner",
+  timeToTry: "15分",
+  status: "published",
+  target:
+    "複数の候補を見比べたいのに、判断軸が曖昧なまま迷ってしまう人向けです。",
+  scene:
+    "ツール、教材、企画案、記事テーマ、作業方法などを比べ、すぐ決めることと追加確認することを分けたいときに使います。",
+  preparation: [
+    "比較したい候補を2から5個に絞る",
+    "今回の目的と、外せない条件を1文で書く",
+    "価格、期限、対応範囲など、分かっている事実と未確認の情報を分けておく",
+  ],
+  prompt:
+    "以下の候補を比較表にしてください。目的、外せない条件、候補ごとの分かっている情報をもとに、1. 比較軸、2. 各候補のメリット、3. 注意点、4. 未確認事項、5. いま選べる候補 / まだ選ばない候補に分けてください。根拠がない情報、価格、期限、機能、実績は推測せず「確認が必要」と書いてください。最後に、次に確認することを3つ以内で提案してください。",
+  inputExample:
+    "目的: AI活用の記事作成を早くするため、メモ整理の方法を選びたい。外せない条件: 毎日続けられる、無料キットと相性がよい、noteにも転用しやすい。候補A: 会議メモから議事録化。候補B: 調査メモを要約。候補C: 週次レビューを改善計画化。分かっていること: 候補BとCは既にHPで手順化済み。候補Aはまだ準備中。読者反応の数値は未確認。",
+  outputExample:
+    "比較軸: 継続しやすさ、無料キットとの相性、noteへの転用、準備状況、追加確認。候補A: 会議後の実務に使いやすい。注意点: まだ手順が準備中。未確認事項: 具体例とチェック項目。候補B: 調査メモから記事化に進めやすい。注意点: 出典確認が必要。候補C: 週次改善に使いやすい。注意点: 感想だけで終わらせない工夫が必要。いま選べる候補: 候補BまたはC。まだ選ばない候補: 候補Aは手順を作ってから判断。",
+  improvementPrompt:
+    "この比較表を見て判断した結果をもとに、比較軸として足りなかったもの、確認してから分かったこと、次回から最初に入れるべき条件を3つに整理してください。未確認情報を根拠にした判断がないかも確認してください。",
+  steps: [
+    "比較したい候補と目的を1文で書く",
+    "外せない条件と、分かっている事実、未確認事項を分けてAIに渡す",
+    "AIに比較軸、メリット、注意点、未確認事項を表形式で整理してもらう",
+    "AIが推測した価格、機能、成果、期限がないか確認する",
+    "いま選べる候補と、追加確認が必要な候補を分けて次の行動を決める",
+  ],
+  checkPoints: [
+    "比較軸が目的と合っているか",
+    "各候補のメリットだけでなく注意点と未確認事項が入っているか",
+    "AIが価格、実績、期限、効果を推測で補っていないか",
+    "最終判断をAIに任せず、自分が確認する次の行動に落ちているか",
+  ],
+  commonMistakes: [
+    "候補を増やしすぎて比較表が読めなくなる",
+    "メリットだけを並べて、注意点や未確認事項を消してしまう",
+    "根拠がない情報を比較軸に入れる",
+    "比較表を作るだけで、次に確認することを決めない",
+  ],
+  noteAngle:
+    "noteでは、AIで作った比較表を見て、どの軸が判断に役立ち、どの情報が足りなかったかを実験ログとして書きます。ホームページでは、同じ流れを再現できる比較表作成手順として整理しています。",
+  relatedPages: [
+    { label: "無料キット", href: "/free" },
+    { label: "プロンプト集", href: "/prompts" },
+    { label: "ワークフロー", href: "/workflows" },
+    { label: "完全ガイド", href: "/guides" },
+    { label: "AIでできること一覧", href: "/ai-use-cases" },
+  ],
+};
+
 const publishedOverrides = new Map<string, AiUseCase>([
   [emailReplyUseCase.id, emailReplyUseCase],
   [todoListUseCase.id, todoListUseCase],
   [researchSummaryUseCase.id, researchSummaryUseCase],
   [weeklyReviewUseCase.id, weeklyReviewUseCase],
+  [comparisonTableUseCase.id, comparisonTableUseCase],
 ]);
 
 export { aiUseCaseCategories };
