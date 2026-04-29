@@ -259,12 +259,12 @@ export const articleBacklog: ArticleBacklogItem[] = [
     priority: "medium",
     status: "published",
     relatedPages: [
-      "/ai-use-cases/ai-beginner-friendly-explanation",
+      "/ai-use-cases/rewrite-friendly-text",
       "/prompts",
       "/workflows",
       "/free",
     ],
-    suggestedSlug: "ai-beginner-friendly-explanation",
+    suggestedSlug: "rewrite-friendly-text",
   },
   {
     id: "routine-automation-find",
