@@ -101,9 +101,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "比較軸、候補、メリット、注意点、未確認事項を表にする",
     searchIntent: "比較表 AI 作り方",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/workflows"],
-    suggestedSlug: "ai-comparison-table-guide",
+    status: "published",
+    relatedPages: ["/ai-use-cases/make-comparison-table", "/workflows", "/free"],
+    suggestedSlug: "make-comparison-table",
   },
   {
     id: "plain-terms-learning",
