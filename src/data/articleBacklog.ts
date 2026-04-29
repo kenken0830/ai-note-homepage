@@ -257,8 +257,13 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "専門用語、前提、例え、NG表現、確認質問に分ける",
     searchIntent: "初心者向け 説明 AI 言い換え",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/guides"],
+    status: "published",
+    relatedPages: [
+      "/ai-use-cases/ai-beginner-friendly-explanation",
+      "/prompts",
+      "/workflows",
+      "/free",
+    ],
     suggestedSlug: "ai-beginner-friendly-explanation",
   },
   {
