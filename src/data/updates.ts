@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "learning-plan-use-case-live",
+    date: "2026-04-29",
+    title: "1週間の勉強計画を作る詳細ページを公開しました",
+    description:
+      "学びたいテーマを、目的、前提知識、1日ごとの小さなタスク、復習、確認テストに分けるAI活用手順を追加しました。",
+    href: "/ai-use-cases/make-learning-plan",
+    category: "辞典",
+  },
+  {
     id: "comparison-table-use-case-live",
     date: "2026-04-29",
     title: "比較表を作り選択肢を整理する詳細ページを公開しました",
