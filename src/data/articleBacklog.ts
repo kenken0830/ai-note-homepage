@@ -127,9 +127,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "目標、前提知識、1週間のタスク、復習方法に分ける",
     searchIntent: "AI 学習計画 1週間",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/free"],
-    suggestedSlug: "ai-seven-day-learning-plan",
+    status: "published",
+    relatedPages: ["/ai-use-cases/make-learning-plan", "/prompts", "/workflows", "/free"],
+    suggestedSlug: "make-learning-plan",
   },
   {
     id: "review-quiz-from-notes",
