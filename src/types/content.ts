@@ -66,12 +66,18 @@ export type NotePost = {
   id: string;
   title: string;
   url: string;
+  publishedAt: string;
   summary: string;
   tags: string[];
-  publishedAt: string;
-  hpCandidate: boolean;
-  hpCandidateReason?: string;
-  relatedPages: string[];
+  relatedUseCaseSlug?: string;
+  relatedPages: {
+    label: string;
+    href: string;
+  }[];
+  homepageCandidate: boolean;
+  priority: "high" | "medium" | "low";
+  noteAngle?: string;
+  homepageAngle?: string;
 };
 
 export type UpdateItem = {
