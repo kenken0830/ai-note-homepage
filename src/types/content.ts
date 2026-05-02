@@ -62,6 +62,18 @@ export type Article = {
   publishedAt: string;
 };
 
+export type NotePost = {
+  id: string;
+  title: string;
+  url: string;
+  summary: string;
+  tags: string[];
+  publishedAt: string;
+  hpCandidate: boolean;
+  hpCandidateReason?: string;
+  relatedPages: string[];
+};
+
 export type UpdateItem = {
   id: string;
   date: string;
