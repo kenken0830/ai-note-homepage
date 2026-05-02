@@ -2,6 +2,16 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "build-ai-agent-skill-file-use-case-live",
+    date: "2026-05-03",
+    title:
+      "AIエージェントにスキルファイルを渡す詳細ページを公開しました",
+    description:
+      "繰り返し作業の目的、前提、手順、禁止事項、出力形式、確認項目を1つのMarkdownスキルファイルとして設計するAI活用手順を追加しました。/library のnote実験ログから関連AIユースケースとして参照できるようになります。",
+    href: "/ai-use-cases/build-ai-agent-skill-file",
+    category: "辞典",
+  },
+  {
     id: "note-handoff-skill-file-design",
     date: "2026-05-02",
     title:

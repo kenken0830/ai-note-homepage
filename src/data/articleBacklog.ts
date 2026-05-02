@@ -329,8 +329,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     searchIntent:
       "AIエージェントやClaude Code / Codexに、毎回使う知識や判断基準をスキルファイルとして渡したい",
     priority: "high",
-    status: "candidate",
+    status: "published",
     relatedPages: [
+      "/ai-use-cases/build-ai-agent-skill-file",
       "/ai-use-cases/make-prompt-template",
       "/prompts",
       "/workflows",
