@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Badge } from "@/components/Badge";
 import { ExternalLink } from "@/components/ExternalLink";
@@ -57,54 +58,84 @@ export default function LibraryPage() {
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {notePosts.map((post) => (
-              <article
-                key={post.id}
-                className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
-              >
-                <div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge>note</Badge>
-                    <Badge tone={post.hpCandidate ? "dark" : "stone"}>
-                      {post.hpCandidate ? "HP化候補" : "実験ログ"}
-                    </Badge>
+            {notePosts.map((post) => {
+              const relatedLinks = [
+                ...(post.relatedUseCaseSlug
+                  ? [
+                      {
+                        label: "関連AIユースケースを見る",
+                        href: `/ai-use-cases/${post.relatedUseCaseSlug}`,
+                      },
+                    ]
+                  : []),
+                ...post.relatedPages,
+              ].slice(0, 3);
+
+              return (
+                <article
+                  key={post.id}
+                  className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge>note</Badge>
+                      <Badge tone={post.homepageCandidate ? "dark" : "stone"}>
+                        {post.homepageCandidate ? "HP化候補" : "実験ログ"}
+                      </Badge>
+                    </div>
+                    <time className="mt-4 block text-sm text-stone-500" dateTime={post.publishedAt}>
+                      {new Intl.DateTimeFormat("ja-JP", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }).format(new Date(post.publishedAt))}
+                    </time>
+                    <h3 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
+                      {post.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-stone-600">{post.summary}</p>
+                    {post.homepageAngle ? (
+                      <p className="mt-4 rounded-[8px] bg-teal-50 p-3 text-xs font-bold leading-6 text-teal-800">
+                        HP化候補: {post.homepageAngle}
+                      </p>
+                    ) : null}
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <span key={tag} className="text-xs font-bold text-teal-700">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                    {relatedLinks.length > 0 ? (
+                      <div className="mt-5 border-t border-stone-200 pt-4">
+                        <p className="text-xs font-bold text-stone-500">関連ページ</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {relatedLinks.map((link) => (
+                            <Link
+                              key={link.href}
+                              href={link.href}
+                              className="rounded-[8px] border border-stone-200 bg-stone-50 px-3 py-1.5 text-xs font-bold text-stone-700 hover:border-teal-300 hover:text-teal-800"
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                  <time className="mt-4 block text-sm text-stone-500" dateTime={post.publishedAt}>
-                    {new Intl.DateTimeFormat("ja-JP", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    }).format(new Date(post.publishedAt))}
-                  </time>
-                  <h3 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
-                    {post.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-stone-600">{post.summary}</p>
-                  {post.hpCandidateReason ? (
-                    <p className="mt-4 rounded-[8px] bg-teal-50 p-3 text-xs font-bold leading-6 text-teal-800">
-                      HP化候補: {post.hpCandidateReason}
-                    </p>
-                  ) : null}
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span key={tag} className="text-xs font-bold text-teal-700">
-                        #{tag}
-                      </span>
-                    ))}
+                  <div className="mt-6 text-sm font-bold">
+                    <ExternalLink
+                      href={post.url}
+                      source="note"
+                      medium="library_note_experiment"
+                      className="text-teal-700 hover:text-teal-900"
+                    >
+                      公開済みnoteを読む
+                    </ExternalLink>
                   </div>
-                </div>
-                <div className="mt-6 text-sm font-bold">
-                  <ExternalLink
-                    href={post.url}
-                    source="note"
-                    medium="library_note_experiment"
-                    className="text-teal-700 hover:text-teal-900"
-                  >
-                    公開済みnoteを読む
-                  </ExternalLink>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         )}
       </Section>
