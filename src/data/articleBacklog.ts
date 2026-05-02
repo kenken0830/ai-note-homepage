@@ -319,6 +319,26 @@ export const articleBacklog: ArticleBacklogItem[] = [
     suggestedSlug: "ai-practice-starter-kit-guide",
   },
   {
+    id: "build-ai-agent-skill-file",
+    title: "AIエージェントにスキルファイルを渡す方法",
+    category: "作る",
+    target: "homepage",
+    noteAngle: "note側の実験ログ",
+    homepageAngle:
+      "AIエージェントに判断基準・手順・禁止事項をMarkdownで渡す再現手順",
+    searchIntent:
+      "AIエージェントやClaude Code / Codexに、毎回使う知識や判断基準をスキルファイルとして渡したい",
+    priority: "high",
+    status: "candidate",
+    relatedPages: [
+      "/ai-use-cases/make-prompt-template",
+      "/prompts",
+      "/workflows",
+      "/free",
+    ],
+    suggestedSlug: "build-ai-agent-skill-file",
+  },
+  {
     id: "hp-update-process",
     title: "noteの実験ログをHPの保存版記事に育てる方法",
     category: "運用",

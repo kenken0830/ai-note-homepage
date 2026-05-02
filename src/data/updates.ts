@@ -2,6 +2,16 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "note-handoff-skill-file-design",
+    date: "2026-05-02",
+    title:
+      "公開済みnote実験ログを /library に取り込み、スキルファイル設計をHP化候補に追加しました",
+    description:
+      "note自動投稿プロジェクトから受け取ったhomepage_handoff JSONをもとに、AIエージェントへMarkdownスキルファイルを渡す実験ログを /library に表示し、articleBacklog にHP化候補を追加しました。未公開slugへの404を避けるためrelatedUseCaseSlugは未設定にしています。",
+    href: "/library",
+    category: "連携",
+  },
+  {
     id: "note-homepage-safe-integration",
     date: "2026-05-02",
     title: "note自動投稿プロジェクトとの安全な連携設計を追加しました",
