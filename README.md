@@ -136,6 +136,14 @@ note記事はHPへ丸ごと転載しません。HPでは「やりたいことを
 - `editor.note.com` の下書きURL、未公開本文、APIキー、Cookie、queue payloadは受け取らない
 - HP化する場合は、note本文を丸ごと転載せず、`/ai-use-cases`、`/guides`、`/workflows` 用の再現できる手順に編集する
 
+連携方式は3つに分けます。
+
+- RSS連携: 最新noteの表示と更新検知に使う
+- JSON export連携: HP化候補、関連ページ、優先度の受け渡しに使う
+- PR連携: `notePosts` / `articleBacklog` / `updates` の変更提案に使う
+
+いずれの方式でも、ホームページ側ではnote投稿、note公開、note下書き編集を実行しません。
+
 詳細は `docs/note-homepage-integration.md` を参照してください。
 
 ## 自動改善ワークフロー
