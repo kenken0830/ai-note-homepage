@@ -62,6 +62,24 @@ export type Article = {
   publishedAt: string;
 };
 
+export type NotePost = {
+  id: string;
+  title: string;
+  url: string;
+  publishedAt: string;
+  summary: string;
+  tags: string[];
+  relatedUseCaseSlug?: string;
+  relatedPages: {
+    label: string;
+    href: string;
+  }[];
+  homepageCandidate: boolean;
+  priority: "high" | "medium" | "low";
+  noteAngle?: string;
+  homepageAngle?: string;
+};
+
 export type UpdateItem = {
   id: string;
   date: string;

@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "note-homepage-safe-integration",
+    date: "2026-05-02",
+    title: "note自動投稿プロジェクトとの安全な連携設計を追加しました",
+    description:
+      "ホームページ側では公開済みnoteのURL、タイトル、要約、タグ、HP化候補情報だけを受け取り、note投稿や編集は行わない方針を整理しました。",
+    href: "/library",
+    category: "連携",
+  },
+  {
     id: "friendly-rewrite-use-case-live",
     date: "2026-04-29",
     title: "文章をやさしく言い換える詳細ページを公開しました",
