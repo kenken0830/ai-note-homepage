@@ -1,0 +1,198 @@
+name: Intake homepage_handoff
+
+on:
+  repository_dispatch:
+    types: [homepage_handoff]
+  workflow_dispatch:
+    inputs:
+      handoff_json:
+        description: "JSON string for manual test (must match homepage_handoff schema)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Save handoff payload
+        env:
+          DISPATCH_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          MANUAL_PAYLOAD: ${{ inputs.handoff_json }}
+        run: |
+          mkdir -p artifacts/homepage_handoff
+          if [ -n "$MANUAL_PAYLOAD" ]; then
+            printf '%s' "$MANUAL_PAYLOAD" > artifacts/homepage_handoff/handoff.json
+          elif [ -n "$DISPATCH_PAYLOAD" ] && [ "$DISPATCH_PAYLOAD" != "null" ]; then
+            printf '%s' "$DISPATCH_PAYLOAD" > artifacts/homepage_handoff/handoff.json
+          else
+            echo "ERROR: no payload provided"
+            exit 1
+          fi
+          echo "--- payload preview ---"
+          head -c 800 artifacts/homepage_handoff/handoff.json
+          echo
+
+      - name: Validate handoff JSON
+        run: node scripts/validate-homepage-handoff.mjs artifacts/homepage_handoff/handoff.json --check-url
+
+      - name: Apply handoff
+        id: apply
+        run: |
+          node scripts/apply-homepage-handoff.mjs artifacts/homepage_handoff/handoff.json | tee apply-summary.json
+
+      - name: Restrict touched files
+        run: |
+          allowed_re='^(src/data/notePosts\.ts|src/data/articleBacklog\.ts|src/data/updates\.ts)$'
+          forbidden_re='note_monetization|note_create_paid|note_publish_paid|note_create_free_manga_link|reports/publish_runs|ui-automation-hub|note_links\.json|next-env\.d\.ts'
+          changed=$(git status --porcelain | awk '{print $2}')
+          if [ -z "$changed" ]; then
+            echo "no file changes (idempotent skip)"
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r f; do
+            if echo "$f" | grep -qE "$forbidden_re"; then
+              echo "ERROR: forbidden path changed: $f"
+              fail=1
+            fi
+            if ! echo "$f" | grep -qE "$allowed_re"; then
+              echo "ERROR: unexpected path changed: $f"
+              fail=1
+            fi
+          done <<EOF
+          $changed
+          EOF
+          if [ "$fail" -ne 0 ]; then exit 1; fi
+          echo "all changed files are allowed"
+
+      - name: Drop generated next-env.d.ts if any
+        run: |
+          if git status --porcelain | grep -q '^.. next-env\.d\.ts$'; then
+            git checkout -- next-env.d.ts
+          fi
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "no diff — idempotent run, skipping commit"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run lint
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run lint
+
+      - name: Run typecheck
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run typecheck
+
+      - name: Run build
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run build
+
+      - name: Compute branch and slug
+        if: steps.diff.outputs.has_changes == 'true'
+        id: meta
+        run: |
+          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.suggested_use_case_slug||'unknown')")
+          date=$(date -u +%Y-%m-%d)
+          branch="automation/homepage-handoff-${date}-${slug}"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/notePosts.ts src/data/articleBacklog.ts src/data/updates.ts
+          git commit -m "chore(library): intake homepage_handoff $SLUG"
+          git push -u origin "$BRANCH"
+
+      - name: Create PR
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+        run: |
+          title=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.title||'')")
+          url=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.note_url||'')")
+          candidate=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(String(j.homepage_candidate))")
+          body=$(cat <<EOF
+          ## 概要
+
+          note自動投稿プロジェクトから repository_dispatch で送られた homepage_handoff JSON を自動取り込みしました。
+
+          ## 取り込んだnote
+
+          - title: ${title}
+          - note_url: ${url}
+          - homepageCandidate: ${candidate}
+          - suggested_use_case_slug: ${SLUG}
+
+          ## 更新したファイル
+
+          $(git diff --name-only HEAD~1)
+
+          ## apply-homepage-handoff サマリ
+
+          \`\`\`json
+          $(cat apply-summary.json)
+          \`\`\`
+
+          ## 検証結果
+
+          - validate-homepage-handoff.mjs --check-url: PASS
+          - npm run lint: PASS
+          - npm run typecheck: PASS
+          - npm run build: PASS
+          - 変更ファイルは src/data/{notePosts,articleBacklog,updates}.ts のみ
+          - next-env.d.ts は除外
+          - editor.note.com URL / 認証情報 / note本文全文の混入なし
+
+          ## note側に影響していないこと
+
+          note投稿、note公開、note下書き編集、note収益化パイプライン、UI Automation Hub、
+          reports/publish_runs、note_links.json には一切触れていない。
+          本PRはホームページリポジトリの静的データ追加のみ。
+
+          ## 人間が確認すること
+
+          - [ ] /library に新カードが描画される
+          - [ ] note 外部リンクが editor.note.com にリダイレクトしない
+          - [ ] 未公開slugが指定されている場合、/library カードに404リンクが出ない
+          - [ ] /updates 先頭に取り込み記録が出る
+          - [ ] note自動投稿側のパイプラインに副作用がないこと
+          EOF
+          )
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(library): intake homepage_handoff $SLUG" \
+            --body "$body"
