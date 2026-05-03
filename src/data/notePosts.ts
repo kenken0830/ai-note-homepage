@@ -23,6 +23,7 @@ export const notePosts: NotePost[] = [
     noteAngle: "AIエージェントにスキル設計を渡す実験ログ",
     homepageAngle:
       "AIエージェントに判断基準・手順・禁止事項をMarkdownで渡す再現手順",
+    relatedUseCaseSlug: "build-ai-agent-skill-file",
     relatedPages: [
       {
         label: "プロンプトテンプレート化",
