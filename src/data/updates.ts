@@ -2,6 +2,16 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "note-handoff-build-ai-agent-skill-file-2026-05-02",
+    date: "2026-05-02",
+    title:
+      "公開済みnote「【実践版】AIエージェントに「スキル」を渡す設計 — Markdownファイルで知識を蓄積する実装パターン」を /library に取り込みました",
+    description:
+      "note自動投稿プロジェクトから受け取ったhomepage_handoff JSONをもとに、/library のnote実験ログを更新し、HP化候補をarticleBacklogに追加しました。未公開slugへの404を避けるためrelatedUseCaseSlugは未設定にしています(詳細ページ公開後に別PRで追加)。",
+    href: "/library",
+    category: "連携",
+  },
+  {
     id: "build-ai-agent-skill-file-use-case-live",
     date: "2026-05-03",
     title:
