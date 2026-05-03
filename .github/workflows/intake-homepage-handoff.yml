@@ -38,26 +38,31 @@ jobs:
           DISPATCH_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
           MANUAL_PAYLOAD: ${{ inputs.handoff_json }}
         run: |
-          mkdir -p artifacts/homepage_handoff
+          tmpdir="${RUNNER_TEMP}/homepage_handoff"
+          mkdir -p "$tmpdir"
+          handoff_path="${tmpdir}/handoff.json"
+          summary_path="${tmpdir}/apply-summary.json"
           if [ -n "$MANUAL_PAYLOAD" ]; then
-            printf '%s' "$MANUAL_PAYLOAD" > artifacts/homepage_handoff/handoff.json
+            printf '%s' "$MANUAL_PAYLOAD" > "$handoff_path"
           elif [ -n "$DISPATCH_PAYLOAD" ] && [ "$DISPATCH_PAYLOAD" != "null" ]; then
-            printf '%s' "$DISPATCH_PAYLOAD" > artifacts/homepage_handoff/handoff.json
+            printf '%s' "$DISPATCH_PAYLOAD" > "$handoff_path"
           else
             echo "ERROR: no payload provided"
             exit 1
           fi
+          echo "HANDOFF_PATH=${handoff_path}" >> "$GITHUB_ENV"
+          echo "APPLY_SUMMARY_PATH=${summary_path}" >> "$GITHUB_ENV"
           echo "--- payload preview ---"
-          head -c 800 artifacts/homepage_handoff/handoff.json
+          head -c 800 "$handoff_path"
           echo
 
       - name: Validate handoff JSON
-        run: node scripts/validate-homepage-handoff.mjs artifacts/homepage_handoff/handoff.json --check-url
+        run: node scripts/validate-homepage-handoff.mjs "$HANDOFF_PATH" --check-url
 
       - name: Apply handoff
         id: apply
         run: |
-          node scripts/apply-homepage-handoff.mjs artifacts/homepage_handoff/handoff.json | tee apply-summary.json
+          node scripts/apply-homepage-handoff.mjs "$HANDOFF_PATH" | tee "$APPLY_SUMMARY_PATH"
 
       - name: Restrict touched files
         run: |
@@ -116,7 +121,7 @@ jobs:
         if: steps.diff.outputs.has_changes == 'true'
         id: meta
         run: |
-          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.suggested_use_case_slug||'unknown')")
+          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.suggested_use_case_slug||'unknown')")
           date=$(date -u +%Y-%m-%d)
           branch="automation/homepage-handoff-${date}-${slug}"
           echo "slug=$slug" >> "$GITHUB_OUTPUT"
@@ -143,9 +148,9 @@ jobs:
           BRANCH: ${{ steps.meta.outputs.branch }}
           SLUG: ${{ steps.meta.outputs.slug }}
         run: |
-          title=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.title||'')")
-          url=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(j.note_url||'')")
-          candidate=$(node -e "const j=JSON.parse(require('fs').readFileSync('artifacts/homepage_handoff/handoff.json','utf8'));process.stdout.write(String(j.homepage_candidate))")
+          title=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.title||'')")
+          url=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.note_url||'')")
+          candidate=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(String(j.homepage_candidate))")
           body=$(cat <<EOF
           ## 概要
 
@@ -165,7 +170,7 @@ jobs:
           ## apply-homepage-handoff サマリ
 
           \`\`\`json
-          $(cat apply-summary.json)
+          $(cat "$APPLY_SUMMARY_PATH")
           \`\`\`
 
           ## 検証結果
