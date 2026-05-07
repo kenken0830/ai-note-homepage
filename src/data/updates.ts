@@ -2,6 +2,16 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "content-ecosystem-phase-2a-live",
+    date: "2026-05-05",
+    title:
+      "コンテンツエコシステム Phase 2.A を実装しました",
+    description:
+      "ContentAsset 型と /library 末尾の横断セクション、/ai-use-cases/[slug] の関連コンテンツ欄、検証スクリプトを追加し、テーマ単位で note・漫画・動画・テンプレ・商品・ワークフロー・プロンプトを束ねる準備が整いました。準備中の漫画・動画は非リンク表示で、外部サービスへの投稿・公開はホームページ側からは行いません。",
+    href: "/library",
+    category: "連携",
+  },
+  {
     id: "build-ai-agent-skill-file-use-case-live",
     date: "2026-05-03",
     title:
