@@ -1,9 +1,54 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Badge } from "@/components/Badge";
 import { CtaButton } from "@/components/CtaButton";
+import { ExternalLink } from "@/components/ExternalLink";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
+import { getContentAssetsByTopicSlug } from "@/data/contentAssets";
+import type { ContentAsset, ContentAssetType } from "@/types/content";
+
+const contentAssetTypeLabels: Record<ContentAssetType, string> = {
+  note: "note",
+  manga: "漫画",
+  video: "動画",
+  template: "テンプレ",
+  kit: "無料キット",
+  product: "商品",
+  workflow: "ワークフロー",
+  prompt: "プロンプト",
+};
+
+const statusOrder: Record<ContentAsset["status"], number> = {
+  published: 0,
+  planned: 1,
+  draft: 2,
+};
+
+const priorityOrder: Record<ContentAsset["priority"], number> = {
+  high: 0,
+  medium: 1,
+  low: 2,
+};
+
+function compareContentAsset(a: ContentAsset, b: ContentAsset) {
+  const s = statusOrder[a.status] - statusOrder[b.status];
+  if (s !== 0) return s;
+  const p = priorityOrder[a.priority] - priorityOrder[b.priority];
+  if (p !== 0) return p;
+  if (a.publishedAt && b.publishedAt) {
+    return b.publishedAt.localeCompare(a.publishedAt);
+  }
+  if (a.publishedAt) return -1;
+  if (b.publishedAt) return 1;
+  return 0;
+}
+
+function isExternalUrl(url: string) {
+  return /^https?:\/\//.test(url);
+}
 
 type AiUseCaseDetailPageProps = {
   params: Promise<{
@@ -42,6 +87,10 @@ export default async function AiUseCaseDetailPage({
   if (!useCase) {
     notFound();
   }
+
+  const relatedAssets = [...getContentAssetsByTopicSlug(slug)].sort(
+    compareContentAsset,
+  );
 
   return (
     <main>
@@ -209,6 +258,106 @@ export default async function AiUseCaseDetailPage({
           </div>
         </div>
       </Section>
+
+      {relatedAssets.length > 0 && (
+        <Section tone="soft">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+              Related
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              このテーマに紐づくコンテンツ。
+            </h2>
+            <p className="mt-4 leading-8 text-stone-600">
+              note・漫画・動画・テンプレート・ワークフロー・プロンプトを横断します。
+              公開済みのものだけリンク化し、準備中・下書きは「準備中」として非リンク表示します。
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {relatedAssets.map((asset) => {
+              const isPublished = asset.status === "published";
+              const showAsLink = isPublished && Boolean(asset.url);
+              const external =
+                showAsLink && asset.url ? isExternalUrl(asset.url) : false;
+              return (
+                <article
+                  key={asset.id}
+                  className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge>{contentAssetTypeLabels[asset.type]}</Badge>
+                      <Badge tone={isPublished ? "dark" : "stone"}>
+                        {isPublished
+                          ? "公開済み"
+                          : asset.status === "planned"
+                            ? "準備中"
+                            : "下書き"}
+                      </Badge>
+                    </div>
+                    {asset.publishedAt ? (
+                      <time
+                        className="mt-4 block text-sm text-stone-500"
+                        dateTime={asset.publishedAt}
+                      >
+                        {new Intl.DateTimeFormat("ja-JP", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }).format(new Date(asset.publishedAt))}
+                      </time>
+                    ) : null}
+                    <h3 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
+                      {asset.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-stone-600">
+                      {asset.description}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {asset.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs font-bold text-teal-700"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-6 text-sm font-bold">
+                    {showAsLink && asset.url ? (
+                      external ? (
+                        <ExternalLink
+                          href={asset.url}
+                          source={asset.source}
+                          medium={`use_case_related_${asset.type}`}
+                          className="text-teal-700 hover:text-teal-900"
+                        >
+                          公開コンテンツを開く
+                        </ExternalLink>
+                      ) : (
+                        <Link
+                          href={asset.url}
+                          className="text-teal-700 hover:text-teal-900"
+                        >
+                          サイト内ページへ
+                        </Link>
+                      )
+                    ) : (
+                      <span
+                        className="rounded-[8px] bg-stone-100 px-3 py-1.5 text-xs font-bold text-stone-500"
+                        aria-label="準備中のコンテンツです"
+                      >
+                        準備中(リンクなし)
+                      </span>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </Section>
+      )}
 
       <Section>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
