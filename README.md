@@ -203,6 +203,16 @@ Skillsは繰り返し手順、MCPは外部データやツール接続、Automati
 
 BOOTH無料配布やメルマガ登録特典に切り替える場合は、`src/app/free/page.tsx` と `src/data/products.ts` のCTAを外部URLへ差し替えてください。
 
+## コンテンツエコシステム構想
+
+note・漫画・動画・テンプレート・無料キット・商品・ワークフロー・プロンプトを「テーマ(`topicSlug`)」単位で束ねる構想を進めています。詳細は [`docs/features/homepage-content-ecosystem.md`](docs/features/homepage-content-ecosystem.md) を参照してください。
+
+- 統一型 `ContentAsset`(`src/types/content.ts`)で複数 type を扱う
+- 同じ `topicSlug` に紐づく `ContentAsset` を `/ai-use-cases/[slug]` の関連コンテンツ欄で束ねる予定
+- `status: "published"` のときだけリンク化、`planned` / `draft` は「準備中」として非リンク表示
+- ホームページ側からは外部サービスへの投稿・公開を行わず、URL 参照のみ
+
+
 ## 開発コマンド
 
 ```bash
