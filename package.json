@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "validate-content-assets": "node scripts/validate-content-assets.mjs"
+    "validate-content-assets": "node scripts/validate-content-assets.mjs",
+    "validate-content-handoff": "node scripts/validate-content-handoff.mjs"
   },
   "dependencies": {
     "next": "16.2.4",
