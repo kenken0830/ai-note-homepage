@@ -1,0 +1,69 @@
+name: Validate ContentAssets
+
+on:
+  pull_request:
+    paths:
+      - "src/data/contentAssets.ts"
+      - "src/types/content.ts"
+      - "scripts/validate-content-assets.mjs"
+      - ".github/workflows/validate-content-assets.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "src/data/contentAssets.ts"
+      - "src/types/content.ts"
+      - "scripts/validate-content-assets.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run content asset validator
+        run: node scripts/validate-content-assets.mjs
+
+      - name: Forbidden path guard
+        run: |
+          forbidden_re='note_monetization|note_create_paid|note_publish_paid|note_create_free_manga_link|reports/publish_runs|ui-automation-hub|note_links\.json'
+          # PR の場合は base..head の差分、push の場合は前回コミットとの差分
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            head_sha="${{ github.event.pull_request.head.sha }}"
+            changed=$(git diff --name-only "$base_sha" "$head_sha")
+          else
+            changed=$(git diff --name-only HEAD~1 HEAD)
+          fi
+          if [ -z "$changed" ]; then
+            echo "no file changes"
+            exit 0
+          fi
+          echo "changed files:"
+          echo "$changed"
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if echo "$f" | grep -qE "$forbidden_re"; then
+              echo "ERROR: forbidden path changed: $f"
+              fail=1
+            fi
+          done <<EOF
+          $changed
+          EOF
+          if [ "$fail" -ne 0 ]; then
+            echo "Forbidden note-related paths must not be touched from this repo."
+            exit 1
+          fi
+          echo "no forbidden paths touched"
