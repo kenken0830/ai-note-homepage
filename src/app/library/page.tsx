@@ -6,7 +6,49 @@ import { ExternalLink } from "@/components/ExternalLink";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { articles } from "@/data/articles";
+import { contentAssets } from "@/data/contentAssets";
 import { notePosts } from "@/data/notePosts";
+import type { ContentAsset, ContentAssetType } from "@/types/content";
+
+const contentAssetTypeLabels: Record<ContentAssetType, string> = {
+  note: "note",
+  manga: "漫画",
+  video: "動画",
+  template: "テンプレ",
+  kit: "無料キット",
+  product: "商品",
+  workflow: "ワークフロー",
+  prompt: "プロンプト",
+};
+
+const statusOrder: Record<ContentAsset["status"], number> = {
+  published: 0,
+  planned: 1,
+  draft: 2,
+};
+
+const priorityOrder: Record<ContentAsset["priority"], number> = {
+  high: 0,
+  medium: 1,
+  low: 2,
+};
+
+function compareContentAsset(a: ContentAsset, b: ContentAsset) {
+  const s = statusOrder[a.status] - statusOrder[b.status];
+  if (s !== 0) return s;
+  const p = priorityOrder[a.priority] - priorityOrder[b.priority];
+  if (p !== 0) return p;
+  if (a.publishedAt && b.publishedAt) {
+    return b.publishedAt.localeCompare(a.publishedAt);
+  }
+  if (a.publishedAt) return -1;
+  if (b.publishedAt) return 1;
+  return 0;
+}
+
+function isExternalUrl(url: string) {
+  return /^https?:\/\//.test(url);
+}
 
 export const metadata: Metadata = {
   title: "記事ライブラリ",
@@ -132,6 +174,117 @@ export default function LibraryPage() {
                     >
                       公開済みnoteを読む
                     </ExternalLink>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </Section>
+      <Section>
+        <div className="mb-8 max-w-3xl">
+          <Badge tone="stone">コンテンツエコシステム</Badge>
+          <h2 className="mt-4 text-3xl font-bold tracking-normal text-stone-950">
+            テーマで note・漫画・動画・テンプレ・商品を束ねる。
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-stone-600">
+            同じ「やりたいこと」に紐づくコンテンツを横断して表示します。
+            公開済みのものだけリンク化し、準備中・下書きは非リンクで「準備中」として表示します。
+            外部サービスへの投稿・公開はホームページ側からは行いません。
+          </p>
+        </div>
+        {contentAssets.length === 0 ? (
+          <div className="rounded-[8px] border border-dashed border-stone-300 bg-white p-6 text-sm leading-7 text-stone-600">
+            ContentAsset を追加するとここに表示されます。
+          </div>
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {[...contentAssets].sort(compareContentAsset).map((asset) => {
+              const isPublished = asset.status === "published";
+              const showAsLink = isPublished && Boolean(asset.url);
+              const external =
+                showAsLink && asset.url ? isExternalUrl(asset.url) : false;
+              return (
+                <article
+                  key={asset.id}
+                  className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
+                >
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge>{contentAssetTypeLabels[asset.type]}</Badge>
+                      <Badge tone={isPublished ? "dark" : "stone"}>
+                        {isPublished
+                          ? "公開済み"
+                          : asset.status === "planned"
+                            ? "準備中"
+                            : "下書き"}
+                      </Badge>
+                    </div>
+                    {asset.publishedAt ? (
+                      <time
+                        className="mt-4 block text-sm text-stone-500"
+                        dateTime={asset.publishedAt}
+                      >
+                        {new Intl.DateTimeFormat("ja-JP", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }).format(new Date(asset.publishedAt))}
+                      </time>
+                    ) : null}
+                    <h3 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
+                      {asset.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-stone-600">
+                      {asset.description}
+                    </p>
+                    <div className="mt-4 text-xs font-bold text-stone-500">
+                      テーマ:{" "}
+                      <Link
+                        href={`/ai-use-cases/${asset.topicSlug}`}
+                        className="text-teal-700 hover:text-teal-900"
+                      >
+                        /ai-use-cases/{asset.topicSlug}
+                      </Link>
+                    </div>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {asset.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs font-bold text-teal-700"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-6 text-sm font-bold">
+                    {showAsLink && asset.url ? (
+                      external ? (
+                        <ExternalLink
+                          href={asset.url}
+                          source={asset.source}
+                          medium={`library_content_${asset.type}`}
+                          className="text-teal-700 hover:text-teal-900"
+                        >
+                          公開コンテンツを開く
+                        </ExternalLink>
+                      ) : (
+                        <Link
+                          href={asset.url}
+                          className="text-teal-700 hover:text-teal-900"
+                        >
+                          サイト内ページへ
+                        </Link>
+                      )
+                    ) : (
+                      <span
+                        className="rounded-[8px] bg-stone-100 px-3 py-1.5 text-xs font-bold text-stone-500"
+                        aria-label="準備中のコンテンツです"
+                      >
+                        準備中(リンクなし)
+                      </span>
+                    )}
                   </div>
                 </article>
               );
