@@ -1,0 +1,207 @@
+name: Intake content_handoff
+
+on:
+  repository_dispatch:
+    types: [content_handoff]
+  workflow_dispatch:
+    inputs:
+      handoff_json:
+        description: "JSON string for manual test (must match content_handoff schema)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Save handoff payload
+        env:
+          DISPATCH_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          MANUAL_PAYLOAD: ${{ inputs.handoff_json }}
+        run: |
+          tmpdir="${RUNNER_TEMP}/content_handoff"
+          mkdir -p "$tmpdir"
+          handoff_path="${tmpdir}/handoff.json"
+          summary_path="${tmpdir}/apply-summary.json"
+          if [ -n "$MANUAL_PAYLOAD" ]; then
+            printf '%s' "$MANUAL_PAYLOAD" > "$handoff_path"
+          elif [ -n "$DISPATCH_PAYLOAD" ] && [ "$DISPATCH_PAYLOAD" != "null" ]; then
+            printf '%s' "$DISPATCH_PAYLOAD" > "$handoff_path"
+          else
+            echo "ERROR: no payload provided"
+            exit 1
+          fi
+          echo "HANDOFF_PATH=${handoff_path}" >> "$GITHUB_ENV"
+          echo "APPLY_SUMMARY_PATH=${summary_path}" >> "$GITHUB_ENV"
+          echo "--- payload preview ---"
+          head -c 800 "$handoff_path"
+          echo
+
+      - name: Validate content_handoff JSON
+        run: node scripts/validate-content-handoff.mjs "$HANDOFF_PATH" --check-url
+
+      - name: Apply content_handoff
+        run: |
+          node scripts/apply-content-handoff.mjs "$HANDOFF_PATH" | tee "$APPLY_SUMMARY_PATH"
+
+      - name: Run validate-content-assets
+        run: node scripts/validate-content-assets.mjs
+
+      - name: Restrict touched files
+        run: |
+          allowed_re='^src/data/contentAssets\.ts$'
+          forbidden_re='note_monetization|note_create_paid|note_publish_paid|note_create_free_manga_link|reports/publish_runs|ui-automation-hub|note_links\.json|next-env\.d\.ts'
+          changed=$(git status --porcelain | awk '{print $2}')
+          if [ -z "$changed" ]; then
+            echo "no file changes (idempotent skip)"
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if echo "$f" | grep -qE "$forbidden_re"; then
+              echo "ERROR: forbidden path changed: $f"
+              fail=1
+            fi
+            if ! echo "$f" | grep -qE "$allowed_re"; then
+              echo "ERROR: unexpected path changed: $f"
+              fail=1
+            fi
+          done <<EOF
+          $changed
+          EOF
+          if [ "$fail" -ne 0 ]; then exit 1; fi
+          echo "all changed files are allowed"
+
+      - name: Drop generated next-env.d.ts if any
+        run: |
+          if git status --porcelain | grep -q '^.. next-env\.d\.ts$'; then
+            git checkout -- next-env.d.ts
+          fi
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "no diff — idempotent run, skipping commit"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run lint
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run lint
+
+      - name: Run typecheck
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run typecheck
+
+      - name: Run build
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run build
+
+      - name: Compute branch and slug
+        if: steps.diff.outputs.has_changes == 'true'
+        id: meta
+        run: |
+          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.topic_slug||'unknown')")
+          type=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.type||'unknown')")
+          date=$(date -u +%Y-%m-%d)
+          branch="automation/content-handoff-${date}-${type}-${slug}"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "type=$type" >> "$GITHUB_OUTPUT"
+          echo "date=$date" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+          ASSET_TYPE: ${{ steps.meta.outputs.type }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/contentAssets.ts
+          git commit -m "chore(content-assets): intake content_handoff $ASSET_TYPE/$SLUG"
+          git push -u origin "$BRANCH"
+
+      - name: Create PR
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+          ASSET_TYPE: ${{ steps.meta.outputs.type }}
+        run: |
+          title=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.title||'')")
+          url=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.url||'(no url)')")
+          status=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.HANDOFF_PATH,'utf8'));process.stdout.write(j.status||'')")
+          body=$(cat <<EOF
+          ## 概要
+
+          note 以外のコンテンツ(漫画・動画・テンプレ・無料キット・商品・ワークフロー・プロンプト)を共通の content_handoff JSON で取り込んだPRです。
+
+          ## 取り込んだ ContentAsset
+
+          - type: ${ASSET_TYPE}
+          - topic_slug: ${SLUG}
+          - title: ${title}
+          - url: ${url}
+          - status: ${status}
+
+          ## 更新したファイル
+
+          $(git diff --name-only HEAD~1)
+
+          ## apply サマリ
+
+          \`\`\`json
+          $(cat "$APPLY_SUMMARY_PATH")
+          \`\`\`
+
+          ## 検証
+
+          - validate-content-handoff.mjs --check-url: PASS
+          - validate-content-assets.mjs: PASS
+          - npm run lint / typecheck / build: PASS
+          - 変更ファイルは src/data/contentAssets.ts のみ
+          - next-env.d.ts は除外
+          - editor.note.com URL / 認証情報 / note 本文全文の混入なし
+
+          ## note側に影響していないこと
+
+          note 投稿、note 公開、note 下書き編集、note 収益化パイプライン、UI Automation Hub、reports/publish_runs、note_links.json には一切触れていません。
+
+          ## 人間が確認すること
+
+          - [ ] /library にカードが表示される
+          - [ ] /ai-use-cases/${SLUG} の関連コンテンツ欄に表示される(該当ページが publishedの場合)
+          - [ ] planned 状態の場合、非リンク表示される
+          - [ ] note 自動投稿側のパイプラインに副作用なし
+          EOF
+          )
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore(content-assets): intake content_handoff ${ASSET_TYPE}/${SLUG}" \
+            --body "$body"
