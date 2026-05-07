@@ -1,0 +1,179 @@
+name: Publish use case detail
+
+on:
+  repository_dispatch:
+    types: [publish_use_case_detail]
+  workflow_dispatch:
+    inputs:
+      payload_json:
+        description: "Use case detail payload as JSON string"
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Save payload
+        env:
+          DISPATCH_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          MANUAL_PAYLOAD: ${{ inputs.payload_json }}
+        run: |
+          tmpdir="${RUNNER_TEMP}/publish_use_case"
+          mkdir -p "$tmpdir"
+          payload_path="${tmpdir}/payload.json"
+          summary_path="${tmpdir}/summary.json"
+          if [ -n "$MANUAL_PAYLOAD" ]; then
+            printf '%s' "$MANUAL_PAYLOAD" > "$payload_path"
+          elif [ -n "$DISPATCH_PAYLOAD" ] && [ "$DISPATCH_PAYLOAD" != "null" ]; then
+            printf '%s' "$DISPATCH_PAYLOAD" > "$payload_path"
+          else
+            echo "ERROR: no payload provided"
+            exit 1
+          fi
+          echo "PAYLOAD_PATH=${payload_path}" >> "$GITHUB_ENV"
+          echo "SUMMARY_PATH=${summary_path}" >> "$GITHUB_ENV"
+          echo "--- payload preview ---"
+          head -c 1200 "$payload_path"
+          echo
+
+      - name: Apply use case detail
+        run: |
+          node scripts/publish-use-case-detail.mjs "$PAYLOAD_PATH" | tee "$SUMMARY_PATH"
+
+      - name: Restrict touched files
+        run: |
+          allowed_re='^(src/data/aiUseCases\.ts|src/data/articleBacklog\.ts|src/data/updates\.ts)$'
+          forbidden_re='note_monetization|note_create_paid|note_publish_paid|note_create_free_manga_link|reports/publish_runs|ui-automation-hub|note_links\.json|next-env\.d\.ts'
+          changed=$(git status --porcelain | awk '{print $2}')
+          if [ -z "$changed" ]; then
+            echo "no file changes (idempotent skip)"
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if echo "$f" | grep -qE "$forbidden_re"; then
+              echo "ERROR: forbidden path changed: $f"
+              fail=1
+            fi
+            if ! echo "$f" | grep -qE "$allowed_re"; then
+              echo "ERROR: unexpected path changed: $f"
+              fail=1
+            fi
+          done <<EOF
+          $changed
+          EOF
+          if [ "$fail" -ne 0 ]; then exit 1; fi
+
+      - name: Drop generated next-env.d.ts if any
+        run: |
+          if git status --porcelain | grep -q '^.. next-env\.d\.ts$'; then
+            git checkout -- next-env.d.ts
+          fi
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run lint
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run lint
+
+      - name: Run typecheck
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run typecheck
+
+      - name: Run build
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run build
+
+      - name: Compute branch and slug
+        if: steps.diff.outputs.has_changes == 'true'
+        id: meta
+        run: |
+          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.PAYLOAD_PATH,'utf8'));process.stdout.write(j.slug||'unknown')")
+          date=$(date -u +%Y-%m-%d)
+          branch="automation/publish-use-case-${date}-${slug}"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/aiUseCases.ts src/data/articleBacklog.ts src/data/updates.ts
+          git commit -m "feat(ai-use-cases): publish $SLUG detail page"
+          git push -u origin "$BRANCH"
+
+      - name: Create PR
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.meta.outputs.branch }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+        run: |
+          body=$(cat <<EOF
+          ## 概要
+
+          articleBacklog からの「詳細ページ公開 PR」を自動作成しました。
+          内容は payload で渡されたもので、80点品質スコア(docs/article-quality-score.md)を満たしているかは人間レビューで確認してください。
+
+          ## 公開ページ
+
+          - URL: /ai-use-cases/${SLUG}
+          - status: planned → published
+
+          ## 変更ファイル
+
+          $(git diff --name-only HEAD~1)
+
+          ## 検証
+
+          - publish-use-case-detail.mjs: PASS
+          - npm run lint / typecheck / build: PASS
+          - 変更ファイルは src/data/{aiUseCases,articleBacklog,updates}.ts のみ
+          - next-env.d.ts は除外
+
+          ## 人間が確認すること
+
+          - [ ] docs/article-quality-score.md に沿って 80 点以上か
+          - [ ] /ai-use-cases/${SLUG} が描画される
+          - [ ] 関連ページのリンクが動く
+          - [ ] /updates 先頭に公開記録が出る
+          - [ ] articleBacklog の対応エントリが status=published になっている
+          - [ ] note 自動投稿側のパイプラインに副作用なし
+          EOF
+          )
+          gh pr create --base main --head "$BRANCH" \
+            --title "feat(ai-use-cases): publish ${SLUG} detail page" \
+            --body "$body"
