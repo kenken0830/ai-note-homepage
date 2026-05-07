@@ -2,6 +2,16 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "three-detail-pages-2026-05-05",
+    date: "2026-05-05",
+    title:
+      "比較表・チェックリスト・初心者向け言い換えの詳細ページを公開しました",
+    description:
+      "AI活用辞典として「比較表で選択肢を整理する」「抜け漏れ防止チェックリストを作る」「初心者向けに言い換える」の3本を80点品質基準で公開しました。各ページに手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
+    href: "/ai-use-cases",
+    category: "辞典",
+  },
+  {
     id: "content-ecosystem-phase-2a-live",
     date: "2026-05-05",
     title:
