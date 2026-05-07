@@ -80,6 +80,39 @@ export type NotePost = {
   homepageAngle?: string;
 };
 
+// テーマ単位で複数コンテンツ(note / 漫画 / 動画 / テンプレ / キット / 商品 /
+// ワークフロー / プロンプト)を束ねるための統一型。
+// `topicSlug` は通常 `/ai-use-cases/[slug]` の slug と一致させる。
+// `status: "published"` のときだけ `url` を必須相当として扱い、
+// `planned` / `draft` はリンク化しない方針(UI 側で非リンク表示)。
+// 既存 NotePost とは並存し、表示層で統合する想定。
+export type ContentAssetType =
+  | "note"
+  | "manga"
+  | "video"
+  | "template"
+  | "kit"
+  | "product"
+  | "workflow"
+  | "prompt";
+
+export type ContentAssetStatus = "published" | "planned" | "draft";
+
+export type ContentAsset = {
+  id: string;
+  topicSlug: string;
+  type: ContentAssetType;
+  title: string;
+  description: string;
+  url?: string;
+  status: ContentAssetStatus;
+  source: string;
+  publishedAt?: string;
+  tags: string[];
+  relatedUseCaseSlug?: string;
+  priority: "high" | "medium" | "low";
+};
+
 export type UpdateItem = {
   id: string;
   date: string;
