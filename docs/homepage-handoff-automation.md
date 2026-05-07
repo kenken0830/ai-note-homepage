@@ -152,6 +152,68 @@ git push -u origin HEAD
 gh pr create
 ```
 
+## 拡張案: 共通 content_handoff(Phase 2)
+
+note 以外のコンテンツ(漫画・動画・テンプレ・無料キット・商品・ワークフロー・プロンプト)にも自動取り込みを広げる拡張案です。詳細な仕様は [`docs/features/homepage-content-ecosystem.md`](features/homepage-content-ecosystem.md) を参照してください。
+
+### Phase 2 採用方針
+
+- 個別の `manga_handoff` / `video_handoff` / `template_handoff` を作らず、**共通の `content_handoff` JSON** に統合する
+- 既存の `homepage_handoff`(note 専用)は **note サブセットの互換モード** として残し、後方互換を破らない
+- 取り込み対象は `src/data/notePosts.ts` から `src/data/contentAssets.ts`(将来追加)へ拡張する
+
+### content_handoff JSON スキーマ案
+
+```json
+{
+  "type": "note | manga | video | template | kit | product | workflow | prompt",
+  "topic_slug": "build-ai-agent-skill-file",
+  "title": "...",
+  "description": "短い要約。本文全文は不可。",
+  "url": "https://...",
+  "status": "published | planned | draft",
+  "source": "note | youtube | booth | site | ...",
+  "published_at": "2026-05-XXTHH:MM:SS+09:00",
+  "tags": ["..."],
+  "related_use_case_slug": "build-ai-agent-skill-file",
+  "priority": "high | medium | low"
+}
+```
+
+追加バリデーション(`type` ごと):
+
+| `type` | 追加チェック |
+| --- | --- |
+| `note` | `note_url` 形式、`editor.note.com` 拒否(既存 homepage_handoff のルールを継承) |
+| `manga` / `video` | `status: "published"` のときだけ外部 URL 必須、`status: "planned"` は URL なしを許可 |
+| `template` / `kit` | URL は `/free/...` などの内部パス、または公開済み外部配布 URL のみ |
+| `product` / `prompt` / `workflow` | `status: "planned"` は非リンク表示前提、URL 形式は緩め |
+
+### 移行ロードマップ
+
+1. **Phase 2.A(静的データ運用)**: `contentAssets.ts` に手動で 3〜5 テーマ分を追加し、`/library` と `/ai-use-cases/[slug]` の表示拡張を運用する
+2. **Phase 2.B(自動化)**: 5 テーマ運用 or 30 日経過(早い方)で `content_handoff` workflow を追加。`scripts/validate-content-handoff.mjs` / `scripts/apply-content-handoff.mjs` を新設
+3. **既存 homepage_handoff**: 互換維持のため当面残す。将来 `content_handoff` に内部移譲する形でフェードアウト判断
+
+### 受け取らないデータ(Phase 2 でも継続)
+
+- `editor.note.com` URL や下書き URL
+- note 本文全文(`description` は短い要約のみ)
+- API キー / Cookie / token / session / authorization / password / secret
+- 漫画原稿・動画ファイル・画像ファイルそのもの(URL 参照のみ)
+
+### 自動マージ(Phase 3)の検討範囲
+
+Phase 3 で**条件付き自動マージ**を検討する際の境界:
+
+| 条件 | 自動マージ可否 |
+| --- | --- |
+| `status: "planned"` で URL 無し | ✅ 候補(変更が小さい) |
+| 既存 ContentAsset の `description` 200字以内変更 | ✅ 候補 |
+| 初回 `published`(外部 URL 含む) | ❌ 人間レビュー必須 |
+| `type: "product"` のエントリ追加・更新 | ❌ 人間レビュー必須 |
+| `editor.note.com` を含む変更 | ❌ そもそも validate で reject |
+
 ## 安全境界
 
 このワークフロー・スクリプトは以下に**絶対に**触れません:
