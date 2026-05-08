@@ -4,6 +4,12 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/Badge";
 import { CtaButton } from "@/components/CtaButton";
 import { ExternalLink } from "@/components/ExternalLink";
+import {
+  JsonLd,
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+  buildHowToSchema,
+} from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
@@ -92,8 +98,21 @@ export default async function AiUseCaseDetailPage({
     compareContentAsset,
   );
 
+  const breadcrumbTrail = [
+    { name: "ホーム", href: "/" },
+    { name: "AIでできること", href: "/ai-use-cases" },
+    { name: useCase.title, href: `/ai-use-cases/${useCase.slug}` },
+  ];
+
   return (
     <main>
+      <JsonLd
+        data={[
+          buildHowToSchema(useCase),
+          buildArticleSchema(useCase),
+          buildBreadcrumbSchema(breadcrumbTrail),
+        ]}
+      />
       <PageHero
         eyebrow={useCase.category}
         title={useCase.title}

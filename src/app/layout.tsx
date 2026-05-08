@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import {
+  JsonLd,
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+} from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { siteConfig } from "@/config/site";
@@ -32,6 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <head>
+        <JsonLd data={[buildWebSiteSchema(), buildOrganizationSchema()]} />
+      </head>
       <body>
         <SiteHeader />
         {children}
