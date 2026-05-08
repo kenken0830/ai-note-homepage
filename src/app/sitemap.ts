@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 import { contentAssets } from "@/data/contentAssets";
+import { publishedExperiments } from "@/data/experiments";
 
 /**
  * Static route priority and change frequency map.
@@ -15,6 +16,7 @@ const ROUTE_CONFIG: Record<
   "": { priority: 1.0, changeFrequency: "weekly" },
   "/start": { priority: 0.9, changeFrequency: "monthly" },
   "/ai-use-cases": { priority: 0.9, changeFrequency: "weekly" },
+  "/experiments": { priority: 0.9, changeFrequency: "weekly" },
   "/free": { priority: 0.8, changeFrequency: "monthly" },
   "/library": { priority: 0.8, changeFrequency: "weekly" },
   "/guides": { priority: 0.7, changeFrequency: "monthly" },
@@ -95,9 +97,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     }));
 
+  // 独自実験ページ: 各実験の conductedAt を lastModified に
+  const experimentRoutes: MetadataRoute.Sitemap = publishedExperiments.map(
+    (exp) => ({
+      url: `${baseUrl}/experiments/${exp.slug}`,
+      lastModified: parseDateOrNow(exp.publishedAt ?? exp.conductedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }),
+  );
+
   // 重複 URL を排除(同じ内部ページが複数 ContentAsset に紐づく場合)
   const seenUrls = new Set<string>();
-  const all = [...staticRoutes, ...useCaseRoutes, ...internalAssetRoutes];
+  const all = [
+    ...staticRoutes,
+    ...useCaseRoutes,
+    ...internalAssetRoutes,
+    ...experimentRoutes,
+  ];
   return all.filter((entry) => {
     if (seenUrls.has(entry.url)) return false;
     seenUrls.add(entry.url);
