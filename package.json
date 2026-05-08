@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "validate-content-assets": "node scripts/validate-content-assets.mjs",
     "validate-content-handoff": "node scripts/validate-content-handoff.mjs",
-    "score-use-case-payload": "node scripts/score-use-case-payload.mjs"
+    "score-use-case-payload": "node scripts/score-use-case-payload.mjs",
+    "validate-experiment-config": "node scripts/validate-experiment-config.mjs"
   },
   "dependencies": {
     "next": "16.2.4",
