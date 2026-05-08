@@ -13,6 +13,7 @@ export const primaryNavigation: NavItem[] = [
   { label: "メディア", href: "/media" },
   { label: "メルマガ", href: "/newsletter" },
   { label: "相談", href: "/consulting", showInHeader: true },
+  { label: "運営者", href: "/about" },
 ];
 
 export const headerNavigation = primaryNavigation.filter(
@@ -25,3 +26,5 @@ export const footerNavigation: NavItem[] = [
   { label: "English", href: "/en" },
   { label: "法務・ポリシー", href: "/legal" },
 ];
+
+export const aboutPageHref = "/about";
