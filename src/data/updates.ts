@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "custom-domain-live-2026-05-08",
+    date: "2026-05-08",
+    title: "カスタムドメイン ai-compass-journal.com で公開しました",
+    description:
+      "AI Compass Journal を独自ドメイン https://ai-compass-journal.com で公開しました。Cloudflare Registrar で取得し、Vercel と接続、SSL 自動発行、sitemap・OGP・canonical URL すべて新ドメインに切り替え済みです。Vercel デフォルト URL も引き続き有効。",
+    href: "/",
+    category: "公開",
+  },
+  {
     id: "three-detail-pages-2026-05-05",
     date: "2026-05-05",
     title:
