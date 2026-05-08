@@ -13,7 +13,10 @@ import {
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
-import { getContentAssetsByTopicSlug } from "@/data/contentAssets";
+import {
+  countPublishedNotesForTopicSlug,
+  getContentAssetsByTopicSlug,
+} from "@/data/contentAssets";
 import type { ContentAsset, ContentAssetType } from "@/types/content";
 
 const contentAssetTypeLabels: Record<ContentAssetType, string> = {
@@ -97,6 +100,8 @@ export default async function AiUseCaseDetailPage({
   const relatedAssets = [...getContentAssetsByTopicSlug(slug)].sort(
     compareContentAsset,
   );
+  const publishedNoteCount = countPublishedNotesForTopicSlug(slug);
+  const isDeepSeries = publishedNoteCount >= 3;
 
   const breadcrumbTrail = [
     { name: "ホーム", href: "/" },
@@ -291,6 +296,13 @@ export default async function AiUseCaseDetailPage({
               note・漫画・動画・テンプレート・ワークフロー・プロンプトを横断します。
               公開済みのものだけリンク化し、準備中・下書きは「準備中」として非リンク表示します。
             </p>
+            {isDeepSeries ? (
+              <p className="mt-4 inline-flex items-center gap-2 rounded-[8px] bg-teal-50 px-4 py-2 text-xs font-bold text-teal-800">
+                <span aria-hidden>★</span>
+                深掘りシリーズ:このテーマの公開済み note が {publishedNoteCount}{" "}
+                本あります
+              </p>
+            ) : null}
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {relatedAssets.map((asset) => {

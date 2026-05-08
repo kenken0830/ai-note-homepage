@@ -176,3 +176,28 @@ export function getContentAssetsByTopicSlug(
 ): ContentAsset[] {
   return contentAssets.filter((asset) => asset.topicSlug === topicSlug);
 }
+
+/**
+ * 同じ topicSlug で公開済みの note(type=note, status=published)が
+ * 何本あるかを返す。`docs/note-hp-content-strategy.md` の「5 回ルール」で
+ * HP の完成版手順への昇格判定に使う。
+ */
+export function countPublishedNotesForTopicSlug(topicSlug: string): number {
+  return contentAssets.filter(
+    (asset) =>
+      asset.topicSlug === topicSlug &&
+      asset.type === "note" &&
+      asset.status === "published",
+  ).length;
+}
+
+/**
+ * `topicSlug` が「knowledge-rich」(同テーマの公開 note が threshold 本以上)かを判定。
+ * 自動公開ワークフローや UI バッジ表示に使う。
+ */
+export function isTopicKnowledgeRich(
+  topicSlug: string,
+  threshold = 5,
+): boolean {
+  return countPublishedNotesForTopicSlug(topicSlug) >= threshold;
+}

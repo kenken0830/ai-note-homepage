@@ -36,6 +36,7 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 
 const AI_USE_CASES_FILE = path.join(REPO_ROOT, "src/data/aiUseCases.ts");
 const ARTICLE_BACKLOG_FILE = path.join(REPO_ROOT, "src/data/articleBacklog.ts");
+const CONTENT_ASSETS_FILE = path.join(REPO_ROOT, "src/data/contentAssets.ts");
 const QUALITY_RUBRIC_FILE = path.join(REPO_ROOT, "docs/article-quality-score.md");
 const QUALITY_CHECKLIST_FILE = path.join(REPO_ROOT, "docs/content-quality-checklist.md");
 
@@ -201,31 +202,95 @@ function findBacklogEntry(src, slug) {
   };
 }
 
-/** Pick the next slug to publish. */
-function pickSlug(useCasesSrc, backlogSrc) {
+/**
+ * 同じ topicSlug の公開済み note(type=note, status=published)を contentAssets.ts のテキスト解析でカウント。
+ * 「5 回ルール」(docs/note-hp-content-strategy.md)で knowledge-rich 優先選定に使う。
+ */
+function countPublishedNotesForTopicSlug(contentAssetsSrc, slug) {
+  const re = new RegExp(
+    `topicSlug:\\s*"${slug.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")}"`,
+    "g",
+  );
+  const matches = [...contentAssetsSrc.matchAll(re)];
+  let count = 0;
+  for (const m of matches) {
+    let braceDepth = 0;
+    let blockStart = -1;
+    for (let i = m.index; i >= 0; i--) {
+      if (contentAssetsSrc[i] === "}") braceDepth++;
+      else if (contentAssetsSrc[i] === "{") {
+        if (braceDepth === 0) {
+          blockStart = i;
+          break;
+        }
+        braceDepth--;
+      }
+    }
+    braceDepth = 0;
+    let blockEnd = -1;
+    for (let i = blockStart; i < contentAssetsSrc.length; i++) {
+      if (contentAssetsSrc[i] === "{") braceDepth++;
+      else if (contentAssetsSrc[i] === "}") {
+        braceDepth--;
+        if (braceDepth === 0) {
+          blockEnd = i;
+          break;
+        }
+      }
+    }
+    if (blockStart < 0 || blockEnd < 0) continue;
+    const block = contentAssetsSrc.slice(blockStart, blockEnd + 1);
+    if (/type:\s*"note"/.test(block) && /status:\s*"published"/.test(block)) {
+      count++;
+    }
+  }
+  return count;
+}
+
+/** Pick the next slug to publish. Knowledge-rich slugs are preferred. */
+function pickSlug(useCasesSrc, backlogSrc, contentAssetsSrc) {
   const planned = listAllPlannedSlugs(useCasesSrc);
   if (planned.length === 0) {
     die("no planned use cases found in src/data/aiUseCases.ts");
   }
   const candidates = planned
-    .map((p) => ({ slug: p.slug, backlog: findBacklogEntry(backlogSrc, p.slug) }))
+    .map((p) => ({
+      slug: p.slug,
+      backlog: findBacklogEntry(backlogSrc, p.slug),
+      noteCount: countPublishedNotesForTopicSlug(contentAssetsSrc, p.slug),
+    }))
     .filter((p) => {
       if (!p.backlog) return false;
       const s = p.backlog.status;
       return s === "candidate" || s === "outline-ready";
     });
   if (candidates.length === 0) {
-    // Fallback: any planned slug, even without backlog entry
-    return { slug: planned[0].slug, backlog: null, picked_from: "fallback-no-backlog" };
+    return {
+      slug: planned[0].slug,
+      backlog: null,
+      noteCount: 0,
+      picked_from: "fallback-no-backlog",
+    };
   }
   const priorityRank = { high: 0, medium: 1, low: 2 };
+  // 優先順: (1) knowledge-rich (note >= 5), (2) priority, (3) noteCount 降順, (4) slug 名
   candidates.sort((a, b) => {
+    const aRich = a.noteCount >= 5 ? 0 : 1;
+    const bRich = b.noteCount >= 5 ? 0 : 1;
+    if (aRich !== bRich) return aRich - bRich;
     const pa = priorityRank[a.backlog.priority ?? "low"] ?? 2;
     const pb = priorityRank[b.backlog.priority ?? "low"] ?? 2;
     if (pa !== pb) return pa - pb;
+    if (b.noteCount !== a.noteCount) return b.noteCount - a.noteCount;
     return a.slug.localeCompare(b.slug);
   });
-  return { slug: candidates[0].slug, backlog: candidates[0].backlog, picked_from: "backlog-priority" };
+  const top = candidates[0];
+  return {
+    slug: top.slug,
+    backlog: top.backlog,
+    noteCount: top.noteCount,
+    picked_from: top.noteCount >= 5 ? "knowledge-rich" : "backlog-priority",
+  };
 }
 
 function buildPrompt({ useCase, backlog, rubric, checklist }) {
@@ -388,6 +453,7 @@ async function main() {
 
   const useCasesSrc = readFile(AI_USE_CASES_FILE);
   const backlogSrc = readFile(ARTICLE_BACKLOG_FILE);
+  const contentAssetsSrc = readFile(CONTENT_ASSETS_FILE);
   const rubric = readFile(QUALITY_RUBRIC_FILE);
   const checklist = readFile(QUALITY_CHECKLIST_FILE);
 
@@ -398,10 +464,11 @@ async function main() {
     picked = {
       slug: args.slug,
       backlog: findBacklogEntry(backlogSrc, args.slug),
+      noteCount: countPublishedNotesForTopicSlug(contentAssetsSrc, args.slug),
       picked_from: "explicit",
     };
   } else {
-    picked = pickSlug(useCasesSrc, backlogSrc);
+    picked = pickSlug(useCasesSrc, backlogSrc, contentAssetsSrc);
   }
 
   const useCase = findPlannedUseCase(useCasesSrc, picked.slug);
@@ -443,6 +510,8 @@ async function main() {
         slug: picked.slug,
         model: args.model,
         picked_from: picked.picked_from,
+        published_note_count: picked.noteCount,
+        knowledge_rich: picked.noteCount >= 5,
         output: args.output,
         payload_size: fs.statSync(args.output).size,
       },
