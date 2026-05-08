@@ -1,0 +1,164 @@
+name: Run experiment (orchestrator)
+
+# 独自実験の起動 workflow。
+# Codex App / Claude Code Action のマルチエージェント連携の「司令塔」。
+# 直接 LLM を呼ばず、Issue を立てて Codex App / Claude Code に作業委譲する。
+#
+# 流れ:
+#   1. 設定ファイルを検証
+#   2. データ収集ジョブを起動(Codex CLI / 別ワークフロー)
+#   3. データを scripts/experiments/results/ に保存
+#   4. Issue を立てて @codex / @claude に考察生成を依頼
+#   5. PR が立ったら最終採点 → ラベル付与
+
+on:
+  schedule:
+    # 毎週月曜 0:00 UTC = 9:00 JST
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+    inputs:
+      config:
+        description: "実験設定ファイル名(scripts/experiments/[id].yml の id 部分)"
+        required: true
+        default: "sample-llm-comparison"
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  validate-and-orchestrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Resolve config
+        id: cfg
+        env:
+          INPUT_CONFIG: ${{ inputs.config }}
+        run: |
+          # workflow_dispatch なら inputs.config、cron なら最新の未実施設定を選定
+          if [ -n "$INPUT_CONFIG" ]; then
+            cfg_id="$INPUT_CONFIG"
+          else
+            # cron 起動時: scripts/experiments/ から最も古い未実施設定を選ぶ簡易ロジック
+            cfg_id=$(ls scripts/experiments/*.yml 2>/dev/null \
+              | grep -v "_schema" \
+              | head -n 1 \
+              | xargs -n1 basename \
+              | sed 's/\.yml$//' || echo "")
+          fi
+          if [ -z "$cfg_id" ]; then
+            echo "no experiment config found, exiting gracefully"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          cfg_path="scripts/experiments/${cfg_id}.yml"
+          if [ ! -f "$cfg_path" ]; then
+            echo "ERROR: config not found: $cfg_path"
+            exit 1
+          fi
+          echo "cfg_id=$cfg_id" >> "$GITHUB_OUTPUT"
+          echo "cfg_path=$cfg_path" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+      - name: Validate config
+        if: steps.cfg.outputs.skip != 'true'
+        run: node scripts/validate-experiment-config.mjs "${{ steps.cfg.outputs.cfg_path }}"
+
+      - name: Extract slug for Issue title
+        if: steps.cfg.outputs.skip != 'true'
+        id: meta
+        run: |
+          slug=$(grep -E "^slug:" "${{ steps.cfg.outputs.cfg_path }}" | sed -E 's/slug:\s*"?([^"]+)"?/\1/' | head -1)
+          title=$(grep -E "^title:" "${{ steps.cfg.outputs.cfg_path }}" | sed -E 's/title:\s*"?([^"]+)"?/\1/' | head -1)
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "title=$title" >> "$GITHUB_OUTPUT"
+
+      - name: Create orchestration Issue
+        if: steps.cfg.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CFG_PATH: ${{ steps.cfg.outputs.cfg_path }}
+          SLUG: ${{ steps.meta.outputs.slug }}
+          TITLE: ${{ steps.meta.outputs.title }}
+        run: |
+          cfg_body=$(cat "$CFG_PATH")
+          issue_body=$(cat <<EOF
+          ## 自動実験オーケストレーション
+
+          実験設定ファイル: \`$CFG_PATH\`
+
+          ### 設定ファイル本文
+
+          \`\`\`yaml
+          $cfg_body
+          \`\`\`
+
+          ### 委譲タスク
+
+          @codex このIssueを担当してください。以下を実行して PR を作ってください:
+
+          1. \`$CFG_PATH\` の \`subjects\` で指定された各 LLM に対して、\`hypothesis\` 検証用のデータを収集する
+             - \`trial_count\` 回ずつ実行
+             - 出力 / 所要時間 / 失敗を記録
+             - 結果を \`scripts/experiments/results/${SLUG}-data.json\` に保存(構造は \`Experiment.dataPoints\` / \`failureCases\` に対応)
+          2. \`agent_perspectives\` の各エントリについて、指定された AI エージェント視点で考察を生成
+             - 各考察は 80〜600 字
+             - 数値は実測データから引用、断定は避ける
+          3. \`src/data/experiments.ts\` に新しい \`Experiment\` エントリを append
+             - \`status: "published"\` で公開
+             - \`agentConsiderations\` に各視点を入れる
+             - \`integratedConsideration\` に統合稿を入れる
+          4. \`src/data/updates.ts\` に公開記録を先頭追加
+          5. PR を作成
+
+          ### 厳守する制約
+
+          - editor.note.com URL を扱わない
+          - 認証情報を含めない
+          - 数値は実測値のみ、推測値は使わない
+          - 出典がない主張は「要確認」と明記
+          - \`Restrict touched files\` 同等の安全境界を守る:
+            - 許可: \`src/data/experiments.ts\` / \`src/data/updates.ts\` / \`scripts/experiments/results/\`
+            - 禁止: note_monetization_* / reports/publish_runs / ui-automation-hub / note_links.json / next-env.d.ts
+
+          ### マージ後の検証
+
+          - 自動 CI(Validate ContentAssets / lint / typecheck / build)が緑になることを確認
+          - /experiments/$SLUG が SSG 生成される
+          - sitemap.xml に追加される
+
+          @claude このIssueに対する Codex の PR が立ったら、レビューに参加してください:
+
+          - 数値の整合性チェック
+          - 「断定表現」の検出と修正提案
+          - 「未確認情報」の検出
+          - マルチエージェント考察の重複検出
+          - 統合考察が個別考察の合意点だけで構成されているか
+          EOF
+          )
+
+          gh issue create \
+            --title "[experiment] $TITLE" \
+            --body "$issue_body" \
+            --label "experiment,automation"
+
+      - name: Skip notice
+        if: steps.cfg.outputs.skip == 'true'
+        run: echo "no experiment config to run, exiting"

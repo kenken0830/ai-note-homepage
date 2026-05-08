@@ -1,0 +1,40 @@
+# Sample experiment configuration.
+# 実際の実行はせず、ワークフローのテスト・スキーマ確認用。
+# 本番実験は別ファイルとして scripts/experiments/[your-id].yml に作成してください。
+
+id: sample-llm-comparison-2026-05-09
+slug: sample-llm-comparison
+title: "サンプル: 3 LLM の議事録要約品質比較"
+description: "Claude / GPT / Gemini に同じ会議メモを要約させ、決定事項抽出の精度と一貫性を比較する実験テンプレート。"
+hypothesis: "決定事項の抽出精度は LLM 間で測定可能な差がある"
+method: "標準会議メモ 3 件を各 LLM に同一プロンプトで要約させ、人間レビュアー(または別 LLM)が抽出された決定事項の正確性を採点"
+subjects:
+  - claude-sonnet-4-5
+  - gpt-5
+  - gemini-2-0-pro
+trial_count: 10
+tags:
+  - サンプル
+  - LLM比較
+  - 議事録
+related_use_case_slug: meeting-notes-to-minutes
+
+agent_perspectives:
+  - agent: claude-sonnet
+    perspective: 仮説検証視点
+    instruction: "実測データから仮説の支持度を評価。断定は避け、不確実性を残してください"
+  - agent: codex
+    perspective: 批判視点
+    instruction: "この実験設計の弱点と反証可能性を 2 段落で示してください"
+  - agent: claude-opus
+    perspective: 統合視点
+    instruction: "上記 2 つの考察で両者が合意した点だけを 3 段落でまとめてください"
+
+reproduction_steps:
+  - "このファイルをコピーし、id / slug / subjects を変更"
+  - "GitHub Actions の run-experiment.yml を workflow_dispatch で呼ぶ"
+  - "PR を確認してマージ"
+
+next_steps:
+  - "trial_count を 30 に増やして分散を観測"
+  - "プロンプトを各 LLM の推奨形式に最適化した場合の差を測定"
