@@ -1,0 +1,239 @@
+name: Auto-publish use case
+
+on:
+  schedule:
+    # 月・水・金 0:00 UTC = 9:00 JST に自動実行
+    - cron: "0 0 * * 1,3,5"
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Specific slug to publish (optional, picks highest-priority planned slug if empty)"
+        required: false
+      threshold:
+        description: "Quality score threshold (default 80)"
+        required: false
+        default: "80"
+      model:
+        description: "Anthropic model id (default claude-sonnet-4-5)"
+        required: false
+        default: "claude-sonnet-4-5"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Generate payload via Claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          INPUT_SLUG: ${{ inputs.slug }}
+          INPUT_MODEL: ${{ inputs.model }}
+        run: |
+          if [ -z "${ANTHROPIC_API_KEY}" ]; then
+            echo "ERROR: ANTHROPIC_API_KEY secret is not set"
+            exit 1
+          fi
+          tmpdir="${RUNNER_TEMP}/auto_publish"
+          mkdir -p "$tmpdir"
+          payload_path="${tmpdir}/payload.json"
+          score_path="${tmpdir}/score.json"
+          gen_args=("--output" "$payload_path")
+          if [ -n "$INPUT_SLUG" ]; then
+            gen_args+=("--slug" "$INPUT_SLUG")
+          fi
+          if [ -n "$INPUT_MODEL" ]; then
+            gen_args+=("--model" "$INPUT_MODEL")
+          fi
+          node scripts/auto-publish-use-case.mjs "${gen_args[@]}"
+          echo "PAYLOAD_PATH=${payload_path}" >> "$GITHUB_ENV"
+          echo "SCORE_PATH=${score_path}" >> "$GITHUB_ENV"
+          echo "--- payload preview ---"
+          head -c 1200 "$payload_path"
+          echo
+
+      - name: Score payload
+        id: score
+        env:
+          INPUT_THRESHOLD: ${{ inputs.threshold }}
+        run: |
+          threshold="${INPUT_THRESHOLD:-80}"
+          node scripts/score-use-case-payload.mjs "$PAYLOAD_PATH" --threshold="$threshold" | tee "$SCORE_PATH"
+          score=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.SCORE_PATH,'utf8'));process.stdout.write(String(j.score))")
+          passed=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.SCORE_PATH,'utf8'));process.stdout.write(String(j.passed))")
+          slug=$(node -e "const j=JSON.parse(require('fs').readFileSync(process.env.SCORE_PATH,'utf8'));process.stdout.write(j.slug||'')")
+          echo "score=$score" >> "$GITHUB_OUTPUT"
+          echo "passed=$passed" >> "$GITHUB_OUTPUT"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+          echo "threshold=$threshold" >> "$GITHUB_OUTPUT"
+
+      - name: Apply payload
+        run: |
+          node scripts/publish-use-case-detail.mjs "$PAYLOAD_PATH"
+
+      - name: Restrict touched files
+        run: |
+          allowed_re='^(src/data/aiUseCases\.ts|src/data/articleBacklog\.ts|src/data/updates\.ts)$'
+          forbidden_re='note_monetization|note_create_paid|note_publish_paid|note_create_free_manga_link|reports/publish_runs|ui-automation-hub|note_links\.json|next-env\.d\.ts'
+          changed=$(git status --porcelain | awk '{print $2}')
+          if [ -z "$changed" ]; then
+            echo "no file changes"
+            exit 0
+          fi
+          fail=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            if echo "$f" | grep -qE "$forbidden_re"; then
+              echo "ERROR: forbidden path: $f"
+              fail=1
+            fi
+            if ! echo "$f" | grep -qE "$allowed_re"; then
+              echo "ERROR: unexpected path: $f"
+              fail=1
+            fi
+          done <<EOF
+          $changed
+          EOF
+          if [ "$fail" -ne 0 ]; then exit 1; fi
+
+      - name: Drop generated next-env.d.ts if any
+        run: |
+          if git status --porcelain | grep -q '^.. next-env\.d\.ts$'; then
+            git checkout -- next-env.d.ts
+          fi
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "no diff (idempotent skip)"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run lint
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run lint
+
+      - name: Run typecheck
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run typecheck
+
+      - name: Run build
+        if: steps.diff.outputs.has_changes == 'true'
+        run: npm run build
+
+      - name: Commit and push
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          SLUG: ${{ steps.score.outputs.slug }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          date=$(date -u +%Y-%m-%d)
+          branch="automation/auto-publish-${date}-${SLUG}"
+          git checkout -b "$branch"
+          git add src/data/aiUseCases.ts src/data/articleBacklog.ts src/data/updates.ts
+          git commit -m "feat(ai-use-cases): auto-publish $SLUG"
+          git push -u origin "$branch"
+          echo "BRANCH=$branch" >> "$GITHUB_ENV"
+
+      - name: Create PR
+        if: steps.diff.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLUG: ${{ steps.score.outputs.slug }}
+          SCORE: ${{ steps.score.outputs.score }}
+          PASSED: ${{ steps.score.outputs.passed }}
+          THRESHOLD: ${{ steps.score.outputs.threshold }}
+        run: |
+          score_breakdown=$(cat "$SCORE_PATH")
+          # PR は常に draft 化はしないが、threshold 未満の場合は明示
+          status_label="🟢 score ${SCORE}/100 (passed threshold ${THRESHOLD})"
+          if [ "$PASSED" != "true" ]; then
+            status_label="🟡 score ${SCORE}/100 (BELOW threshold ${THRESHOLD} — human review required before merge)"
+          fi
+          body=$(cat <<EOF
+          ## 概要
+
+          articleBacklog で planned 状態だった \`${SLUG}\` を Anthropic Claude API で生成し、
+          \`/ai-use-cases/${SLUG}\` の詳細ページとして自動公開する PR です。
+
+          ## 品質スコア
+
+          ${status_label}
+
+          詳細(score-use-case-payload.mjs の機械チェック):
+
+          \`\`\`json
+          ${score_breakdown}
+          \`\`\`
+
+          ## 公開仕様
+
+          - URL: \`/ai-use-cases/${SLUG}\`
+          - 状態遷移: aiUseCases.ts では planned → published、articleBacklog.ts では candidate/outline-ready → published
+          - /updates に公開記録が先頭追加される
+          - 関連ページに /free /prompts /workflows /guides /ai-use-cases を含める
+
+          ## 検証
+
+          - validate (auto-publish スクリプト内): payload schema チェック PASS(必須フィールド・slug kebab-case・editor.note.com/secrets 不在)
+          - publish-use-case-detail.mjs apply: 成功
+          - Restrict touched files: src/data/{aiUseCases,articleBacklog,updates}.ts のみ
+          - npm run lint / typecheck / build: PASS
+          - next-env.d.ts は除外
+
+          ## 安全境界
+
+          - editor.note.com URL / 認証情報 / note 本文丸ごと転載は混入していない
+          - note 投稿・公開・下書き編集・収益化パイプライン・ui-automation-hub・reports/publish_runs・note_links.json には触れていない
+
+          ## 人間レビュー(threshold 未満時 必須)
+
+          - [ ] 80点品質スコア(docs/article-quality-score.md)に沿って手動採点で 80+ になるか
+          - [ ] 入力例・出力例が業務文脈として現実的か
+          - [ ] 未確認の数値・実績・断定表現が混入していないか
+          - [ ] noteとHPの住み分け表現が明確か(noteAngle セクション)
+
+          ## マージ後
+
+          - Vercel 自動再デプロイで /ai-use-cases/${SLUG} が SSG 生成される
+          - sitemap.xml / OGP / 関連コンテンツ欄に反映される
+          EOF
+          )
+
+          # Auto-merge ラベルは threshold 通過時のみ付与
+          extra_args=""
+          if [ "$PASSED" = "true" ]; then
+            extra_args="--label auto-publish"
+          else
+            extra_args="--label needs-review"
+          fi
+          gh pr create --base main --head "$BRANCH" \
+            --title "feat(ai-use-cases): auto-publish ${SLUG} (score ${SCORE}/100)" \
+            --body "$body" \
+            $extra_args || true
+          # ラベル未存在で失敗してもPR自体は作る
+          if [ -n "$BRANCH" ]; then
+            gh pr edit "$BRANCH" --add-label "${PASSED:+auto-publish}" 2>/dev/null || true
+          fi
