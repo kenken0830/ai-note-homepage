@@ -1,6 +1,7 @@
 import { siteConfig } from "@/config/site";
 import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 import { contentAssets } from "@/data/contentAssets";
+import { publishedExperiments } from "@/data/experiments";
 
 export const dynamic = "force-static";
 
@@ -47,6 +48,9 @@ export function GET() {
   );
   lines.push(
     `- [AIでできること一覧](${siteUrl}/ai-use-cases): やりたいこと別に AI 活用を探す実践辞典`,
+  );
+  lines.push(
+    `- [独自実験](${siteUrl}/experiments): Codex / Claude / Gemini をマルチエージェント合意で検証する独自データ集`,
   );
   lines.push(
     `- [完全ガイド](${siteUrl}/guides): AIノート活用の章立てガイド`,
@@ -139,6 +143,24 @@ export function GET() {
       }
       lines.push("");
     }
+  }
+
+  if (publishedExperiments.length > 0) {
+    lines.push("## 独自実験(マルチエージェント検証)");
+    lines.push("");
+    lines.push(
+      "Claude / Codex / Gemini をマルチエージェント合意で動かし、再現可能な実験データを公開しています。",
+    );
+    lines.push(
+      "個別エージェントの考察と、複数エージェントが合意した統合考察の両方を開示しています。",
+    );
+    lines.push("");
+    for (const exp of publishedExperiments) {
+      lines.push(
+        `- [${exp.title}](${siteUrl}/experiments/${exp.slug}) — ${exp.conductedAt} 実施: ${exp.description}`,
+      );
+    }
+    lines.push("");
   }
 
   lines.push("## 引用と利用に関する方針");

@@ -220,3 +220,57 @@ export type NavItem = {
   href: string;
   showInHeader?: boolean;
 };
+
+// 独自実験(マルチエージェント運用)用の型。
+// 「世界最高候補」を目指すため、人間の体験を捏造せず、
+// 複数 LLM の合意で考察を組み立てた検証可能な実験記事を扱う。
+export type ExperimentStatus = "published" | "running" | "draft";
+
+export type ExperimentAgent =
+  | "codex"
+  | "claude-sonnet"
+  | "claude-opus"
+  | "gpt-5"
+  | "gpt-thinking"
+  | "gemini"
+  | "human";
+
+export type ExperimentDataPoint = {
+  label: string;
+  value: number | string;
+  unit?: string;
+};
+
+export type ExperimentFailureCase = {
+  description: string;
+  occurrences?: number;
+  example?: string;
+};
+
+export type ExperimentAgentConsideration = {
+  agent: ExperimentAgent;
+  perspective: string;
+  body: string;
+};
+
+export type Experiment = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  status: ExperimentStatus;
+  conductedAt: string;
+  publishedAt?: string;
+  hypothesis: string;
+  method: string;
+  subjects: string[];
+  trialCount: number;
+  dataPoints: ExperimentDataPoint[];
+  failureCases: ExperimentFailureCase[];
+  agentConsiderations: ExperimentAgentConsideration[];
+  integratedConsideration: string;
+  nextSteps: string[];
+  reproductionSteps: string[];
+  relatedUseCaseSlug?: string;
+  tags: string[];
+};

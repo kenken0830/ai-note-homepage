@@ -3,6 +3,7 @@ import type { NavItem } from "@/types/content";
 export const primaryNavigation: NavItem[] = [
   { label: "はじめて", href: "/start", showInHeader: true },
   { label: "AIでできること", href: "/ai-use-cases", showInHeader: true },
+  { label: "独自実験", href: "/experiments", showInHeader: true },
   { label: "無料キット", href: "/free", showInHeader: true },
   { label: "ガイド", href: "/guides", showInHeader: true },
   { label: "プロンプト", href: "/prompts" },
