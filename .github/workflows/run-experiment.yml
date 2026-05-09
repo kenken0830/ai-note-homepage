@@ -1,20 +1,17 @@
-name: Run experiment (orchestrator)
+name: Run experiment (orchestrator) [DEPRECATED]
 
-# 独自実験の起動 workflow。
-# Codex App / Claude Code Action のマルチエージェント連携の「司令塔」。
-# 直接 LLM を呼ばず、Issue を立てて Codex App / Claude Code に作業委譲する。
+# ⚠️ DEPRECATED — 実運用では使わない。
 #
-# 流れ:
-#   1. 設定ファイルを検証
-#   2. データ収集ジョブを起動(Codex CLI / 別ワークフロー)
-#   3. データを scripts/experiments/results/ に保存
-#   4. Issue を立てて @codex / @claude に考察生成を依頼
-#   5. PR が立ったら最終採点 → ラベル付与
+# 当初は GitHub Issue 経由で `@codex` / `@claude` に作業委譲する設計だったが、
+# Issue 本文のメンションだけでは Codex App / Claude Code が自律起動しないことが判明した。
+#
+# 現運用は ChatGPT Pro の Automations + Codex Desktop App で完結する。
+# 詳細は `docs/experiment-automation.md` 参照。
+#
+# このファイルは手動デバッグ用に `workflow_dispatch` のみ残す。
+# 不要になったら削除可能。
 
 on:
-  schedule:
-    # 毎週月曜 0:00 UTC = 9:00 JST
-    - cron: "0 0 * * 1"
   workflow_dispatch:
     inputs:
       config:
