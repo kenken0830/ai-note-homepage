@@ -74,7 +74,7 @@ export const experiments: Experiment[] = [
       { label: "npm run validate-content-assets", value: "PASS" },
       {
         label: "npm run validate-experiment-config",
-        value: "FAIL / config.yml 引数必須のため通常検証対象外",
+        value: "対象外 / config.yml 引数必須のため今回の通常検証から除外",
       },
     ],
     failureCases: [
