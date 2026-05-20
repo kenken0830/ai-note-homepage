@@ -258,6 +258,7 @@ export type Experiment = {
   slug: string;
   title: string;
   description: string;
+  category: string;
   status: ExperimentStatus;
   conductedAt: string;
   publishedAt?: string;
