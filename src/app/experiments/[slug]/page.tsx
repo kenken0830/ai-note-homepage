@@ -256,14 +256,14 @@ export default async function ExperimentDetailPage({
       <Section tone="soft">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
-            Multi-agent considerations
+            Execution log considerations
           </p>
           <h2 className="mt-3 text-3xl font-semibold text-stone-950">
-            複数エージェントによる考察。
+            Codex と人間による考察。
           </h2>
           <p className="mt-4 leading-7 text-stone-600">
-            異なる LLM に独立に考察させ、視点ごとの差分を提示します。
-            最終的な「統合考察」は、複数エージェントの合意点だけを残しています。
+            実行ログをもとに、Codex 側で自動化できた範囲と、人間が補助した範囲を分けて整理します。
+            最終的な「統合考察」は、今回確認できた事実に絞って残しています。
           </p>
         </div>
 
@@ -287,7 +287,7 @@ export default async function ExperimentDetailPage({
             統合考察
           </p>
           <h3 className="mt-3 text-2xl font-semibold text-stone-950">
-            複数エージェントが合意した点。
+            実行ログから確認できた点。
           </h3>
           <p className="mt-4 leading-8 text-stone-700">
             {exp.integratedConsideration}
@@ -400,8 +400,8 @@ export default async function ExperimentDetailPage({
             Disclaimer
           </p>
           <p className="mt-3 leading-7 text-stone-600">
-            この実験はマルチエージェントが合意した範囲でのみ結論を提示しています。
-            個別の意見・批判視点はそれぞれのエージェントブロックに残しているので、
+            この実験は実行ログで確認できた範囲でのみ結論を提示しています。
+            個別の意見・批判視点はそれぞれの考察ブロックに残しているので、
             読者が自分で判断できるように開示しています。
             実験設定は GitHub の
             <Link
