@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "run-now-automation-test-experiment-live-2026-05-20",
+    date: "2026-05-20",
+    title: "ChatGPT Automation と Codex Desktop App の記事更新自動化実験を公開しました",
+    description:
+      "PR #56 の実行結果をもとに、記事生成、ファイル編集、ローカル検証までは自動化できた一方で、GitHub への push / PR 作成は認証で止まったことを、automationRate 50% の独自実験として整理しました。",
+    href: "/experiments/run-now-automation-test",
+    category: "実験",
+  },
+  {
     id: "plain-terms-use-case-live-2026-05-20",
     date: "2026-05-20",
     title: "専門用語をかみ砕いて理解する詳細ページを公開しました",

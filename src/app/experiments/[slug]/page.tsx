@@ -80,9 +80,9 @@ export default async function ExperimentDetailPage({
             </p>
           </div>
           <div className="rounded-[8px] bg-stone-100 p-5">
-            <p className="text-sm font-bold text-stone-500">試行回数</p>
+            <p className="text-sm font-bold text-stone-500">カテゴリ</p>
             <p className="mt-2 text-xl font-semibold text-stone-950">
-              各 {exp.trialCount} 回 × {exp.subjects.length} 対象
+              {exp.category}
             </p>
           </div>
           <div className="rounded-[8px] bg-stone-100 p-5">
