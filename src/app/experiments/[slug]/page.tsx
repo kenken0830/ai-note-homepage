@@ -124,6 +124,59 @@ export default async function ExperimentDetailPage({
         </div>
       </Section>
 
+      {exp.successCriteria && exp.successCriteria.length > 0 ? (
+        <Section>
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+              Success criteria
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              成功条件(実測前に固定)。
+            </h2>
+            <p className="mt-4 leading-7 text-stone-600">
+              結論を先取りしないため、実験前にどうなれば成功かを定義しています。
+            </p>
+          </div>
+          <ul className="grid gap-3 md:grid-cols-2">
+            {exp.successCriteria.map((c, idx) => (
+              <li
+                key={c}
+                className="flex items-start gap-3 rounded-[8px] border border-stone-200 bg-white p-4 shadow-sm"
+              >
+                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-teal-700 text-xs font-bold text-white">
+                  {idx + 1}
+                </span>
+                <span className="text-sm leading-7 text-stone-700">{c}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {typeof exp.automationRate === "number" ? (
+        <Section tone="soft">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.5fr_1.5fr]">
+            <div className="rounded-[8px] bg-teal-700 p-8 text-center text-white">
+              <p className="text-sm font-bold uppercase tracking-wider opacity-80">
+                自動化率
+              </p>
+              <p className="mt-2 text-6xl font-bold">{exp.automationRate}%</p>
+              <p className="mt-2 text-xs opacity-80">(n={exp.trialCount} 初回検証)</p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-stone-950">
+                自動化率の算出方法。
+              </h2>
+              {exp.automationRateDefinition ? (
+                <p className="mt-4 leading-8 text-stone-600">
+                  {exp.automationRateDefinition}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
       <Section id="data">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
@@ -318,6 +371,14 @@ export default async function ExperimentDetailPage({
                 variant="secondary"
               >
                 関連 AI ユースケースへ
+              </CtaButton>
+            ) : null}
+            {exp.referenceUseCaseSlug ? (
+              <CtaButton
+                href={`/ai-use-cases/${exp.referenceUseCaseSlug}`}
+                variant="secondary"
+              >
+                参考ユースケースを見る
               </CtaButton>
             ) : null}
             <CtaButton href="/experiments" variant="secondary">
