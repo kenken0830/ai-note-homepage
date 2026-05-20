@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "plain-terms-use-case-live-2026-05-20",
+    date: "2026-05-20",
+    title: "専門用語をかみ砕いて理解する詳細ページを公開しました",
+    description:
+      "分からない用語を、定義、使う場面、似た用語との違い、自分の文脈でのたとえ、元の文章の言い換えに分けて整理するAI活用手順を追加しました。",
+    href: "/ai-use-cases/explain-technical-terms",
+    category: "辞典",
+  },
+  {
     id: "custom-domain-live-2026-05-08",
     date: "2026-05-08",
     title: "カスタムドメイン ai-compass-journal.com で公開しました",
