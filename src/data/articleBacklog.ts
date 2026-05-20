@@ -114,9 +114,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "定義、例え、具体例、誤解しやすい点を整理する",
     searchIntent: "専門用語 わかりやすく AI",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/prompts"],
-    suggestedSlug: "explain-technical-terms-with-ai",
+    status: "published",
+    relatedPages: ["/ai-use-cases/explain-technical-terms", "/prompts", "/free"],
+    suggestedSlug: "explain-technical-terms",
   },
   {
     id: "learning-plan-seven-days",
