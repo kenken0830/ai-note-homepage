@@ -275,9 +275,9 @@ export const articleBacklog: ArticleBacklogItem[] = [
     homepageAngle: "作業ログ、分類、AI向き判定、最初の自動化候補を整理する",
     searchIntent: "AI 自動化 何から始める",
     priority: "medium",
-    status: "candidate",
-    relatedPages: ["/ai-use-cases", "/workflows"],
-    suggestedSlug: "find-routine-automation-with-ai",
+    status: "published",
+    relatedPages: ["/ai-use-cases/find-routine-automation", "/workflows", "/free"],
+    suggestedSlug: "find-routine-automation",
   },
   {
     id: "prompt-template-reuse",
