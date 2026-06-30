@@ -2,30 +2,12 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
-    id: "routine-automation-use-case-live-2026-05-21",
-    date: "2026-05-21",
-    title: "AIに任せられる定型作業を見つける詳細ページを公開しました",
+    id: "research-summary-use-case-live-2026-06-30",
+    date: "2026-06-30",
+    title: "AIで調査メモを判断材料に要約する詳細ページを公開しました",
     description:
-      "作業ログからAI向きの繰り返し作業、人間判断を残す部分、最初に試す小さな自動化候補を切り分ける手順を、80点品質基準で公開しました。手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
-    href: "/ai-use-cases/find-routine-automation",
-    category: "辞典",
-  },
-  {
-    id: "run-now-automation-test-experiment-live-2026-05-20",
-    date: "2026-05-20",
-    title: "ChatGPT Automation と Codex Desktop App の記事更新自動化実験を公開しました",
-    description:
-      "PR #56 の実行結果をもとに、記事生成、ファイル編集、ローカル検証までは自動化できた一方で、GitHub への push / PR 作成は認証で止まったことを、automationRate 50% の独自実験として整理しました。",
-    href: "/experiments/run-now-automation-test",
-    category: "実験",
-  },
-  {
-    id: "plain-terms-use-case-live-2026-05-20",
-    date: "2026-05-20",
-    title: "専門用語をかみ砕いて理解する詳細ページを公開しました",
-    description:
-      "分からない用語を、定義、使う場面、似た用語との違い、自分の文脈でのたとえ、元の文章の言い換えに分けて整理するAI活用手順を追加しました。",
-    href: "/ai-use-cases/explain-technical-terms",
+      "長い調査メモを、要点、根拠、未確認事項、追加確認へ分けて整理し、共有用の短い要約まで作るAI活用手順を追加しました。手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
+    href: "/ai-use-cases/summarize-research-notes",
     category: "辞典",
   },
   {
