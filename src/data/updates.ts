@@ -2,6 +2,51 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "weekly-report-use-case-live-2026-06-21",
+    date: "2026-06-21",
+    title: "週報の下書きを作る詳細ページを公開しました",
+    description:
+      "1週間の作業ログを、成果、課題、来週の予定、相談事項に分けて共有しやすい週報下書きへ整えるAI活用手順を、80点品質基準で公開しました。手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプト、内部リンクを揃えています。",
+    href: "/ai-use-cases/make-weekly-report",
+    category: "辞典",
+  },
+  {
+    id: "review-quiz-use-case-live-2026-06-17",
+    date: "2026-06-17",
+    title: "学習メモから復習問題を作る詳細ページを公開しました",
+    description:
+      "学習メモを、穴埋め、説明、応用の3種類の復習問題に分けて理解確認へつなげるAI活用手順を、80点品質基準で公開しました。入力例、出力例、確認ポイント、よくある失敗、改善プロンプト、内部リンクを揃えています。",
+    href: "/ai-use-cases/make-review-quiz",
+    category: "辞典",
+  },
+  {
+    id: "routine-automation-use-case-live-2026-05-21",
+    date: "2026-05-21",
+    title: "AIに任せられる定型作業を見つける詳細ページを公開しました",
+    description:
+      "作業ログからAI向きの繰り返し作業、人間判断を残す部分、最初に試す小さな自動化候補を切り分ける手順を、80点品質基準で公開しました。手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
+    href: "/ai-use-cases/find-routine-automation",
+    category: "辞典",
+  },
+  {
+    id: "run-now-automation-test-experiment-live-2026-05-20",
+    date: "2026-05-20",
+    title: "ChatGPT Automation と Codex Desktop App の記事更新自動化実験を公開しました",
+    description:
+      "PR #56 の実行結果をもとに、記事生成、ファイル編集、ローカル検証までは自動化できた一方で、GitHub への push / PR 作成は認証で止まったことを、automationRate 50% の独自実験として整理しました。",
+    href: "/experiments/run-now-automation-test",
+    category: "実験",
+  },
+  {
+    id: "plain-terms-use-case-live-2026-05-20",
+    date: "2026-05-20",
+    title: "専門用語をかみ砕いて理解する詳細ページを公開しました",
+    description:
+      "分からない用語を、定義、使う場面、似た用語との違い、自分の文脈でのたとえ、元の文章の言い換えに分けて整理するAI活用手順を追加しました。",
+    href: "/ai-use-cases/explain-technical-terms",
+    category: "辞典",
+  },
+  {
     id: "custom-domain-live-2026-05-08",
     date: "2026-05-08",
     title: "カスタムドメイン ai-compass-journal.com で公開しました",
