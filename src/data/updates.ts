@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "ai-tool-principle-map-use-case-live-2026-07-03",
+    date: "2026-07-03",
+    title: "AIでAIツールの学び直し表を作る方法の詳細ページを公開しました",
+    description:
+      "今使っているAIツールや手順を、変わりにくい目的・判断基準と、入れ替わりやすい操作・機能に分け、追いかける範囲を整理します。 手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
+    href: "/ai-use-cases/ai-tool-principle-map",
+    category: "辞典",
+  },
+  {
     id: "weekly-report-use-case-live-2026-06-21",
     date: "2026-06-21",
     title: "週報の下書きを作る詳細ページを公開しました",
