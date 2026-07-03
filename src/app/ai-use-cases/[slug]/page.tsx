@@ -65,6 +65,22 @@ type AiUseCaseDetailPageProps = {
   }>;
 };
 
+function MultilineTextBlock({
+  children,
+  className = "",
+}: {
+  children: string;
+  className?: string;
+}) {
+  return (
+    <pre
+      className={`whitespace-pre-wrap break-words font-mono text-sm leading-7 text-stone-700 ${className}`}
+    >
+      {children}
+    </pre>
+  );
+}
+
 export function generateStaticParams() {
   return publishedAiUseCases.map((useCase) => ({
     slug: useCase.slug,
@@ -217,29 +233,31 @@ export default async function AiUseCaseDetailPage({
               そのまま使い、素材や条件だけ差し替えてください。事実確認と最終判断は自分で行います。
             </p>
           </div>
-          <div className="rounded-[8px] border border-stone-200 bg-stone-50 p-5 font-mono text-sm leading-8 text-stone-800">
-            {useCase.prompt}
+          <div className="rounded-[8px] border border-stone-200 bg-stone-50 p-5">
+            <MultilineTextBlock className="text-stone-800">
+              {useCase.prompt}
+            </MultilineTextBlock>
           </div>
         </div>
       </Section>
 
       {(useCase.inputExample || useCase.outputExample || useCase.improvementPrompt) && (
         <Section tone="soft">
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6">
             {useCase.inputExample && (
               <div className="rounded-[8px] bg-white p-6 shadow-sm">
                 <h2 className="text-xl font-semibold text-stone-950">入力例</h2>
-                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                <MultilineTextBlock className="mt-4 rounded-[8px] bg-stone-100 p-4">
                   {useCase.inputExample}
-                </p>
+                </MultilineTextBlock>
               </div>
             )}
             {useCase.outputExample && (
               <div className="rounded-[8px] bg-white p-6 shadow-sm">
                 <h2 className="text-xl font-semibold text-stone-950">出力例</h2>
-                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                <MultilineTextBlock className="mt-4 rounded-[8px] bg-stone-100 p-4">
                   {useCase.outputExample}
-                </p>
+                </MultilineTextBlock>
               </div>
             )}
             {useCase.improvementPrompt && (
@@ -247,9 +265,9 @@ export default async function AiUseCaseDetailPage({
                 <h2 className="text-xl font-semibold text-stone-950">
                   改善プロンプト
                 </h2>
-                <p className="mt-4 rounded-[8px] bg-stone-100 p-4 font-mono text-sm leading-7 text-stone-700">
+                <MultilineTextBlock className="mt-4 rounded-[8px] bg-stone-100 p-4">
                   {useCase.improvementPrompt}
-                </p>
+                </MultilineTextBlock>
               </div>
             )}
           </div>
@@ -396,9 +414,22 @@ export default async function AiUseCaseDetailPage({
             <h2 className="text-3xl font-semibold text-stone-950">
               noteで書くなら、実験ログにする。
             </h2>
-            <p className="mt-4 leading-8 text-stone-600">{useCase.noteAngle}</p>
+            <p className="mt-2 text-sm font-bold tracking-[0.12em] text-teal-700 uppercase">
+              Note Angle
+            </p>
+            <p className="mt-4 whitespace-pre-wrap break-words leading-8 text-stone-600">
+              {useCase.noteAngle}
+            </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <p className="text-sm font-bold tracking-[0.12em] text-teal-700 uppercase">
+                Related Pages
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-stone-950">
+                次に読むページ。
+              </h2>
+            </div>
             {useCase.relatedPages.map((page) => (
               <CtaButton key={page.href} href={page.href} variant="secondary">
                 {page.label}

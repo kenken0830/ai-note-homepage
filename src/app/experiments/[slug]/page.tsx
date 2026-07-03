@@ -80,9 +80,9 @@ export default async function ExperimentDetailPage({
             </p>
           </div>
           <div className="rounded-[8px] bg-stone-100 p-5">
-            <p className="text-sm font-bold text-stone-500">試行回数</p>
+            <p className="text-sm font-bold text-stone-500">カテゴリ</p>
             <p className="mt-2 text-xl font-semibold text-stone-950">
-              各 {exp.trialCount} 回 × {exp.subjects.length} 対象
+              {exp.category}
             </p>
           </div>
           <div className="rounded-[8px] bg-stone-100 p-5">
@@ -123,6 +123,59 @@ export default async function ExperimentDetailPage({
           </div>
         </div>
       </Section>
+
+      {exp.successCriteria && exp.successCriteria.length > 0 ? (
+        <Section>
+          <div className="mb-8 max-w-3xl">
+            <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
+              Success criteria
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              成功条件(実測前に固定)。
+            </h2>
+            <p className="mt-4 leading-7 text-stone-600">
+              結論を先取りしないため、実験前にどうなれば成功かを定義しています。
+            </p>
+          </div>
+          <ul className="grid gap-3 md:grid-cols-2">
+            {exp.successCriteria.map((c, idx) => (
+              <li
+                key={c}
+                className="flex items-start gap-3 rounded-[8px] border border-stone-200 bg-white p-4 shadow-sm"
+              >
+                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-teal-700 text-xs font-bold text-white">
+                  {idx + 1}
+                </span>
+                <span className="text-sm leading-7 text-stone-700">{c}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {typeof exp.automationRate === "number" ? (
+        <Section tone="soft">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.5fr_1.5fr]">
+            <div className="rounded-[8px] bg-teal-700 p-8 text-center text-white">
+              <p className="text-sm font-bold uppercase tracking-wider opacity-80">
+                自動化率
+              </p>
+              <p className="mt-2 text-6xl font-bold">{exp.automationRate}%</p>
+              <p className="mt-2 text-xs opacity-80">(n={exp.trialCount} 初回検証)</p>
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold text-stone-950">
+                自動化率の算出方法。
+              </h2>
+              {exp.automationRateDefinition ? (
+                <p className="mt-4 leading-8 text-stone-600">
+                  {exp.automationRateDefinition}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </Section>
+      ) : null}
 
       <Section id="data">
         <div className="mb-8 max-w-3xl">
@@ -203,14 +256,14 @@ export default async function ExperimentDetailPage({
       <Section tone="soft">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
-            Multi-agent considerations
+            Execution log considerations
           </p>
           <h2 className="mt-3 text-3xl font-semibold text-stone-950">
-            複数エージェントによる考察。
+            Codex と人間による考察。
           </h2>
           <p className="mt-4 leading-7 text-stone-600">
-            異なる LLM に独立に考察させ、視点ごとの差分を提示します。
-            最終的な「統合考察」は、複数エージェントの合意点だけを残しています。
+            実行ログをもとに、Codex 側で自動化できた範囲と、人間が補助した範囲を分けて整理します。
+            最終的な「統合考察」は、今回確認できた事実に絞って残しています。
           </p>
         </div>
 
@@ -234,7 +287,7 @@ export default async function ExperimentDetailPage({
             統合考察
           </p>
           <h3 className="mt-3 text-2xl font-semibold text-stone-950">
-            複数エージェントが合意した点。
+            実行ログから確認できた点。
           </h3>
           <p className="mt-4 leading-8 text-stone-700">
             {exp.integratedConsideration}
@@ -320,6 +373,14 @@ export default async function ExperimentDetailPage({
                 関連 AI ユースケースへ
               </CtaButton>
             ) : null}
+            {exp.referenceUseCaseSlug ? (
+              <CtaButton
+                href={`/ai-use-cases/${exp.referenceUseCaseSlug}`}
+                variant="secondary"
+              >
+                参考ユースケースを見る
+              </CtaButton>
+            ) : null}
             <CtaButton href="/experiments" variant="secondary">
               他の実験を見る
             </CtaButton>
@@ -339,8 +400,8 @@ export default async function ExperimentDetailPage({
             Disclaimer
           </p>
           <p className="mt-3 leading-7 text-stone-600">
-            この実験はマルチエージェントが合意した範囲でのみ結論を提示しています。
-            個別の意見・批判視点はそれぞれのエージェントブロックに残しているので、
+            この実験は実行ログで確認できた範囲でのみ結論を提示しています。
+            個別の意見・批判視点はそれぞれの考察ブロックに残しているので、
             読者が自分で判断できるように開示しています。
             実験設定は GitHub の
             <Link

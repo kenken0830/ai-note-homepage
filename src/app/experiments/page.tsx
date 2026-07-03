@@ -57,7 +57,7 @@ export default function ExperimentsPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge tone="dark">実験</Badge>
-                    <Badge tone="stone">{exp.subjects.length}対象比較</Badge>
+                    <Badge tone="stone">{exp.category}</Badge>
                   </div>
                   <time
                     className="mt-4 block text-sm text-stone-500"

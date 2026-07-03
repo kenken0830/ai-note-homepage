@@ -258,6 +258,7 @@ export type Experiment = {
   slug: string;
   title: string;
   description: string;
+  category: string;
   status: ExperimentStatus;
   conductedAt: string;
   publishedAt?: string;
@@ -265,12 +266,20 @@ export type Experiment = {
   method: string;
   subjects: string[];
   trialCount: number;
+  // 成功条件(実測前に固定)。実験記事の判定基準として表示する。
+  successCriteria?: string[];
+  // 自動化率(0〜100)。automationRateDefinition に算出方法を明記して主観を排除する。
+  automationRate?: number;
+  automationRateDefinition?: string;
   dataPoints: ExperimentDataPoint[];
   failureCases: ExperimentFailureCase[];
   agentConsiderations: ExperimentAgentConsideration[];
   integratedConsideration: string;
   nextSteps: string[];
   reproductionSteps: string[];
+  // このテーマに紐づく(実験で昇格・公開した)ユースケース slug
   relatedUseCaseSlug?: string;
+  // 参考・比較対象として参照する既存ユースケース slug(主役ではない)
+  referenceUseCaseSlug?: string;
   tags: string[];
 };
