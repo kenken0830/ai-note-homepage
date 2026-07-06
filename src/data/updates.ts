@@ -2,6 +2,15 @@ import type { UpdateItem } from "@/types/content";
 
 export const updates: UpdateItem[] = [
   {
+    id: "choose-minimal-ai-stack-use-case-live-2026-07-06",
+    date: "2026-07-06",
+    title: "AIで自分に必要な最小ツールセットを決める方法の詳細ページを公開しました",
+    description:
+      "用途、頻度、困っている作業を整理し、増えすぎたAIツールを小さな構成に絞るための診断テンプレートです。 手順、コピペ用プロンプト、入力例、出力例、確認ポイント、よくある失敗、改善プロンプトを揃えています。",
+    href: "/ai-use-cases/choose-minimal-ai-stack",
+    category: "辞典",
+  },
+  {
     id: "ai-tool-principle-map-use-case-live-2026-07-03",
     date: "2026-07-03",
     title: "AIでAIツールの学び直し表を作る方法の詳細ページを公開しました",
