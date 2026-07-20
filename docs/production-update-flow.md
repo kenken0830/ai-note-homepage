@@ -13,10 +13,12 @@ Direct local pushes to `main` and direct local Vercel deployments are not part o
 
 ## Content intake
 
-- Scheduled use-case generation: `.github/workflows/auto-publish-use-case.yml` creates a review branch and pull request.
+- Use-case candidate generation has no schedule trigger. `.github/workflows/auto-publish-use-case.yml` can only be started manually and creates a review branch and pull request for human review.
 - Published note intake: `.github/workflows/intake-homepage-handoff.yml` creates a pull request.
 - Manga, video, template, kit, and product intake: `.github/workflows/intake-content-handoff.yml` creates a pull request.
 - Zenn and Medium do not have feed polling. Their published result must arrive through a validated handoff before it is shown as published.
+
+Scheduled publication stays disabled until the canonical guardrail is implemented and reviewed. No intake workflow publishes directly to `main`.
 
 ## Fail-closed rules
 
