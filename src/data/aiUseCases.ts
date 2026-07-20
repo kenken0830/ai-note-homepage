@@ -643,7 +643,7 @@ export const aiUseCases: AiUseCase[] = [
   },
   {
     id: "explain-to-beginner",
-    slug: "explain-for-beginners",
+    slug: "ai-beginner-friendly-explanation",
     title: "AIで初心者向けに言い換える方法",
     description:
       "専門用語や前提知識を含む説明を、はじめて読む人向けに、必要な前提だけを補いながら短く分かりやすい言い換えにします。",

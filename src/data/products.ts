@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { isPlaceholderUrl } from "@/lib/utm";
 import type { Product } from "@/types/content";
 
 export const products: Product[] = [
@@ -10,7 +11,7 @@ export const products: Product[] = [
       "AIノート基本テンプレート、プロンプト10個、1週間導入ガイドをまとめた入口商品です。",
     audience: "AIノートをこれから始める個人、note読者",
     priceLabel: "無料",
-    platform: "サイト内配布 / BOOTH予定",
+    platform: "サイト内配布",
     purchaseUrl: "/free",
     status: "available",
     relatedArticleIds: ["ai-note-order", "prompt-first-ten"],
@@ -88,13 +89,50 @@ export const products: Product[] = [
   },
 ];
 
-export const featuredProducts = products.filter((product) =>
-  [
-    "free-starter-kit",
-    "weekly-paid-note",
-    "booth-template-pack",
-    "prompt-card-pack",
-    "zenn-builder-kit",
-    "automation-design-pack",
-  ].includes(product.id),
+const externalProfileOnlyPatterns = [
+  /^https?:\/\/note\.com\/[^/]+\/?$/i,
+  /^https?:\/\/zenn\.dev\/[^/]+\/?$/i,
+  /^https?:\/\/[^/]+\.booth\.pm\/?$/i,
+];
+
+export function isSafePublicProductTarget(url: string) {
+  const target = url.trim();
+  if (
+    isPlaceholderUrl(target) ||
+    /^[a-z]:[\\/]/i.test(target) ||
+    target.startsWith("file:") ||
+    target.startsWith("//")
+  ) {
+    return false;
+  }
+
+  if (target.startsWith("/")) {
+    return !target.startsWith("//");
+  }
+
+  try {
+    const parsed = new URL(target);
+    return (
+      ["http:", "https:"].includes(parsed.protocol) &&
+      !parsed.username &&
+      !parsed.password &&
+      !externalProfileOnlyPatterns.some((pattern) => pattern.test(target))
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function isPublicProduct(product: Product) {
+  return product.status === "available" && isSafePublicProductTarget(product.purchaseUrl);
+}
+
+export const publicProducts = products.filter(isPublicProduct);
+
+export function getPublicProductById(productId: string) {
+  return publicProducts.find((product) => product.id === productId);
+}
+
+export const featuredProducts = publicProducts.filter(
+  (product) => product.id === "free-starter-kit",
 );

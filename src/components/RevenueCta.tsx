@@ -1,8 +1,7 @@
 import { CtaButton } from "@/components/CtaButton";
 import { ExternalLink } from "@/components/ExternalLink";
-import { products } from "@/data/products";
+import { getPublicProductById } from "@/data/products";
 import { getRevenueRoute } from "@/data/revenueRoutes";
-import { isPlaceholderUrl } from "@/lib/utm";
 
 type RevenueCtaProps = {
   slug: string;
@@ -20,29 +19,29 @@ export function RevenueCta({ slug }: RevenueCtaProps) {
   const route = getRevenueRoute(slug);
   if (!route) return null;
 
-  const product = products.find((item) => item.id === route.productId);
+  const product =
+    getPublicProductById(route.productId) ?? getPublicProductById("free-starter-kit");
   if (!product) return null;
 
-  const ready = product.status === "available" && !isPlaceholderUrl(product.purchaseUrl);
   const internal = product.purchaseUrl.startsWith("/");
-  const label = ready ? product.ctaLabel : "商品準備状況を見る";
+  const label = product.ctaLabel;
 
   return (
     <section className="border-y border-stone-200 bg-stone-950 px-5 py-12 text-white sm:px-8">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-300">
-            {funnelLabels[route.funnel] ?? "次のステップ"}
+            {route.productId === product.id
+              ? funnelLabels[route.funnel] ?? "次のステップ"
+              : "無料で試す"}
           </p>
           <h2 className="mt-3 text-3xl font-semibold leading-tight">{product.name}</h2>
           <p className="mt-4 max-w-3xl leading-8 text-stone-300">{product.description}</p>
           <p className="mt-3 text-sm font-semibold text-stone-400">
-            {ready
-              ? `${product.platform} / ${product.priceLabel}`
-              : "販売・配布ページは準備中です。公開済みのようには表示しません。"}
+            {`${product.platform} / ${product.priceLabel}`}
           </p>
         </div>
-        {ready && !internal ? (
+        {!internal ? (
           <ExternalLink
             href={product.purchaseUrl}
             source={slug}
@@ -54,7 +53,7 @@ export function RevenueCta({ slug }: RevenueCtaProps) {
           </ExternalLink>
         ) : (
           <CtaButton
-            href={ready ? product.purchaseUrl : "/products"}
+            href={product.purchaseUrl}
             variant="light"
             trackingId={`use_case_revenue_${slug}_${product.id}`}
           >

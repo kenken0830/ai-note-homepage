@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
-import { contentAssets } from "@/data/contentAssets";
+import { publishedContentAssets } from "@/data/contentAssets";
 import { publishedExperiments } from "@/data/experiments";
 
 /**
@@ -32,10 +32,10 @@ const ROUTE_CONFIG: Record<
 
 const ROUTES = Object.keys(ROUTE_CONFIG);
 
-function parseDateOrNow(dateStr: string | undefined): Date {
-  if (!dateStr) return new Date();
+function parseDate(dateStr: string | undefined): Date | undefined {
+  if (!dateStr) return undefined;
   const d = new Date(dateStr);
-  return isNaN(d.getTime()) ? new Date() : d;
+  return isNaN(d.getTime()) ? undefined : d;
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -43,14 +43,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     /\/$/,
     "",
   );
-  const now = new Date();
-
   // 静的ルート: 配列順序を保ったまま
   const staticRoutes: MetadataRoute.Sitemap = ROUTES.map((route) => {
     const cfg = ROUTE_CONFIG[route];
     return {
       url: `${baseUrl}${route}`,
-      lastModified: now,
       changeFrequency: cfg.changeFrequency,
       priority: cfg.priority,
     };
@@ -59,20 +56,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ユースケース詳細: 各ユースケースに紐づく ContentAsset の最新公開日を lastModified に
   const useCaseRoutes: MetadataRoute.Sitemap = publishedAiUseCases.map(
     (useCase) => {
-      const relatedAssets = contentAssets.filter(
+      const relatedAssets = publishedContentAssets.filter(
         (asset) =>
           asset.topicSlug === useCase.slug &&
           asset.status === "published" &&
           asset.publishedAt,
       );
-      const latestRelated = relatedAssets.reduce<Date | null>((acc, asset) => {
-        const d = parseDateOrNow(asset.publishedAt);
-        if (!acc || d > acc) return d;
+      const latestRelated = relatedAssets.reduce<Date | undefined>((acc, asset) => {
+        const d = parseDate(asset.publishedAt);
+        if (d && (!acc || d > acc)) return d;
         return acc;
-      }, null);
+      }, undefined);
       return {
         url: `${baseUrl}/ai-use-cases/${useCase.slug}`,
-        lastModified: latestRelated ?? now,
+        ...(latestRelated ? { lastModified: latestRelated } : {}),
         changeFrequency: "monthly",
         priority: 0.7,
       };
@@ -80,17 +77,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   // ContentAsset の内部リンク先(/ で始まるもの)を sitemap に追加
-  const internalAssetRoutes: MetadataRoute.Sitemap = contentAssets
+  const internalAssetRoutes: MetadataRoute.Sitemap = publishedContentAssets
     .filter(
       (asset) =>
-        asset.status === "published" &&
         typeof asset.url === "string" &&
         asset.url.startsWith("/") &&
         !asset.url.startsWith("/ai-use-cases/"),
     )
     .map((asset) => ({
       url: `${baseUrl}${asset.url}`,
-      lastModified: parseDateOrNow(asset.publishedAt),
+      ...(parseDate(asset.publishedAt)
+        ? { lastModified: parseDate(asset.publishedAt) }
+        : {}),
       changeFrequency: "monthly" as const,
       priority: 0.5,
     }));
@@ -99,7 +97,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const experimentRoutes: MetadataRoute.Sitemap = publishedExperiments.map(
     (exp) => ({
       url: `${baseUrl}/experiments/${exp.slug}`,
-      lastModified: parseDateOrNow(exp.publishedAt ?? exp.conductedAt),
+      ...(parseDate(exp.publishedAt ?? exp.conductedAt)
+        ? { lastModified: parseDate(exp.publishedAt ?? exp.conductedAt) }
+        : {}),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     }),

@@ -4,7 +4,10 @@ import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { aiUseCaseCategories, aiUseCases } from "@/data/aiUseCaseRegistry";
+import {
+  aiUseCaseCategories,
+  publishedAiUseCases,
+} from "@/data/aiUseCaseRegistry";
 
 export const metadata: Metadata = {
   title: "AIでできること",
@@ -37,7 +40,9 @@ export default function AiUseCasesPage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {aiUseCaseCategories.map((category) => {
-              const count = aiUseCases.filter((item) => item.category === category).length;
+              const count = publishedAiUseCases.filter(
+                (item) => item.category === category,
+              ).length;
 
               return (
                 <a
@@ -61,7 +66,7 @@ export default function AiUseCasesPage() {
           <SectionHeading
             eyebrow="Dictionary"
             title="ユースケース一覧。"
-            description="公開中のものは詳細ページで手順まで読めます。準備中のものは、今後noteの反応を見ながら完成版へ昇格します。"
+            description="公開中の手順だけを掲載しています。"
           />
           <CtaButton href="/updates" variant="secondary">
             更新情報を見る
@@ -69,7 +74,9 @@ export default function AiUseCasesPage() {
         </div>
         <div className="mt-12 grid gap-12">
           {aiUseCaseCategories.map((category) => {
-            const categoryItems = aiUseCases.filter((item) => item.category === category);
+            const categoryItems = publishedAiUseCases.filter(
+              (item) => item.category === category,
+            );
 
             return (
               <section key={category} id={category} className="scroll-mt-28">

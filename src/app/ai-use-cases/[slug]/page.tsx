@@ -16,7 +16,7 @@ import { Section } from "@/components/Section";
 import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 import {
   countPublishedNotesForTopicSlug,
-  getContentAssetsByTopicSlug,
+  getPublishedContentAssetsByTopicSlug,
 } from "@/data/contentAssets";
 import type { ContentAsset, ContentAssetType } from "@/types/content";
 
@@ -117,7 +117,7 @@ export default async function AiUseCaseDetailPage({
     notFound();
   }
 
-  const relatedAssets = [...getContentAssetsByTopicSlug(slug)].sort(
+  const relatedAssets = [...getPublishedContentAssetsByTopicSlug(slug)].sort(
     compareContentAsset,
   );
   const publishedNoteCount = countPublishedNotesForTopicSlug(slug);

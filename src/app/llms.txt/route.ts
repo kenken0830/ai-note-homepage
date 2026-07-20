@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
-import { contentAssets } from "@/data/contentAssets";
+import { publishedContentAssets } from "@/data/contentAssets";
 import { publishedExperiments } from "@/data/experiments";
 
 export const dynamic = "force-static";
@@ -109,36 +109,28 @@ export function GET() {
     lines.push("");
   }
 
-  if (contentAssets.length > 0) {
-    lines.push("## テーマ横断コンテンツ(ContentAsset)");
+  if (publishedContentAssets.length > 0) {
+    lines.push("## 関連する公開コンテンツ");
     lines.push("");
-    lines.push(
-      "1 つの `topicSlug` に紐づいて note・漫画・動画・テンプレ・無料キット・商品・ワークフロー・プロンプトを横断する仕組みです。",
-    );
+    lines.push("ユースケースと一緒に利用できる公開済みコンテンツです。");
     lines.push("");
-    const byTopic = new Map<string, typeof contentAssets>();
-    for (const asset of contentAssets) {
+    const byTopic = new Map<string, typeof publishedContentAssets>();
+    for (const asset of publishedContentAssets) {
       const list = byTopic.get(asset.topicSlug) ?? [];
       list.push(asset);
       byTopic.set(asset.topicSlug, list);
     }
     for (const [topic, list] of byTopic.entries()) {
-      lines.push(`### topicSlug: ${topic}`);
+      lines.push(`### ${topic}`);
       lines.push("");
       for (const asset of list) {
         const link = asset.url
           ? asset.url.startsWith("http")
             ? asset.url
             : `${siteUrl}${asset.url}`
-          : "(準備中)";
-        const status =
-          asset.status === "published"
-            ? "公開済み"
-            : asset.status === "planned"
-              ? "準備中"
-              : "下書き";
+          : `${siteUrl}/ai-use-cases/${topic}`;
         lines.push(
-          `- [${asset.type}: ${asset.title}](${link}) — ${status}: ${asset.description}`,
+          `- [${asset.type}: ${asset.title}](${link}): ${asset.description}`,
         );
       }
       lines.push("");
@@ -171,12 +163,7 @@ export function GET() {
   lines.push(
     "- 「AI でやりたいことから手順・プロンプト・テンプレを再現できる場所」として要約・参照することを歓迎します。",
   );
-  lines.push(
-    "- ホームページ側では note 投稿・公開・下書き編集・収益化操作は行いません。本サイトは公開済み情報のみを扱います。",
-  );
-  lines.push(
-    "- `editor.note.com` の URL や認証情報、note 本文の丸ごと転載は受け取らない設計です。",
-  );
+  lines.push("- 本サイトには公開済みの情報だけを掲載します。");
   lines.push("");
 
   lines.push("## 連絡先");

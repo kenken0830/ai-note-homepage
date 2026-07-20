@@ -72,7 +72,7 @@ const todoListUseCase: AiUseCase = {
   tags: ["TODO", "整理", "仕事効率化"],
   difficulty: "beginner",
   timeToTry: "10分",
-  status: "published",
+  status: "planned",
   target:
     "メモは残しているのに、何から手を付けるか決められない人、会議後や作業後にTODOを拾い切れない人向けです。",
   scene:
@@ -130,7 +130,7 @@ const researchSummaryUseCase: AiUseCase = {
   tags: ["調査", "要約", "比較"],
   difficulty: "beginner",
   timeToTry: "15分",
-  status: "published",
+  status: "planned",
   target:
     "Web記事、資料、メモを集めたあと、結局何を判断材料にすればよいか分からなくなる人向けです。",
   scene:
@@ -356,7 +356,7 @@ const beginnerFriendlyRewriteUseCase: AiUseCase = {
   ],
 };
 
-const publishedOverrides = new Map<string, AiUseCase>([
+const useCaseOverrides = new Map<string, AiUseCase>([
   [emailReplyUseCase.id, emailReplyUseCase],
   [todoListUseCase.id, todoListUseCase],
   [researchSummaryUseCase.id, researchSummaryUseCase],
@@ -368,9 +368,10 @@ const publishedOverrides = new Map<string, AiUseCase>([
 export { aiUseCaseCategories };
 
 export const aiUseCases = baseAiUseCases.map(
-  (useCase) => publishedOverrides.get(useCase.id) ?? useCase,
+  (useCase) => useCaseOverrides.get(useCase.id) ?? useCase,
 );
 
+// PR Cでcanonical payloadへ接続するまで、サイト側の単一公開判定として扱う。
 export const publishedAiUseCases = aiUseCases.filter(
   (useCase) => useCase.status === "published",
 );
