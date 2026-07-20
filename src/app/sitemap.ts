@@ -25,8 +25,6 @@ const ROUTE_CONFIG: Record<
   "/updates": { priority: 0.6, changeFrequency: "weekly" },
   "/products": { priority: 0.5, changeFrequency: "monthly" },
   "/newsletter": { priority: 0.5, changeFrequency: "monthly" },
-  "/community": { priority: 0.5, changeFrequency: "monthly" },
-  "/consulting": { priority: 0.5, changeFrequency: "monthly" },
   "/media": { priority: 0.4, changeFrequency: "monthly" },
   "/en": { priority: 0.3, changeFrequency: "monthly" },
   "/legal": { priority: 0.2, changeFrequency: "yearly" },

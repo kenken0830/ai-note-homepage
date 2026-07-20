@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CtaButton } from "@/components/CtaButton";
 import { ExternalLink } from "@/components/ExternalLink";
 import { PageHero } from "@/components/PageHero";
@@ -27,7 +26,7 @@ const principles = [
   },
   {
     title: "外部サービスを稼働中に見せない",
-    body: "BOOTH・メルマガ・コミュニティ・有料商品が準備中のあいだは、本物の販売ページに見える表現を避けます。準備中は明示します。",
+    body: "BOOTH・メルマガ・有料商品が準備中のあいだは、本物の販売ページに見える表現を避けます。準備中は明示します。",
   },
   {
     title: "自動化は人間レビューを残す",
@@ -206,17 +205,10 @@ export default function AboutPage() {
       <Section>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl font-semibold text-stone-950">
-            問い合わせ・相談
+            セルフサービスで完結する商品設計
           </h2>
           <p className="mt-4 leading-7 text-stone-600">
-            個別の AI 活用相談・法人導入支援については
-            <Link
-              href="/consulting"
-              className="mx-1 font-bold text-teal-700 hover:text-teal-900"
-            >
-              /consulting
-            </Link>
-            のページを参照してください。サイトに関する技術的な指摘や提案は GitHub リポジトリの Issue / PR からも受け付けています。
+            現在は個別相談や法人導入支援を受け付けず、無料キット、有料note、BOOTHの買い切り商品に集中しています。購入前後に個別対応を必要としない形で、手順とテンプレートを整備します。
           </p>
         </div>
       </Section>

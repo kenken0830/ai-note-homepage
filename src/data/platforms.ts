@@ -10,7 +10,7 @@ export const platforms: Platform[] = [
     description:
       "AIニュース、ChatGPT活用、仕事効率化を、日々の行動に落とし込める記事として届けます。",
     cadence: "週2-4本",
-    contentTypes: ["解説記事", "活用ログ", "有料記事", "メンバーシップ"],
+    contentTypes: ["解説記事", "活用ログ", "買い切り有料記事"],
     primaryCta: "noteを読む",
     homepagePath: "/library?source=note",
   },
@@ -92,23 +92,11 @@ export const platforms: Platform[] = [
     role: "無料DL後の学習導線",
     url: siteConfig.links.newsletter,
     description:
-      "無料キットの使い方から、有料テンプレート、コミュニティ、相談まで段階的に案内します。",
+      "無料キットの使い方から、有料note、買い切りテンプレートまで段階的に案内します。",
     cadence: "ステップ配信",
     contentTypes: ["無料キット", "導入メール", "商品案内"],
     primaryCta: "メルマガ登録",
     homepagePath: "/newsletter",
-  },
-  {
-    id: "community",
-    name: "Community",
-    role: "継続実践の場所",
-    url: siteConfig.links.community,
-    description:
-      "noteメンバーシップ、Discord、LINE公式などを将来束ねる実践コミュニティです。",
-    cadence: "準備中",
-    contentTypes: ["質問", "事例共有", "月次テーマ"],
-    primaryCta: "準備状況を見る",
-    homepagePath: "/community",
   },
 ];
 

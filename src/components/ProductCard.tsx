@@ -11,7 +11,7 @@ type ProductCardProps = {
 const statusCopy = {
   available: {
     label: "公開中",
-    description: "ページまたは相談導線を確認できます。",
+    description: "配布ページまたは販売ページを確認できます。",
     tone: "dark" as const,
   },
   planned: {

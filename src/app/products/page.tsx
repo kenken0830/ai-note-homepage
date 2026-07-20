@@ -7,7 +7,7 @@ import { products } from "@/data/products";
 export const metadata: Metadata = {
   title: "商品一覧",
   description:
-    "無料キット、BOOTHテンプレート、note有料記事、Zenn本、メンバーシップ、個別相談を一覧できる商品ページです。",
+    "無料キット、BOOTHテンプレート、note有料記事、Zenn本を一覧できる商品ページです。",
 };
 
 const categories = [
@@ -15,8 +15,6 @@ const categories = [
   "BOOTHテンプレート",
   "note有料記事",
   "Zenn本・技術キット",
-  "メンバーシップ",
-  "個別相談",
 ];
 
 export default function ProductsPage() {
@@ -25,14 +23,14 @@ export default function ProductsPage() {
       <PageHero
         eyebrow="Products"
         title="販売前の状態まで分かる、AIノートの商品棚。"
-        description="無料キット、テンプレート、有料記事、技術キット、相談導線を、公開中・近日公開・準備中に分けて整理します。"
+        description="無料キット、テンプレート、有料記事、技術キットを、公開中・近日公開・準備中に分けて整理します。"
         primaryCta={{ label: "無料キットから始める", href: "/free" }}
-        secondaryCta={{ label: "相談を見る", href: "/consulting" }}
+        secondaryCta={{ label: "記事から選ぶ", href: "/ai-use-cases" }}
       />
       <Section tone="soft">
         <div className="grid gap-4 md:grid-cols-3">
           {[
-            ["公開中", "ページまたは相談導線を確認できます。"],
+            ["公開中", "配布ページまたは販売ページを確認できます。"],
             ["近日公開", "配布・販売ページを準備中です。購入できるようには見せません。"],
             ["準備中", "内容設計中です。価格や販売場所は目安として掲載します。"],
           ].map(([label, text]) => (

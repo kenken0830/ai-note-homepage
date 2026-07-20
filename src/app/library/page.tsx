@@ -68,7 +68,7 @@ export default function LibraryPage() {
       />
       <Section>
         <div className="mb-8 flex flex-wrap gap-2">
-          {["discover", "learn", "download", "nurture", "buy", "join", "consult"].map(
+          {["discover", "learn", "download", "nurture", "buy"].map(
             (stage) => (
               <Badge key={stage} tone="stone">
                 {stage}

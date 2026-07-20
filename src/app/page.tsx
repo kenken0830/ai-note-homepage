@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ArticleCard } from "@/components/ArticleCard";
-import { ConsultingCta } from "@/components/ConsultingCta";
 import { CtaButton } from "@/components/CtaButton";
 import { FunnelMap } from "@/components/FunnelMap";
 import { NewsletterCta } from "@/components/NewsletterCta";
@@ -27,7 +26,6 @@ const liveActions = [
   ["プロンプト10個を見る", "要約、言い換え、チェックリスト化、note見出し案に使えます。", "/free-starter-kit/prompt-10-pack.md", "プロンプトを見る"],
   ["7日間導入ガイドを見る", "Day 1からDay 7まで、AIノートを小さく試す順番です。", "/free-starter-kit/seven-day-guide.md", "導入ガイドを見る"],
   ["商品一覧を見る", "公開中、近日公開、準備中の状態を分けて確認できます。", "/products", "商品一覧へ"],
-  ["相談ページを見る", "個人向け、事業者向けの導線設計相談の内容を確認できます。", "/consulting", "相談ページへ"],
 ];
 
 const launchStatuses = [
@@ -219,7 +217,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Platform Hub"
             title="媒体ごとの役割を分け、本店に戻す。"
-            description="各媒体は別々に伸ばしつつ、最終的には無料DL、商品、メルマガ、コミュニティ、相談へつなぐ設計にします。"
+            description="各媒体は別々に伸ばしつつ、最終的には無料DL、有料note、BOOTH商品へつなぐ設計にします。"
           />
           <CtaButton href="/media" variant="secondary">
             媒体設計を見る
@@ -236,8 +234,8 @@ export default function Home() {
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeading
             eyebrow="Funnel Map"
-            title="発見から相談まで、次の一手が見える導線。"
-            description="読者の流れは、媒体で出会い、本店で理解し、無料キット、メルマガ、商品、コミュニティ、相談へ進む形に整理します。"
+            title="発見から購入まで、次の一手が見える導線。"
+            description="読者の流れは、媒体で出会い、本店で理解し、無料キット、有料note、買い切り商品へ進む形に整理します。"
           />
           <FunnelMap />
         </div>
@@ -247,8 +245,8 @@ export default function Home() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Featured Products"
-            title="無料から相談まで、段階別の商品棚。"
-            description="無料キット、テンプレート、プロンプト集、技術者向けキット、相談メニューを同じ商品データで管理します。"
+            title="無料から買い切り商品まで、段階別の商品棚。"
+            description="無料キット、有料note、テンプレート、プロンプト集、技術者向けキットを同じ商品データで管理します。"
           />
           <CtaButton href="/products" variant="secondary">
             商品一覧へ
@@ -311,10 +309,6 @@ export default function Home() {
 
       <Section tone="soft">
         <NewsletterCta />
-      </Section>
-
-      <Section>
-        <ConsultingCta />
       </Section>
 
       <Section tone="dark">
