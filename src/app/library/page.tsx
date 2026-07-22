@@ -6,7 +6,7 @@ import { ExternalLink } from "@/components/ExternalLink";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { articles } from "@/data/articles";
-import { contentAssets } from "@/data/contentAssets";
+import { publishedContentAssets } from "@/data/contentAssets";
 import { notePosts } from "@/data/notePosts";
 import type { ContentAsset, ContentAssetType } from "@/types/content";
 
@@ -68,7 +68,7 @@ export default function LibraryPage() {
       />
       <Section>
         <div className="mb-8 flex flex-wrap gap-2">
-          {["discover", "learn", "download", "nurture", "buy", "join", "consult"].map(
+          {["discover", "learn", "download", "nurture", "buy"].map(
             (stage) => (
               <Badge key={stage} tone="stone">
                 {stage}
@@ -193,13 +193,13 @@ export default function LibraryPage() {
             外部サービスへの投稿・公開はホームページ側からは行いません。
           </p>
         </div>
-        {contentAssets.length === 0 ? (
+        {publishedContentAssets.length === 0 ? (
           <div className="rounded-[8px] border border-dashed border-stone-300 bg-white p-6 text-sm leading-7 text-stone-600">
             ContentAsset を追加するとここに表示されます。
           </div>
         ) : (
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {[...contentAssets].sort(compareContentAsset).map((asset) => {
+            {[...publishedContentAssets].sort(compareContentAsset).map((asset) => {
               const isPublished = asset.status === "published";
               const showAsLink = isPublished && Boolean(asset.url);
               const external =

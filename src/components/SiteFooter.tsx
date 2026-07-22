@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <p className="text-xl font-bold">AI Compass Journal</p>
           <p className="mt-3 max-w-lg leading-7 text-stone-300">
-            note、Zenn、Medium、BOOTH、GitHub、X、YouTube、メルマガ、コミュニティ、相談を束ねるAIノートの本店です。
+            note、Zenn、Medium、BOOTH、GitHub、X、YouTubeを、無料キットと買い切り商品へつなぐAIノートの本店です。
           </p>
         </div>
         <nav className="grid grid-cols-2 gap-3 text-sm font-semibold text-stone-300 sm:grid-cols-3">

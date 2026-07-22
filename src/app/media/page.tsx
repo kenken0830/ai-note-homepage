@@ -19,13 +19,13 @@ export default function MediaPage() {
         title="各プラットフォームの役割を固定する。"
         description="投稿内容、更新頻度、ホームページへの戻し方を明確にし、媒体が増えても導線が散らからないようにします。"
         primaryCta={{ label: "記事ライブラリへ", href: "/library" }}
-        secondaryCta={{ label: "導線相談を見る", href: "/consulting" }}
+        secondaryCta={{ label: "商品導線を見る", href: "/products" }}
       />
       <Section>
         <SectionHeading
           eyebrow="Platform Roles"
           title="目的、投稿内容、更新頻度、戻し方。"
-          description="すべての媒体は、最終的に本店、無料DL、商品、メルマガ、相談へ戻す前提で運用します。"
+          description="すべての媒体は、最終的に本店、無料DL、有料note、買い切り商品へ戻す前提で運用します。"
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {platforms.map((platform) => (

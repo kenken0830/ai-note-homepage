@@ -1,4 +1,5 @@
 import type { UpdateItem } from "@/types/content";
+import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 
 export const updates: UpdateItem[] = [
   {
@@ -259,4 +260,22 @@ export const updates: UpdateItem[] = [
   },
 ];
 
-export const latestUpdates = updates.slice(0, 3);
+const publishedUseCaseHrefs = new Set(
+  publishedAiUseCases.map((useCase) => `/ai-use-cases/${useCase.slug}`),
+);
+
+const internalUpdatePattern =
+  /Codex|Skills|PR\s*#?\d+|automationRate|Phase\s*\d|自動改善PR|実装しました/i;
+
+export const publicUpdates = updates.filter((item) => {
+  if (
+    item.href.startsWith("/ai-use-cases/") &&
+    !publishedUseCaseHrefs.has(item.href)
+  ) {
+    return false;
+  }
+
+  return !internalUpdatePattern.test(`${item.title}\n${item.description}`);
+});
+
+export const latestUpdates = publicUpdates.slice(0, 3);

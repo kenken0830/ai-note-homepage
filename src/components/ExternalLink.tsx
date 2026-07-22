@@ -1,3 +1,6 @@
+"use client";
+
+import { track } from "@vercel/analytics";
 import { isPlaceholderUrl, withUtm } from "@/lib/utm";
 
 type ExternalLinkProps = {
@@ -18,6 +21,14 @@ export function ExternalLink({
   className = "",
 }: ExternalLinkProps) {
   const normalizedHref = href?.trim() ?? "";
+  const label = typeof children === "string" ? children : "external_link";
+  const recordClick = () =>
+    track("outbound_click", {
+      destination: normalizedHref,
+      label,
+      medium,
+      source,
+    });
 
   if (isPlaceholderUrl(normalizedHref)) {
     return (
@@ -34,7 +45,7 @@ export function ExternalLink({
 
   if (normalizedHref.startsWith("mailto:")) {
     return (
-      <a href={normalizedHref} className={className}>
+      <a href={normalizedHref} className={className} onClick={recordClick}>
         {children}
       </a>
     );
@@ -46,6 +57,7 @@ export function ExternalLink({
       target="_blank"
       rel="noopener noreferrer"
       className={className}
+      onClick={recordClick}
     >
       {children}
     </a>

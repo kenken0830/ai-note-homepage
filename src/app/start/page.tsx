@@ -9,7 +9,7 @@ import { products } from "@/data/products";
 export const metadata: Metadata = {
   title: "はじめてのAIノート導入",
   description:
-    "やりたいことからAI活用を探し、無料スターターキット、AIでできること、ガイド、商品、相談へ進む初心者向けページです。",
+    "やりたいことからAI活用を探し、無料スターターキット、AIでできること、ガイド、買い切り商品へ進む初心者向けページです。",
 };
 
 const readingOrder = [
@@ -17,7 +17,7 @@ const readingOrder = [
   "AIでできること一覧から近い手順を探す",
   "無料スターターキットで1週間だけ試す",
   "完全ガイド、プロンプト、ワークフローから必要なテーマを読む",
-  "更新情報と相談ページで継続改善する",
+  "更新情報と商品ページで継続改善する",
 ];
 
 const roleSplit = [
@@ -28,7 +28,7 @@ const roleSplit = [
 
 export default function StartPage() {
   const starterProducts = products.filter((product) =>
-    ["free-starter-kit", "booth-template-pack", "consulting-session"].includes(product.id),
+    ["free-starter-kit", "weekly-paid-note", "booth-template-pack"].includes(product.id),
   );
 
   return (
@@ -82,7 +82,7 @@ export default function StartPage() {
           <SectionHeading
             eyebrow="Starter Shelf"
             title="入口に置く3つの導線。"
-            description="無料キットで試し、必要なら商品や相談へ進めるようにしています。"
+            description="無料キットで試し、必要なテーマだけ有料noteや買い切り商品へ進めるようにしています。"
           />
           <CtaButton href="/newsletter" variant="secondary">
             メルマガを見る
