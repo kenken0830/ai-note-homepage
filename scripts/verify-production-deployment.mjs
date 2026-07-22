@@ -11,7 +11,7 @@ const intervalMs = Number(args.get("--interval-ms") || 15000);
 const baseOrigin = new URL(baseUrl).origin;
 
 const expectedPublishedUseCaseSlugs = new Set([
-  "ai-beginner-friendly-explanation",
+  "rewrite-friendly-text",
   "ai-tool-principle-map",
   "build-ai-agent-skill-file",
   "choose-minimal-ai-stack",
@@ -229,7 +229,7 @@ function verifyNoInternalExposure(path, html, forbiddenValues) {
 
 async function verifyRedirect() {
   const legacyPath = "/ai-use-cases/explain-for-beginners";
-  const destinationPath = "/ai-use-cases/ai-beginner-friendly-explanation";
+  const destinationPath = "/ai-use-cases/rewrite-friendly-text";
   const redirect = await requireStatus(legacyPath, 308, {
     redirect: "manual",
     checkId: "LEGACY_REDIRECT_STATUS",
@@ -286,7 +286,7 @@ async function verifyOnce() {
   const publishedUseCaseSlugs = extractUseCaseSlugs(useCaseIndex.text);
   verifyPublishedSlugSet("/ai-use-cases", publishedUseCaseSlugs, "USE_CASE_INDEX");
 
-  await requireStatus("/ai-use-cases/ai-beginner-friendly-explanation", 200, {
+  await requireStatus("/ai-use-cases/rewrite-friendly-text", 200, {
     checkId: "BEGINNER_USE_CASE_HTTP",
   });
   await verifyRedirect();

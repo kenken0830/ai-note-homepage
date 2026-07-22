@@ -6,7 +6,7 @@ export type RevenueRoute = {
 };
 
 export const revenueRoutes = {
-  "ai-beginner-friendly-explanation": {"funnel": "free_kit", "productId": "free-starter-kit", "rationale": "初心者向け言い換え=入口記事"},
+  "rewrite-friendly-text": {"funnel": "free_kit", "productId": "free-starter-kit", "rationale": "初心者向け言い換え=入口記事"},
   "ai-tool-principle-map": {"funnel": "free_kit", "productId": "free-starter-kit", "rationale": "陳腐化不安(demand_log由来)への一般向け回答。入口→原理理解の深掘りはZennへ"},
   "brainstorm-ideas": {"funnel": "paid_note", "productId": "weekly-paid-note", "rationale": "企画は有料note週次深掘りの対象テーマ"},
   "build-ai-agent-skill-file": {"funnel": "zenn", "productId": "zenn-builder-kit", "rationale": "技術者向け信頼形成。実装手順をZenn本・技術キットへ接続"},

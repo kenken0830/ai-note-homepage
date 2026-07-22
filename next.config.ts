@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/ai-use-cases/explain-for-beginners",
-        destination: "/ai-use-cases/ai-beginner-friendly-explanation",
+        destination: "/ai-use-cases/rewrite-friendly-text",
         permanent: true,
       },
     ];
