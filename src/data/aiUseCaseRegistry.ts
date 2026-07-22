@@ -297,7 +297,7 @@ const comparisonTableUseCase: AiUseCase = {
 
 const beginnerFriendlyRewriteUseCase: AiUseCase = {
   id: "explain-to-beginner",
-  slug: "ai-beginner-friendly-explanation",
+  slug: "rewrite-friendly-text",
   title: "AIで文章をやさしく言い換える方法",
   description:
     "硬い説明文を、想定読者に合わせて意味を保ったまま読みやすい文章に整えます。",
