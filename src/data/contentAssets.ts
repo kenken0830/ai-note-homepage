@@ -118,10 +118,8 @@ export const contentAssets: ContentAsset[] = [
     title: "AIで散らかったメモをTODOリストにする再現手順",
     description:
       "思いつき・会話メモ・作業メモを今日やること・確認・保留・削除に分ける手順。",
-    url: "/ai-use-cases/make-todo-list",
-    status: "published",
+    status: "planned",
     source: "site",
-    publishedAt: "2026-04-28",
     tags: ["TODO", "整理", "ワークフロー"],
     relatedUseCaseSlug: "make-todo-list",
     priority: "high",
@@ -148,10 +146,8 @@ export const contentAssets: ContentAsset[] = [
     title: "AIで調査メモを判断材料に要約する再現手順",
     description:
       "集めた情報を、要点・根拠・不明点・追加確認・判断可否に分けて使えるメモにする手順。",
-    url: "/ai-use-cases/summarize-research-notes",
-    status: "published",
+    status: "planned",
     source: "site",
-    publishedAt: "2026-04-29",
     tags: ["調査", "要約", "ワークフロー"],
     relatedUseCaseSlug: "summarize-research-notes",
     priority: "high",
@@ -175,6 +171,16 @@ export function getContentAssetsByTopicSlug(
   topicSlug: string,
 ): ContentAsset[] {
   return contentAssets.filter((asset) => asset.topicSlug === topicSlug);
+}
+
+export const publishedContentAssets = contentAssets.filter(
+  (asset) => asset.status === "published",
+);
+
+export function getPublishedContentAssetsByTopicSlug(
+  topicSlug: string,
+): ContentAsset[] {
+  return publishedContentAssets.filter((asset) => asset.topicSlug === topicSlug);
 }
 
 /**

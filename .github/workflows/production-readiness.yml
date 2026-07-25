@@ -1,0 +1,59 @@
+name: Production readiness
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: "Production commit SHA to verify; defaults to the selected ref SHA"
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run validate-content-assets
+      - run: npm run validate-revenue-routes
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+
+  verify-production:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Wait for the matching Vercel production deployment
+        env:
+          INPUT_SHA: ${{ inputs.expected_sha }}
+        run: |
+          expected_sha="${INPUT_SHA:-${GITHUB_SHA}}"
+          node scripts/verify-production-deployment.mjs \
+            --base-url=https://ai-compass-journal.com \
+            --expected-sha="$expected_sha" \
+            --attempts=40 \
+            --interval-ms=15000

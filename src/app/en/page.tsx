@@ -31,7 +31,7 @@ export default function EnglishPage() {
             {[
               ["Medium", "Long-form essays for global readers."],
               ["Gumroad", "Future templates and workflow kits."],
-              ["Newsletter", "A guided sequence from free kit to consulting."],
+              ["Newsletter", "A guided sequence from free kit to self-serve products."],
             ].map(([title, text]) => (
               <article key={title} className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
                 <h2 className="text-2xl font-semibold text-stone-950">{title}</h2>
@@ -42,8 +42,8 @@ export default function EnglishPage() {
         </div>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <CtaButton href="/free">Start with the free kit</CtaButton>
-          <CtaButton href="/consulting" variant="secondary">
-            Consulting
+          <CtaButton href="/products" variant="secondary">
+            Browse products
           </CtaButton>
         </div>
       </Section>

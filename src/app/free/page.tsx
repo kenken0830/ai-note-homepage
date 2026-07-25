@@ -30,7 +30,7 @@ const kitItems = [
   },
   {
     title: "次に読むnote導線",
-    description: "キットを使ったあとに読むnote記事、メルマガ、商品ページへ迷わず戻れる構成にします。",
+    description: "キットを使ったあとに読む記事へ迷わず戻れる構成にします。",
     href: "/free-starter-kit/read-next.md",
   },
   {
@@ -48,12 +48,6 @@ const readingOrder = [
   ["利用条件を確認する", "利用条件", "/free-starter-kit/license.md"],
 ];
 
-const distributionOptions = [
-  "サイト内配布版としてMarkdownファイルを公開済みです。",
-  "BOOTH無料配布ページは準備中です。",
-  "メルマガ登録特典として配布する導線は未接続です。",
-];
-
 export default function FreePage() {
   const related = articles.filter((article) =>
     ["ai-note-order", "prompt-first-ten", "meeting-workflow"].includes(article.id),
@@ -64,9 +58,9 @@ export default function FreePage() {
       <PageHero
         eyebrow="Free Starter Kit"
         title="AIノートを1週間だけ試す、無料スターターキット。"
-        description="基本テンプレート、プロンプト10個、1週間導入ガイドをMarkdownファイルとして公開しています。BOOTHやメルマガ配布は、外部サービス接続後に差し替えます。"
+        description="基本テンプレート、プロンプト10個、1週間導入ガイドをMarkdownファイルとして公開しています。"
         primaryCta={{ label: "基本テンプレートを開く", href: "/free-starter-kit/ai-note-basic-template.md" }}
-        secondaryCta={{ label: "メルマガ準備状況を見る", href: "/newsletter" }}
+        secondaryCta={{ label: "AI活用手順を見る", href: "/ai-use-cases" }}
       />
       <Section>
         <div className="mb-12 rounded-[8px] border border-teal-200 bg-teal-50 p-6 sm:p-8">
@@ -77,7 +71,7 @@ export default function FreePage() {
             まず基本テンプレートを開いて、1つだけAIノートを作る。
           </h2>
           <p className="mt-4 max-w-3xl leading-8 text-stone-700">
-            BOOTHやメルマガが未接続でも、このページだけで無料キットを使えます。最初はテンプレートを開き、プロンプトを1つ試し、7日間ガイドに沿って続けてください。
+            このページだけで無料キットを使えます。最初はテンプレートを開き、プロンプトを1つ試し、7日間ガイドに沿って続けてください。
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <CtaButton href="/free-starter-kit/ai-note-basic-template.md">
@@ -86,8 +80,8 @@ export default function FreePage() {
             <CtaButton href="/start" variant="secondary">
               はじめての方へ戻る
             </CtaButton>
-            <CtaButton href="/products" variant="secondary">
-              商品予定を見る
+            <CtaButton href="/ai-use-cases" variant="secondary">
+              公開中の手順を見る
             </CtaButton>
           </div>
         </div>
@@ -95,7 +89,7 @@ export default function FreePage() {
           <SectionHeading
             eyebrow="Inside"
             title="無料キットに入れるもの。"
-            description="仕様は `docs/free-starter-kit-spec.md` に分離し、配布ファイルは `public/free-starter-kit` で管理します。"
+            description="基本テンプレート、プロンプト、7日間ガイド、次に読む記事、利用条件をまとめています。"
           />
           <div className="grid gap-4 md:grid-cols-2">
             {kitItems.map((item) => (
@@ -149,13 +143,9 @@ export default function FreePage() {
           <h2 className="mt-3 text-3xl font-semibold text-stone-950">
             サイト内配布版は公開済みです。
           </h2>
-          <div className="mt-6 grid gap-3">
-            {distributionOptions.map((option) => (
-              <p key={option} className="rounded-[8px] bg-stone-100 px-4 py-3 font-semibold text-stone-600">
-                {option}
-              </p>
-            ))}
-          </div>
+          <p className="mt-6 rounded-[8px] bg-stone-100 px-4 py-3 font-semibold text-stone-600">
+            Markdownファイルを、このページから直接開いて利用できます。
+          </p>
         </div>
       </Section>
       <Section tone="soft">

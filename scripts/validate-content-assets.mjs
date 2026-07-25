@@ -24,7 +24,7 @@
  *   1 = FAIL(必須ルール違反)
  */
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ALLOWED_TYPES = new Set([
@@ -61,6 +61,10 @@ const SECRET_KEY_HINTS = [
 
 const errors = [];
 const warnings = [];
+const NON_PUBLIC_TOPIC_SLUGS = new Set([
+  "make-todo-list",
+  "summarize-research-notes",
+]);
 
 function fail(msg) {
   errors.push(msg);
@@ -244,6 +248,10 @@ blocks.forEach((block, idx) => {
     );
   }
 
+  if (topicSlug && NON_PUBLIC_TOPIC_SLUGS.has(topicSlug) && status === "published") {
+    fail(`${ctx}: non-public topic "${topicSlug}" must not be published`);
+  }
+
   if (priority && !ALLOWED_PRIORITIES.has(priority)) {
     fail(
       `${ctx}: priority "${priority}" is not allowed (allowed: ${[...ALLOWED_PRIORITIES].join(", ")})`,
@@ -275,6 +283,35 @@ blocks.forEach((block, idx) => {
     );
   }
 });
+
+const requiredFreeKitFiles = [
+  "ai-note-basic-template.md",
+  "prompt-10-pack.md",
+  "seven-day-guide.md",
+  "read-next.md",
+  "license.md",
+];
+for (const file of requiredFreeKitFiles) {
+  const filePath = resolve(import.meta.dirname, "../public/free-starter-kit", file);
+  if (!existsSync(filePath)) fail(`missing free starter kit file: ${file}`);
+}
+
+const publicSources = [
+  "src/app/page.tsx",
+  "src/app/free/page.tsx",
+  "src/app/products/page.tsx",
+  "src/app/ai-use-cases/page.tsx",
+  "src/app/ai-use-cases/[slug]/page.tsx",
+  "src/app/llms.txt/route.ts",
+];
+const publicLiteralBlockPattern =
+  /D:\/|C:\/|file:\/\/|(?:^|[\s`"'])src\/|factory_os\/|source_binding|codex\//i;
+for (const relativePath of publicSources) {
+  const source = readFileSync(resolve(import.meta.dirname, "..", relativePath), "utf8");
+  if (publicLiteralBlockPattern.test(source)) {
+    fail(`${relativePath}: public source contains an internal path or branch marker`);
+  }
+}
 
 console.log(`Validated ${blocks.length} ContentAsset entries`);
 if (warnings.length > 0) {

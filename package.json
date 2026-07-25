@@ -10,11 +10,15 @@
     "typecheck": "tsc --noEmit",
     "validate-content-assets": "node scripts/validate-content-assets.mjs",
     "validate-content-handoff": "node scripts/validate-content-handoff.mjs",
+    "sync-revenue-routes": "py -3.11 D:/Cursor/DevOS-2-canonical/factory_os/hp_factory/pipeline/sync_revenue_routes_to_site.py",
+    "validate-revenue-routes": "node scripts/validate-revenue-routes.mjs",
+    "verify-production": "node scripts/verify-production-deployment.mjs",
     "score-use-case-payload": "node scripts/score-use-case-payload.mjs",
     "validate-experiment-config": "node scripts/validate-experiment-config.mjs"
   },
   "dependencies": {
-    "next": "16.2.4",
+    "@vercel/analytics": "^2.0.1",
+    "next": "16.2.10",
     "react": "19.2.5",
     "react-dom": "19.2.5"
   },
@@ -25,7 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.10",
     "tailwindcss": "4.2.4",
     "typescript": "^5"
   },
@@ -33,5 +37,8 @@
     "@next/swc-win32-x64-msvc": "^16.2.4",
     "@tailwindcss/oxide-win32-x64-msvc": "^4.2.4",
     "lightningcss-win32-x64-msvc": "^1.32.0"
+  },
+  "overrides": {
+    "postcss": "8.5.10"
   }
 }

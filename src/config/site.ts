@@ -13,9 +13,9 @@ export const siteConfig = {
   name: "AI Compass Journal",
   title: "AI Compass Journal | AIノートの本店・導線ハブ",
   description:
-    "note、Zenn、Medium、BOOTH、GitHub、X、YouTube、メルマガ、コミュニティ、相談を束ねるAIノートの導線ハブです。",
+    "note、Zenn、Medium、BOOTH、GitHub、X、YouTubeを束ね、無料キットと買い切り商品へつなぐAI活用の導線ハブです。",
   ogDescription:
-    "AIノートを学ぶ、使う、作る、売るための入口を、無料キット、商品、記事、相談へ整理しています。",
+    "AIノートを学ぶ、使う、作る、売るための入口を、無料キット、商品、記事へ整理しています。",
   siteUrl: normalizePublicEnv(process.env.NEXT_PUBLIC_SITE_URL, fallbackSiteUrl),
   fallbackSiteUrl,
   noteUrl: normalizePublicEnv(process.env.NEXT_PUBLIC_NOTE_URL, defaultNoteUrl),

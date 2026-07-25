@@ -146,13 +146,17 @@ export const experiments: Experiment[] = [
 ];
 
 export function getExperimentBySlug(slug: string): Experiment | undefined {
-  return experiments.find(
-    (e) => e.slug === slug && e.status === "published",
-  );
+  return publishedExperiments.find((experiment) => experiment.slug === slug);
 }
 
+const internalExperimentDetailPattern =
+  /(?:^|\W)PR\s*#?\d+|codex\/|src\/|factory_os\/|source_binding/i;
+
+// 内部実装の詳細を含む実験は、編集後に再公開判断するまで公開対象にしない。
 export const publishedExperiments = experiments.filter(
-  (e) => e.status === "published",
+  (experiment) =>
+    experiment.status === "published" &&
+    !internalExperimentDetailPattern.test(JSON.stringify(experiment)),
 );
 
 export function getExperimentsByTopicSlug(

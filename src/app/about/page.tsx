@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CtaButton } from "@/components/CtaButton";
 import { ExternalLink } from "@/components/ExternalLink";
 import { PageHero } from "@/components/PageHero";
@@ -27,15 +26,15 @@ const principles = [
   },
   {
     title: "外部サービスを稼働中に見せない",
-    body: "BOOTH・メルマガ・コミュニティ・有料商品が準備中のあいだは、本物の販売ページに見える表現を避けます。準備中は明示します。",
+    body: "BOOTH・メルマガ・有料商品が準備中のあいだは、本物の販売ページに見える表現を避けます。準備中は明示します。",
   },
   {
     title: "自動化は人間レビューを残す",
-    body: "AIによる記事生成・自動公開・自動取り込みを実装していますが、`main` ブランチへの反映は必ず人間レビューを経たPR経由でのみ行います。",
+    body: "AIを使った記事作成でも、公開前に人間が内容と根拠を確認し、承認したものだけを反映します。",
   },
   {
-    title: "安全境界をコードと運用の両方で守る",
-    body: "API キー・認証情報・個人情報をリポジトリに含めない、note投稿・公開・下書き編集をホームページから実行しない、といった境界をスクリプトと workflow の両方で機構的に検出・拒否します。",
+    title: "読者の情報と公開範囲を守る",
+    body: "認証情報や個人情報を公開内容に含めず、未公開・準備中の情報も利用可能なものとして案内しません。",
   },
 ];
 
@@ -46,19 +45,13 @@ const updatesByPlatform = [
     href: siteConfig.links.note,
     cadence: "毎日",
   },
-  {
-    name: "GitHub",
-    role: "ホームページのソースコード(MIT 相当の OSS)",
-    href: siteConfig.links.github,
-    cadence: "随時",
-  },
 ];
 
 const focusAreas = [
   "AIで「やりたいこと」を、再現できる手順とプロンプトに変換する",
   "noteの実験ログを、HPの保存版に育てる運用を続ける",
   "漫画・動画・テンプレ・無料キット・商品をテーマで束ねるホームベースを作る",
-  "完全自動化と人間レビューを両立させる仕組みを公開し続ける",
+  "実際に検証した手順と判断基準を、読者が再利用できる形で残す",
 ];
 
 export default function AboutPage() {
@@ -156,7 +149,7 @@ export default function AboutPage() {
           </h2>
           <p className="mt-4 leading-8 text-stone-600">
             このサイトでは「自動化しすぎないこと」と「読者を欺かないこと」を両立させるため、
-            6 つの方針をコードと運用の両方で守ります。
+            6 つの方針を公開内容と運営の両方で守ります。
           </p>
         </div>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -176,20 +169,17 @@ export default function AboutPage() {
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
-              Open source
+              Explore
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-stone-950">
-              ソースコードと運用 docs を公開しています。
+              公開済みの手順と更新情報から探せます。
             </h2>
             <p className="mt-4 leading-8 text-stone-600">
-              ホームページの実装・自動化スクリプト・運用ドキュメントは GitHub で公開しています。
-              気になる仕組みがあれば、リポジトリの `docs/` を読むのが早いです。
+              やりたいこと別の実践手順、公開済みの検証ログ、サイトの更新内容を、
+              それぞれの一覧から確認できます。
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-            <CtaButton href={siteConfig.links.github} variant="secondary">
-              GitHub リポジトリを見る
-            </CtaButton>
             <CtaButton href="/library" variant="secondary">
               記事ライブラリへ
             </CtaButton>
@@ -206,17 +196,10 @@ export default function AboutPage() {
       <Section>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl font-semibold text-stone-950">
-            問い合わせ・相談
+            セルフサービスで完結する商品設計
           </h2>
           <p className="mt-4 leading-7 text-stone-600">
-            個別の AI 活用相談・法人導入支援については
-            <Link
-              href="/consulting"
-              className="mx-1 font-bold text-teal-700 hover:text-teal-900"
-            >
-              /consulting
-            </Link>
-            のページを参照してください。サイトに関する技術的な指摘や提案は GitHub リポジトリの Issue / PR からも受け付けています。
+            現在は個別相談や法人導入支援を受け付けず、無料キット、有料note、BOOTHの買い切り商品に集中しています。購入前後に個別対応を必要としない形で、手順とテンプレートを整備します。
           </p>
         </div>
       </Section>

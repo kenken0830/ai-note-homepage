@@ -3,7 +3,7 @@ import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { updates } from "@/data/updates";
+import { publicUpdates } from "@/data/updates";
 
 export const metadata: Metadata = {
   title: "更新情報",
@@ -17,7 +17,7 @@ export default function UpdatesPage() {
       <PageHero
         eyebrow="Updates"
         title="AI Compass Journalの更新情報。"
-        description="外部サービス接続前でも、今このサイトで使えるもの、準備中のもの、改善した導線を静的に記録します。"
+        description="今このサイトで利用できる公開コンテンツの変更を記録します。"
         primaryCta={{ label: "無料キットを見る", href: "/free" }}
         secondaryCta={{ label: "商品一覧へ", href: "/products" }}
       />
@@ -29,7 +29,7 @@ export default function UpdatesPage() {
             description="日付、カテゴリ、関連ページを分けて管理し、サイトが更新されていることを読者にも運営者にも分かる形にします。"
           />
           <div className="grid gap-5">
-            {updates.map((item) => (
+            {publicUpdates.map((item) => (
               <article
                 key={item.id}
                 className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
@@ -61,13 +61,13 @@ export default function UpdatesPage() {
               次に使うなら、無料キットから。
             </h2>
             <p className="mt-3 max-w-2xl leading-8 text-stone-600">
-              更新情報を確認したら、/freeでテンプレートとプロンプトを開き、/productsで準備中の商品予定を確認できます。
+              更新情報を確認したら、無料キットでテンプレートとプロンプトを試せます。
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <CtaButton href="/free">無料キットへ</CtaButton>
             <CtaButton href="/products" variant="secondary">
-              商品予定を見る
+              利用できる商品を見る
             </CtaButton>
           </div>
         </div>

@@ -17,7 +17,7 @@ const sequence = [
   ["Day 3", "活用例", "仕事、発信、商品設計で使う具体例を紹介する。"],
   ["Day 5", "プロンプトカード紹介", "プロンプト集やカード型運用へつなぐ。"],
   ["Day 7", "有料テンプレ案内", "BOOTHテンプレートやnote有料記事を案内する。"],
-  ["Day 14", "メンバーシップ・相談案内", "継続実践や個別相談へ進む選択肢を出す。"],
+  ["Day 14", "実践パック案内", "BOOTHの買い切りテンプレートへ進む選択肢を出す。"],
 ];
 
 export default function NewsletterPage() {
@@ -51,7 +51,7 @@ export default function NewsletterPage() {
           <SectionHeading
             eyebrow="Sequence"
             title="ステップ配信の例。"
-            description="登録直後から14日後まで、無料から商品・相談へ進む流れを作ります。"
+            description="登録直後から14日後まで、無料キットから有料note、買い切り商品へ進む流れを作ります。"
           />
           <div className="grid gap-4">
             {sequence.map(([day, title, text]) => (
@@ -66,8 +66,8 @@ export default function NewsletterPage() {
           </div>
         </div>
         <div className="mt-10">
-          <CtaButton href="/consulting" variant="secondary">
-            導線設計を相談する
+          <CtaButton href="/products" variant="secondary">
+            商品一覧を見る
           </CtaButton>
         </div>
       </Section>

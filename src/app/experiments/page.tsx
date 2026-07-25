@@ -39,12 +39,7 @@ export default function ExperimentsPage() {
           <div className="rounded-[8px] border border-dashed border-stone-300 bg-white p-8 text-sm leading-7 text-stone-600">
             <p className="font-bold text-stone-950">最初の実験を準備中です。</p>
             <p className="mt-3">
-              GitHub Actions の `run-experiment` ワークフローが起動すると、
-              ここに最新の検証データが追加されます。実験設定は
-              <code className="mx-1 rounded bg-stone-100 px-1.5 py-0.5 text-xs">
-                scripts/experiments/[id].yml
-              </code>
-              に書きます。
+              検証条件、実行回数、結果を確認でき、人間が公開内容をレビューした実験だけをここに掲載します。
             </p>
           </div>
         ) : (

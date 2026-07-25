@@ -11,11 +11,12 @@ import {
   buildHowToSchema,
 } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
+import { RevenueCta } from "@/components/RevenueCta";
 import { Section } from "@/components/Section";
 import { getAiUseCaseBySlug, publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 import {
   countPublishedNotesForTopicSlug,
-  getContentAssetsByTopicSlug,
+  getPublishedContentAssetsByTopicSlug,
 } from "@/data/contentAssets";
 import type { ContentAsset, ContentAssetType } from "@/types/content";
 
@@ -100,6 +101,9 @@ export async function generateMetadata({
   return {
     title: useCase.title,
     description: useCase.description,
+    alternates: {
+      canonical: `/ai-use-cases/${useCase.slug}`,
+    },
   };
 }
 
@@ -113,7 +117,7 @@ export default async function AiUseCaseDetailPage({
     notFound();
   }
 
-  const relatedAssets = [...getContentAssetsByTopicSlug(slug)].sort(
+  const relatedAssets = [...getPublishedContentAssetsByTopicSlug(slug)].sort(
     compareContentAsset,
   );
   const publishedNoteCount = countPublishedNotesForTopicSlug(slug);
@@ -407,6 +411,8 @@ export default async function AiUseCaseDetailPage({
           </div>
         </Section>
       )}
+
+      <RevenueCta slug={useCase.slug} />
 
       <Section>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">

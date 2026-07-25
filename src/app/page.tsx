@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ArticleCard } from "@/components/ArticleCard";
-import { ConsultingCta } from "@/components/ConsultingCta";
 import { CtaButton } from "@/components/CtaButton";
 import { FunnelMap } from "@/components/FunnelMap";
 import { NewsletterCta } from "@/components/NewsletterCta";
@@ -9,7 +8,10 @@ import { ProductCard } from "@/components/ProductCard";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
 import { featuredArticles } from "@/data/articles";
-import { aiUseCaseCategories, publishedAiUseCases } from "@/data/aiUseCases";
+import {
+  aiUseCaseCategories,
+  publishedAiUseCases,
+} from "@/data/aiUseCaseRegistry";
 import { primaryPlatforms } from "@/data/platforms";
 import { featuredProducts } from "@/data/products";
 import { latestUpdates } from "@/data/updates";
@@ -26,16 +28,13 @@ const liveActions = [
   ["AIノート基本テンプレートを見る", "目的、入力、AIへの依頼、自分の判断を残す基本形です。", "/free-starter-kit/ai-note-basic-template.md", "テンプレートを開く"],
   ["プロンプト10個を見る", "要約、言い換え、チェックリスト化、note見出し案に使えます。", "/free-starter-kit/prompt-10-pack.md", "プロンプトを見る"],
   ["7日間導入ガイドを見る", "Day 1からDay 7まで、AIノートを小さく試す順番です。", "/free-starter-kit/seven-day-guide.md", "導入ガイドを見る"],
-  ["商品一覧を見る", "公開中、近日公開、準備中の状態を分けて確認できます。", "/products", "商品一覧へ"],
-  ["相談ページを見る", "個人向け、事業者向けの導線設計相談の内容を確認できます。", "/consulting", "相談ページへ"],
+  ["商品一覧を見る", "現在利用できる配布物だけを確認できます。", "/products", "商品一覧へ"],
 ];
 
 const launchStatuses = [
   ["無料キット", "公開中", "サイト内のMarkdownファイルとして読めます。"],
-  ["BOOTH配布", "準備中", "BOOTH商品ページはまだ接続していません。"],
-  ["メルマガ", "未接続", "登録フォームや配信はまだ動きません。"],
-  ["有料商品", "準備中", "価格や販売場所は予定として掲載しています。"],
-  ["legal", "正式版準備中", "現時点では正式な法務文書ではありません。"],
+  ["AI活用辞典", "17件公開中", "公開済みの手順だけを掲載しています。"],
+  ["商品一覧", "公開中のみ", "利用できる商品だけを表示します。"],
 ];
 
 const firstSteps = [
@@ -219,7 +218,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Platform Hub"
             title="媒体ごとの役割を分け、本店に戻す。"
-            description="各媒体は別々に伸ばしつつ、最終的には無料DL、商品、メルマガ、コミュニティ、相談へつなぐ設計にします。"
+            description="各媒体は別々に伸ばしつつ、最終的には無料DL、有料note、BOOTH商品へつなぐ設計にします。"
           />
           <CtaButton href="/media" variant="secondary">
             媒体設計を見る
@@ -236,8 +235,8 @@ export default function Home() {
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
           <SectionHeading
             eyebrow="Funnel Map"
-            title="発見から相談まで、次の一手が見える導線。"
-            description="読者の流れは、媒体で出会い、本店で理解し、無料キット、メルマガ、商品、コミュニティ、相談へ進む形に整理します。"
+            title="発見から購入まで、次の一手が見える導線。"
+            description="読者の流れは、媒体で出会い、本店で理解し、無料キット、有料note、買い切り商品へ進む形に整理します。"
           />
           <FunnelMap />
         </div>
@@ -247,8 +246,8 @@ export default function Home() {
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
             eyebrow="Featured Products"
-            title="無料から相談まで、段階別の商品棚。"
-            description="無料キット、テンプレート、プロンプト集、技術者向けキット、相談メニューを同じ商品データで管理します。"
+            title="現在利用できる商品と無料キット。"
+            description="公開済みで、実際に利用できる配布物だけを案内します。"
           />
           <CtaButton href="/products" variant="secondary">
             商品一覧へ
@@ -311,10 +310,6 @@ export default function Home() {
 
       <Section tone="soft">
         <NewsletterCta />
-      </Section>
-
-      <Section>
-        <ConsultingCta />
       </Section>
 
       <Section tone="dark">

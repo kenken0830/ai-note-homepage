@@ -12,7 +12,7 @@ export const funnelSteps: FunnelStep[] = [
   {
     id: "home",
     label: "本店",
-    description: "ホームページで媒体、無料DL、商品、相談の全体像を確認する。",
+    description: "ホームページで媒体、無料DL、買い切り商品の全体像を確認する。",
     href: "/",
     sourcePlatformIds: ["note", "zenn", "medium", "x", "youtube"],
     nextStepIds: ["free"],
@@ -31,7 +31,7 @@ export const funnelSteps: FunnelStep[] = [
     description: "ステップ配信で基本思想、活用例、商品案内を受け取る。",
     href: "/newsletter",
     sourcePlatformIds: ["newsletter"],
-    nextStepIds: ["products", "community"],
+    nextStepIds: ["products"],
   },
   {
     id: "products",
@@ -39,22 +39,6 @@ export const funnelSteps: FunnelStep[] = [
     description: "BOOTH、note有料、Zenn本で必要なテンプレートや技術キットを選ぶ。",
     href: "/products",
     sourcePlatformIds: ["booth", "note", "zenn", "github"],
-    nextStepIds: ["community", "consulting"],
-  },
-  {
-    id: "community",
-    label: "コミュニティ",
-    description: "メンバーシップ、Discord、LINE公式で継続実践する。",
-    href: "/community",
-    sourcePlatformIds: ["community", "note"],
-    nextStepIds: ["consulting"],
-  },
-  {
-    id: "consulting",
-    label: "相談",
-    description: "個別相談、法人導入、ホームページ改善へ進む。",
-    href: "/consulting",
-    sourcePlatformIds: ["note", "github", "newsletter"],
     nextStepIds: [],
   },
 ];

@@ -1,10 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { track } from "@vercel/analytics";
 
 type CtaButtonProps = {
   href: string;
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "light" | "dark";
   className?: string;
+  trackingId?: string;
 };
 
 export function CtaButton({
@@ -12,6 +16,7 @@ export function CtaButton({
   children,
   variant = "primary",
   className = "",
+  trackingId = "unspecified",
 }: CtaButtonProps) {
   const variantClass = {
     primary:
@@ -23,10 +28,12 @@ export function CtaButton({
   }[variant];
 
   const classes = `inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-[8px] px-5 py-3 text-sm font-bold transition ${variantClass} ${className}`;
+  const label = typeof children === "string" ? children : "cta";
+  const recordClick = () => track("cta_click", { href, label, placement: trackingId });
 
   if (href.startsWith("mailto:")) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} onClick={recordClick}>
         {children}
       </a>
     );
@@ -34,14 +41,14 @@ export function CtaButton({
 
   if (href.startsWith("http")) {
     return (
-      <a href={href} className={classes} target="_blank" rel="noopener noreferrer">
+      <a href={href} className={classes} target="_blank" rel="noopener noreferrer" onClick={recordClick}>
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} onClick={recordClick}>
       {children}
     </Link>
   );
