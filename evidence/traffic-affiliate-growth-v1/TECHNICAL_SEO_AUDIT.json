@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "audited_on": "2026-07-26",
+  "production_sha": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+  "checks": [
+    {"id": "deployment_sha", "status": "VERIFIED_READY", "evidence": "/deployment-status matches origin/main"},
+    {"id": "canonical_host", "status": "MISSING", "evidence": "apex redirects to www but 17 explicit canonicals and sitemap/robots use apex"},
+    {"id": "robots", "status": "PARTIAL", "evidence": "reachable and allows crawling; host/sitemap use redirecting apex"},
+    {"id": "sitemap", "status": "PARTIAL", "evidence": "32 reachable URLs and 17 use cases; URLs use redirecting apex"},
+    {"id": "noindex", "status": "VERIFIED_READY", "evidence": "0 sitemap pages include noindex"},
+    {"id": "redirects", "status": "PARTIAL", "evidence": "apex consistently redirects to www; emitted canonical signals disagree"},
+    {"id": "titles", "status": "VERIFIED_READY", "evidence": "32 sitemap pages have unique titles"},
+    {"id": "h1", "status": "VERIFIED_READY", "evidence": "32 sitemap pages have exactly one h1"},
+    {"id": "internal_links", "status": "VERIFIED_READY", "evidence": "0 broken internal targets"},
+    {"id": "orphan_pages", "status": "VERIFIED_READY", "evidence": "0 sitemap orphans in public crawl"},
+    {"id": "planned_draft_exposure", "status": "VERIFIED_READY", "evidence": "0 planned use-case pages and 0 affiliate links"},
+    {"id": "structured_data", "status": "PARTIAL", "evidence": "HowTo totalTime concatenates Japanese text into an invalid ISO duration"},
+    {"id": "note_destination", "status": "MISSING", "evidence": "production note CTA and Organization.sameAs resolve to the site itself instead of note.com"},
+    {"id": "favicon", "status": "MISSING", "evidence": "/favicon.ico returns 404"},
+    {"id": "speed_insights", "status": "MISSING", "evidence": "Speed Insights runtime and package are absent; adding a paid or new dependency is outside this branch"},
+    {"id": "metadata_dates_authorship", "status": "PARTIAL", "evidence": "use-case schema lacks verified date and author data; values must not be guessed"},
+    {"id": "core_web_vitals", "status": "HUMAN_INPUT_REQUIRED", "evidence": "field data and Speed Insights dashboard not available"},
+    {"id": "search_index_state", "status": "HUMAN_INPUT_REQUIRED", "evidence": "Search Console export absent"}
+  ],
+  "blocking_findings": 3,
+  "blockers": [
+    "FINAL_HOST_CANONICAL_MISMATCH",
+    "INVALID_HOWTO_TOTAL_TIME",
+    "MISCONFIGURED_NOTE_DESTINATION"
+  ]
+}

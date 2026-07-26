@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: "メディア設計",
   description:
     "note、X、Zenn、GitHub、Medium、YouTube、BOOTH、Newsletter、Communityの役割を整理するページです。",
+  alternates: { canonical: "/media" },
+  robots: { index: false, follow: false },
 };
 
 export default function MediaPage() {

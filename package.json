@@ -12,6 +12,7 @@
     "validate-content-handoff": "node scripts/validate-content-handoff.mjs",
     "sync-revenue-routes": "py -3.11 D:/Cursor/DevOS-2-canonical/factory_os/hp_factory/pipeline/sync_revenue_routes_to_site.py",
     "validate-revenue-routes": "node scripts/validate-revenue-routes.mjs",
+    "validate-growth-safety": "node scripts/validate-growth-safety.mjs",
     "verify-production": "node scripts/verify-production-deployment.mjs",
     "score-use-case-payload": "node scripts/score-use-case-payload.mjs",
     "validate-experiment-config": "node scripts/validate-experiment-config.mjs"

@@ -4,7 +4,10 @@ for (const raw of process.argv.slice(2)) {
   args.set(key, valueParts.join("="));
 }
 
-const baseUrl = (args.get("--base-url") || "https://ai-compass-journal.com").replace(/\/$/, "");
+const baseUrl = (args.get("--base-url") || "https://www.ai-compass-journal.com").replace(/\/$/, "");
+const canonicalOrigin = (
+  args.get("--canonical-origin") || "https://www.ai-compass-journal.com"
+).replace(/\/$/, "");
 const expectedSha = args.get("--expected-sha") || "";
 const attempts = Number(args.get("--attempts") || 40);
 const intervalMs = Number(args.get("--interval-ms") || 15000);
@@ -227,6 +230,23 @@ function verifyNoInternalExposure(path, html, forbiddenValues) {
   }
 }
 
+function verifyCanonicalOrigin(path, html) {
+  const match = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+  if (!match) {
+    throw checkError(path, "CANONICAL_LINK", "present", "missing");
+  }
+  const actual = new URL(decodeHtmlAttribute(match[1]), baseUrl);
+  if (actual.origin !== canonicalOrigin) {
+    throw checkError(path, "CANONICAL_ORIGIN", canonicalOrigin, actual.origin);
+  }
+}
+
+function verifyStructuredDataDurations(path, html) {
+  if (/"totalTime"\s*:\s*"PT\d+分"/.test(html)) {
+    throw checkError(path, "HOWTO_TOTAL_TIME", "ISO_8601_DURATION", "localized_invalid_value");
+  }
+}
+
 async function verifyRedirect() {
   const legacyPath = "/ai-use-cases/explain-for-beginners";
   const destinationPath = "/ai-use-cases/rewrite-friendly-text";
@@ -269,7 +289,11 @@ async function verifyOnce() {
     );
   }
 
-  await requireStatus("/", 200, { checkId: "HOMEPAGE_HTTP" });
+  const homepage = await requireStatus("/", 200, { checkId: "HOMEPAGE_HTTP" });
+  verifyCanonicalOrigin("/", homepage.text);
+  if (/a8\.net|px\.a8\.net|rel=["'][^"']*sponsored/i.test(homepage.text)) {
+    throw checkError("/", "PREAPPROVAL_AFFILIATE_EXPOSURE", "count=0", "count>=1");
+  }
 
   const products = await requireStatus("/products", 200, { checkId: "PRODUCTS_HTTP" });
   verifyNoNonPublicProducts("/products", products.text);
@@ -277,6 +301,8 @@ async function verifyOnce() {
 
   const meetingPath = "/ai-use-cases/meeting-notes-to-minutes";
   const meeting = await requireStatus(meetingPath, 200, { checkId: "MEETING_USE_CASE_HTTP" });
+  verifyCanonicalOrigin(meetingPath, meeting.text);
+  verifyStructuredDataDurations(meetingPath, meeting.text);
   verifyNoNonPublicProducts(meetingPath, meeting.text);
   await verifyFreeKitCta(meetingPath, meeting.text, "MEETING_USE_CASE");
 
@@ -295,10 +321,34 @@ async function verifyOnce() {
   }
 
   const sitemap = await requireStatus("/sitemap.xml", 200, { checkId: "SITEMAP_HTTP" });
+  const sitemapLocations = [
+    ...sitemap.text.matchAll(/<loc>([^<]+)<\/loc>/g),
+  ].map((match) => match[1]);
+  if (sitemapLocations.some((url) => !url.startsWith(`${canonicalOrigin}/`) && url !== canonicalOrigin)) {
+    throw checkError("/sitemap.xml", "SITEMAP_CANONICAL_ORIGIN", canonicalOrigin, "mismatch_count>=1");
+  }
+  for (const excludedPath of ["/en", "/newsletter", "/media", "/legal", "/experiments"]) {
+    if (sitemapLocations.includes(`${canonicalOrigin}${excludedPath}`)) {
+      throw checkError("/sitemap.xml", "SITEMAP_NONINDEX_ROUTE", "absent", excludedPath);
+    }
+  }
   const sitemapUseCaseSlugs = extractUseCaseSlugs(sitemap.text);
   verifyPublishedSlugSet("/sitemap.xml", sitemapUseCaseSlugs, "SITEMAP");
   if (sitemapUseCaseSlugs.has("explain-for-beginners")) {
     throw checkError("/sitemap.xml", "SITEMAP_LEGACY_SLUG", "absent", "present_count=1");
+  }
+
+  const robots = await requireStatus("/robots.txt", 200, { checkId: "ROBOTS_HTTP" });
+  if (
+    !robots.text.includes(`Host: ${canonicalOrigin}`) ||
+    !robots.text.includes(`Sitemap: ${canonicalOrigin}/sitemap.xml`)
+  ) {
+    throw checkError("/robots.txt", "ROBOTS_CANONICAL_ORIGIN", canonicalOrigin, "mismatch");
+  }
+
+  const about = await requireStatus("/about", 200, { checkId: "ABOUT_HTTP" });
+  if (!about.text.includes("https://note.com/life_to_ai")) {
+    throw checkError("/about", "NOTE_DESTINATION", "note.com/life_to_ai", "missing_or_misconfigured");
   }
 
   for (const [path, forbiddenValues] of internalExposureRules) {

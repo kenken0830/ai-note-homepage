@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "AIノート用プロンプト集",
   description:
     "会議メモ、読書メモ、学習、note記事化、振り返り、企画、商品化に使えるAIノート用サンプルプロンプトを整理します。",
+  alternates: { canonical: "/prompts" },
 };
 
 export default function PromptsPage() {

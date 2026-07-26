@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-07-26",
+  "provider": "Vercel Web Analytics",
+  "integration": {
+    "package": "@vercel/analytics",
+    "root_component": "Analytics",
+    "runtime_enabled": true
+  },
+  "counts": {
+    "period": "UNVERIFIED",
+    "visitors": null,
+    "page_views": null,
+    "landing_pages": null,
+    "referrers": null,
+    "free_kit_click": null,
+    "article_cta_click": null
+  },
+  "status": "INTEGRATION_VERIFIED_COUNTS_REQUIRE_HUMAN_EXPORT",
+  "custom_event_plan": {
+    "required_for_kpi": true,
+    "vercel_plan_verified": false,
+    "status": "HUMAN_PLAN_AND_DASHBOARD_CONFIRMATION_REQUIRED"
+  },
+  "privacy": {
+    "personal_data_in_planned_events": false,
+    "destination_url_in_planned_affiliate_event": false
+  }
+}

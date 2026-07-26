@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "無料スターターキット",
   description:
     "AIノート基本テンプレート、プロンプト10個、1週間導入ガイド、関連記事をまとめた無料スターターキットのLPです。",
+  alternates: { canonical: "/free" },
 };
 
 const kitItems = [
@@ -59,8 +60,18 @@ export default function FreePage() {
         eyebrow="Free Starter Kit"
         title="AIノートを1週間だけ試す、無料スターターキット。"
         description="基本テンプレート、プロンプト10個、1週間導入ガイドをMarkdownファイルとして公開しています。"
-        primaryCta={{ label: "基本テンプレートを開く", href: "/free-starter-kit/ai-note-basic-template.md" }}
-        secondaryCta={{ label: "AI活用手順を見る", href: "/ai-use-cases" }}
+        primaryCta={{
+          label: "基本テンプレートを開く",
+          href: "/free-starter-kit/ai-note-basic-template.md",
+          eventName: "free_kit_click",
+          trackingId: "free_hero",
+        }}
+        secondaryCta={{
+          label: "AI活用手順を見る",
+          href: "/ai-use-cases",
+          eventName: "article_cta_click",
+          trackingId: "free_hero",
+        }}
       />
       <Section>
         <div className="mb-12 rounded-[8px] border border-teal-200 bg-teal-50 p-6 sm:p-8">
@@ -74,7 +85,11 @@ export default function FreePage() {
             このページだけで無料キットを使えます。最初はテンプレートを開き、プロンプトを1つ試し、7日間ガイドに沿って続けてください。
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <CtaButton href="/free-starter-kit/ai-note-basic-template.md">
+            <CtaButton
+              href="/free-starter-kit/ai-note-basic-template.md"
+              eventName="free_kit_click"
+              trackingId="free_start_here"
+            >
               まずこれを開く
             </CtaButton>
             <CtaButton href="/start" variant="secondary">
@@ -155,7 +170,12 @@ export default function FreePage() {
             title="キットと一緒に読む記事。"
             description="無料DLだけで終わらないように、使い方の記事へつなぎます。"
           />
-          <CtaButton href="/library" variant="secondary">
+          <CtaButton
+            href="/library"
+            variant="secondary"
+            eventName="article_cta_click"
+            trackingId="free_related"
+          >
             記事ライブラリへ
           </CtaButton>
         </div>

@@ -16,7 +16,6 @@ const ROUTE_CONFIG: Record<
   "": { priority: 1.0, changeFrequency: "weekly" },
   "/start": { priority: 0.9, changeFrequency: "monthly" },
   "/ai-use-cases": { priority: 0.9, changeFrequency: "weekly" },
-  "/experiments": { priority: 0.9, changeFrequency: "weekly" },
   "/free": { priority: 0.8, changeFrequency: "monthly" },
   "/library": { priority: 0.8, changeFrequency: "weekly" },
   "/guides": { priority: 0.7, changeFrequency: "monthly" },
@@ -24,10 +23,7 @@ const ROUTE_CONFIG: Record<
   "/workflows": { priority: 0.7, changeFrequency: "monthly" },
   "/updates": { priority: 0.6, changeFrequency: "weekly" },
   "/products": { priority: 0.5, changeFrequency: "monthly" },
-  "/newsletter": { priority: 0.5, changeFrequency: "monthly" },
-  "/media": { priority: 0.4, changeFrequency: "monthly" },
-  "/en": { priority: 0.3, changeFrequency: "monthly" },
-  "/legal": { priority: 0.2, changeFrequency: "yearly" },
+  "/about": { priority: 0.4, changeFrequency: "yearly" },
 };
 
 const ROUTES = Object.keys(ROUTE_CONFIG);

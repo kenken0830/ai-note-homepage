@@ -4,7 +4,7 @@
 
 | 項目 | 使われている場所 | 差し替える内容 | 未設定時の表示・挙動 | 優先度 |
 | --- | --- | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `src/config/site.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, metadata | Vercel Production URLまたは独自ドメイン | `fallbackSiteUrl` でビルド可能。ただしsitemap/robots/OGPの基準URLが仮URLになる | 高 |
+| `NEXT_PUBLIC_SITE_URL` | `src/config/site.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, metadata | `https://www.ai-compass-journal.com` | apexや不正値は最終wwwホストへ正規化する | 高 |
 | `NEXT_PUBLIC_NOTE_URL` | `siteConfig.noteUrl`, note記事リンク, 相談fallback | 公式note `https://note.com/life_to_ai` | 既定で `https://note.com/life_to_ai` | 高 |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | `/consulting`, `ContactSection`, `getMailHref` | 公開用問い合わせメール | 未設定時はnote導線へfallback。メールリンクは表示されない | 中 |
 | `NEXT_PUBLIC_ZENN_URL` | `src/data/platforms.ts`, `src/data/products.ts` | ZennプロフィールまたはZenn本URL | `#` 扱い。外部リンクは非クリックの「準備中」表示 | 中 |

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-07-26T18:10:37+09:00",
+  "baseline_commit": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+  "candidate_branch": "codex/traffic-affiliate-growth-v1",
+  "checks": {
+    "validate_content_assets": "PASS",
+    "validate_revenue_routes": "PASS",
+    "validate_growth_safety": "PASS",
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "git_diff_check": "PASS",
+    "local_production_verifier": "PASS",
+    "internal_link_crawl": "PASS",
+    "orphan_page_check": "PASS",
+    "metadata_uniqueness": "PASS",
+    "structured_data": "PASS",
+    "mobile_browser_review": "PASS",
+    "secret_scan": "PASS",
+    "public_local_path_scan": "PASS",
+    "personal_data_scan": "PASS",
+    "public_affiliate_url_scan": "PASS",
+    "independent_review": "PASS"
+  },
+  "counts": {
+    "published_use_cases": 17,
+    "sitemap_use_cases": 17,
+    "candidate_sitemap_urls": 28,
+    "planned_use_case_exposure": 0,
+    "non_public_product_exposure": 0,
+    "broken_internal_links": 0,
+    "orphan_pages": 0,
+    "duplicate_titles": 0,
+    "duplicate_descriptions": 0,
+    "live_affiliate_links": 0,
+    "public_notta_reviews": 0
+  },
+  "lighthouse_local": {
+    "performance": 99,
+    "accessibility": 100,
+    "best_practices": 96,
+    "seo": 100,
+    "largest_contentful_paint_ms": 2271,
+    "cumulative_layout_shift": 0,
+    "total_blocking_time_ms": 36,
+    "limitation": "Local Vercel Analytics endpoint returned 404 outside the Vercel runtime; production Analytics integration remains present."
+  },
+  "release_actions": {
+    "merged": false,
+    "production_changed": false,
+    "external_posts": 0,
+    "paid_actions": 0
+  }
+}

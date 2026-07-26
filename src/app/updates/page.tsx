@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "更新情報",
   description:
     "AI Compass Journalの公開状態、無料スターターキット、商品導線、SEO基本設定などの更新情報をまとめます。",
+  alternates: { canonical: "/updates" },
 };
 
 export default function UpdatesPage() {

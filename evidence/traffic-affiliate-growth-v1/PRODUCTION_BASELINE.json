@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-07-26",
+  "source": "PUBLIC_PRODUCTION_HTTP",
+  "deployment_status": {
+    "url": "https://www.ai-compass-journal.com/deployment-status",
+    "status": 200,
+    "commit_sha": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+    "environment": "production"
+  },
+  "hosts": {
+    "apex_url": "https://ai-compass-journal.com/",
+    "apex_status": 307,
+    "apex_final_url": "https://www.ai-compass-journal.com/",
+    "canonical_host_expected": "www.ai-compass-journal.com"
+  },
+  "public_files": {
+    "robots_status": 200,
+    "sitemap_status": 200,
+    "llms_status": 200,
+    "favicon_status": 404
+  },
+  "inventory": {
+    "sitemap_urls": 32,
+    "use_case_urls": 17,
+    "http_errors": 0,
+    "noindex_in_sitemap": 0,
+    "broken_internal_links": 0,
+    "orphan_sitemap_pages": 0,
+    "duplicate_titles": 0,
+    "planned_use_case_pages": 0,
+    "live_affiliate_links": 0,
+    "public_notta_reviews": 0
+  },
+  "runtime_findings": {
+    "vercel_analytics_loaded": true,
+    "speed_insights_loaded": false,
+    "note_cta_expected_host": "note.com",
+    "note_cta_actual_host": "ai-compass-journal.com",
+    "note_cta_status": "MISCONFIGURED_SELF_LINK"
+  },
+  "canonical_issue": {
+    "robots_and_sitemap_use_redirecting_apex": true,
+    "use_case_canonical_redirect_mismatches": 17,
+    "static_pages_without_explicit_canonical": 15,
+    "severity": "HIGH",
+    "remediation": "NORMALIZE_ALL_PUBLIC_URL_SIGNALS_TO_FINAL_WWW_HOST"
+  }
+}

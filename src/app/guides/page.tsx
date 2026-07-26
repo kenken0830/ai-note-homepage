@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "AIノート完全ガイド",
   description:
     "AIノートとは何か、普通のメモとの違い、AIに渡しやすいメモの取り方、要約・TODO化・記事化・学習ノート化の流れを整理します。",
+  alternates: { canonical: "/guides" },
 };
 
 const noteRoles = [

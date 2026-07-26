@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   title: "独自実験",
   description:
     "Claude / GPT / Gemini を実際に走らせて、再現可能なデータと複数エージェント合意の考察を集める検証ログ。",
+  alternates: { canonical: "/experiments" },
+  robots: {
+    index: publishedExperiments.length > 0,
+    follow: publishedExperiments.length > 0,
+  },
 };
 
 export default function ExperimentsPage() {

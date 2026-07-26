@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "はじめてのAIノート導入",
   description:
     "やりたいことからAI活用を探し、無料スターターキット、AIでできること、ガイド、買い切り商品へ進む初心者向けページです。",
+  alternates: { canonical: "/start" },
 };
 
 const readingOrder = [

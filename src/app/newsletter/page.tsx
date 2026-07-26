@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: "メルマガ登録",
   description:
     "Kit、Substack、LINEなどへ将来接続するためのメルマガ導線ページです。現時点では未接続です。",
+  alternates: { canonical: "/newsletter" },
+  robots: { index: false, follow: false },
 };
 
 const sequence = [

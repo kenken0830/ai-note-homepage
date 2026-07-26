@@ -70,7 +70,7 @@ export const updates: UpdateItem[] = [
     date: "2026-05-08",
     title: "カスタムドメイン ai-compass-journal.com で公開しました",
     description:
-      "AI Compass Journal を独自ドメイン https://ai-compass-journal.com で公開しました。Cloudflare Registrar で取得し、Vercel と接続、SSL 自動発行、sitemap・OGP・canonical URL すべて新ドメインに切り替え済みです。Vercel デフォルト URL も引き続き有効。",
+      "AI Compass Journal を独自ドメインで公開しました。最終配信ホストは https://www.ai-compass-journal.com とし、sitemap・OGP・canonical URL を同じホストへ統一しています。",
     href: "/",
     category: "公開",
   },

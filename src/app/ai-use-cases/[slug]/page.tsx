@@ -414,6 +414,20 @@ export default async function AiUseCaseDetailPage({
 
       <RevenueCta slug={useCase.slug} />
 
+      <Section tone="soft">
+        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <h2 className="text-2xl font-semibold text-stone-950">編集・検証について</h2>
+            <p className="mt-3 max-w-3xl leading-8 text-stone-600">
+              AIが作った文をそのまま正解とせず、入力例、出力例、確認ポイントを人が見直す前提で編集しています。ツールの評価は、実使用証拠が揃ったものだけを別途公開します。
+            </p>
+          </div>
+          <CtaButton href="/about" variant="secondary">
+            運営・検証方針を見る
+          </CtaButton>
+        </div>
+      </Section>
+
       <Section>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>

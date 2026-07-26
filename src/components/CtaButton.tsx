@@ -9,6 +9,8 @@ type CtaButtonProps = {
   variant?: "primary" | "secondary" | "light" | "dark";
   className?: string;
   trackingId?: string;
+  eventName?: "cta_click" | "free_kit_click" | "article_cta_click";
+  contentSlug?: string;
 };
 
 export function CtaButton({
@@ -17,6 +19,8 @@ export function CtaButton({
   variant = "primary",
   className = "",
   trackingId = "unspecified",
+  eventName = "cta_click",
+  contentSlug,
 }: CtaButtonProps) {
   const variantClass = {
     primary:
@@ -28,8 +32,11 @@ export function CtaButton({
   }[variant];
 
   const classes = `inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-[8px] px-5 py-3 text-sm font-bold transition ${variantClass} ${className}`;
-  const label = typeof children === "string" ? children : "cta";
-  const recordClick = () => track("cta_click", { href, label, placement: trackingId });
+  const recordClick = () =>
+    track(eventName, {
+      placement: trackingId,
+      ...(contentSlug ? { content_slug: contentSlug } : {}),
+    });
 
   if (href.startsWith("mailto:")) {
     return (

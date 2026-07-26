@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: "English entrance for AI note-taking workflows",
   description:
     "An English entrance for AI note-taking workflows, future Medium essays, Gumroad products, and an English newsletter.",
+  alternates: { canonical: "/en" },
+  robots: { index: false, follow: false },
 };
 
 export default function EnglishPage() {
