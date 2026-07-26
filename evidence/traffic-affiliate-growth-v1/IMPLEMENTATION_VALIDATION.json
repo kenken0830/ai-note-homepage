@@ -47,6 +47,9 @@
     "limitation": "Local Vercel Analytics endpoint returned 404 outside the Vercel runtime; production Analytics integration remains present."
   },
   "release_actions": {
+    "pr_created": true,
+    "pr_url": "https://github.com/kenken0830/ai-note-homepage/pull/65",
+    "preview_status": "READY",
     "merged": false,
     "production_changed": false,
     "external_posts": 0,

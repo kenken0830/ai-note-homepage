@@ -1,7 +1,7 @@
 schema_version: 1
 program_id: TRAFFIC-AFFILIATE-GROWTH-V1
-current_phase: PR_AND_PREVIEW
-current_task: T14
+current_phase: HUMAN_GATES
+current_task: T03_T07_T15
 tasks:
   - id: T01
     title: CURRENT STATE AUDIT
@@ -75,13 +75,13 @@ tasks:
     title: PR AND PREVIEW
     actor: codex
     depends_on: [T13]
-    status: in_progress
+    status: completed
   - id: T15
     title: HUMAN MERGE AND PUBLICATION
     actor: human
     human_gate: true
     depends_on: [T14]
-    status: blocked
+    status: waiting_human
   - id: T16
     title: PRODUCTION VERIFY
     actor: codex_after_human_publication
