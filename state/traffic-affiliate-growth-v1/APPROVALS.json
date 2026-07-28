@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-07-26",
+  "approvals": [
+    {
+      "id": "H-GSC-01",
+      "action": "SEARCH_CONSOLE_ACCESS_EXPORT_AND_SITEMAP_CONFIRMATION",
+      "status": "REQUIRED"
+    },
+    {
+      "id": "H-ANALYTICS-01",
+      "action": "VERIFY_VERCEL_PLAN_AND_CUSTOM_EVENT_DASHBOARD",
+      "status": "REQUIRED"
+    },
+    {
+      "id": "E-NOTTA-01",
+      "action": "NOTTA_A8_PROGRAM_DECISION",
+      "status": "WAITING_EXTERNAL"
+    },
+    {
+      "id": "H-NOTTA-02",
+      "action": "NOTTA_SYNTHETIC_FIXTURE_TEST",
+      "status": "BLOCKED_BY_E-NOTTA-01"
+    },
+    {
+      "id": "H-NOTTA-03",
+      "action": "EVIDENCE_SCREENSHOT_DISCLOSURE_PRIVACY_AND_DESTINATION_APPROVAL",
+      "status": "BLOCKED"
+    },
+    {
+      "id": "H-REL-01",
+      "action": "MERGE_AND_PRODUCTION_PUBLICATION",
+      "status": "REQUIRED"
+    },
+    {
+      "id": "H-DIST-01",
+      "action": "NOTE_AND_X_PUBLICATION",
+      "status": "REQUIRED"
+    }
+  ]
+}

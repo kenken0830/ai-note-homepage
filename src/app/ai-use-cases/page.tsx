@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "AIでできること",
   description:
     "書く、調べる、整える、学ぶ、考える、作る、伝える、自動化する。やりたいこと別にAI活用の手順、プロンプト、テンプレートを探せる実践辞典です。",
+  alternates: { canonical: "/ai-use-cases" },
 };
 
 const difficultyLabel = {

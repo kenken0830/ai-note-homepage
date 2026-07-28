@@ -1,340 +1,214 @@
 import type { Metadata } from "next";
-import { ArticleCard } from "@/components/ArticleCard";
 import { CtaButton } from "@/components/CtaButton";
-import { FunnelMap } from "@/components/FunnelMap";
-import { NewsletterCta } from "@/components/NewsletterCta";
-import { PlatformCard } from "@/components/PlatformCard";
-import { ProductCard } from "@/components/ProductCard";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
-import { featuredArticles } from "@/data/articles";
-import {
-  aiUseCaseCategories,
-  publishedAiUseCases,
-} from "@/data/aiUseCaseRegistry";
-import { primaryPlatforms } from "@/data/platforms";
-import { featuredProducts } from "@/data/products";
-import { latestUpdates } from "@/data/updates";
-import { siteConfig } from "@/config/site";
+import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 
 export const metadata: Metadata = {
-  title: "やりたいことから探すAI活用の実践辞典",
+  title: "仕事で使うAIの実践ガイド",
   description:
-    "会議メモ、読書、note記事、調査、企画、学習、日々の整理を、AIで進める手順・プロンプト・テンプレートとして探せる実践辞典です。",
+    "会議メモ、メール返信、週報など、仕事で使うAIの手順・プロンプト・確認ポイントを、やりたいことから探せます。",
+  alternates: {
+    canonical: "/",
+  },
 };
 
-const liveActions = [
-  ["無料スターターキットを読む", "まずは/freeで全体を確認し、必要なMarkdownファイルを開けます。", "/free", "無料キットへ"],
-  ["AIノート基本テンプレートを見る", "目的、入力、AIへの依頼、自分の判断を残す基本形です。", "/free-starter-kit/ai-note-basic-template.md", "テンプレートを開く"],
-  ["プロンプト10個を見る", "要約、言い換え、チェックリスト化、note見出し案に使えます。", "/free-starter-kit/prompt-10-pack.md", "プロンプトを見る"],
-  ["7日間導入ガイドを見る", "Day 1からDay 7まで、AIノートを小さく試す順番です。", "/free-starter-kit/seven-day-guide.md", "導入ガイドを見る"],
-  ["商品一覧を見る", "現在利用できる配布物だけを確認できます。", "/products", "商品一覧へ"],
+const entranceCards = [
+  {
+    title: "会議メモを議事録にする",
+    description: "決定事項、担当者、期限、未決事項まで整理する手順です。",
+    href: "/ai-use-cases/meeting-notes-to-minutes",
+    slug: "meeting-notes-to-minutes",
+  },
+  {
+    title: "メール返信を安全に下書きする",
+    description: "要件と未確認事項を分け、短い返信案を作ります。",
+    href: "/ai-use-cases/write-email-reply",
+    slug: "write-email-reply",
+  },
+  {
+    title: "週報を短時間でまとめる",
+    description: "成果、課題、次の予定、相談事項を抜けなく整理します。",
+    href: "/ai-use-cases/make-weekly-report",
+    slug: "make-weekly-report",
+  },
 ];
 
-const launchStatuses = [
-  ["無料キット", "公開中", "サイト内のMarkdownファイルとして読めます。"],
-  ["AI活用辞典", "17件公開中", "公開済みの手順だけを掲載しています。"],
-  ["商品一覧", "公開中のみ", "利用できる商品だけを表示します。"],
+const recommendedSlugs = [
+  "meeting-notes-to-minutes",
+  "write-email-reply",
+  "make-weekly-report",
+  "make-prompt-template",
+  "make-checklist",
 ];
 
-const firstSteps = [
-  { label: "/start を読む", href: "/start" },
-  { label: "/ai-use-cases でやりたいことを探す", href: "/ai-use-cases" },
-  { label: "/free で無料キットを使う", href: "/free" },
-];
+const recommendedGuides = recommendedSlugs
+  .map((slug) => publishedAiUseCases.find((item) => item.slug === slug))
+  .filter((item): item is NonNullable<typeof item> => Boolean(item));
 
 export default function Home() {
   return (
     <main>
-      <section className="relative overflow-hidden bg-white px-5 py-16 sm:px-8 sm:py-20">
-        <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-[radial-gradient(circle_at_30%_20%,rgba(20,184,166,0.18),transparent_34%),linear-gradient(135deg,rgba(15,118,110,0.1),transparent_50%)] lg:block" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <p className="text-sm font-bold tracking-[0.18em] text-teal-700 uppercase">
-              AI use case dictionary
-            </p>
-            <h1 className="mt-5 text-5xl font-semibold leading-[1.05] text-stone-950 sm:text-6xl lg:text-7xl">
-              AI Compass Journal
-            </h1>
-            <p className="mt-6 max-w-3xl text-2xl font-medium leading-10 text-stone-900 sm:text-3xl">
-              やりたいことから探す、AI活用の実践辞典。
-            </p>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-stone-600 sm:text-lg">
-              会議メモ、読書、note記事、調査、企画、学習、日々の整理。やりたいことを選ぶだけで、AIで進める手順・プロンプト・テンプレートが見つかります。
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <CtaButton href="/ai-use-cases">AIでできることを見る</CtaButton>
-              <CtaButton href="/free" variant="secondary">
-                無料スターターキット
-              </CtaButton>
-              <CtaButton href="/start" variant="secondary">
-                はじめての方へ
-              </CtaButton>
-            </div>
-          </div>
-          <div className="grid gap-4 rounded-[8px] border border-stone-200 bg-stone-50 p-5 shadow-sm">
-            {[
-              "noteや更新情報から発見",
-              "やりたいことを選ぶ",
-              "手順とプロンプトを見る",
-              "無料キットで整理する",
-              "noteで実験ログを書く",
-              "完成版を辞典に育てる",
-            ].map((item, index) => (
-              <div key={item} className="grid grid-cols-[44px_1fr] items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-bold text-teal-700 shadow-sm">
-                  {index + 1}
-                </span>
-                <p className="font-semibold text-stone-800">{item}</p>
-              </div>
-            ))}
+      <section className="border-b border-stone-200 bg-white px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-teal-700">
+            Practical AI for work
+          </p>
+          <h1 className="mt-5 max-w-5xl text-5xl font-semibold leading-[1.05] text-stone-950 sm:text-6xl lg:text-7xl">
+            仕事で使うAIを、やりたいことから探す。
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-9 text-stone-600">
+            会議メモ、メール返信、週報、情報整理。AIに何を頼み、どこを人が確認するかを、手順・プロンプト・実例で紹介します。
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <CtaButton
+              href="/ai-use-cases"
+              eventName="article_cta_click"
+              trackingId="home_hero"
+            >
+              AIでできることを見る
+            </CtaButton>
+            <CtaButton
+              href="/free"
+              variant="secondary"
+              eventName="free_kit_click"
+              trackingId="home_hero"
+            >
+              無料スターターキット
+            </CtaButton>
           </div>
         </div>
       </section>
 
-      <Section id="use-cases" tone="soft">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="Use Case Dictionary"
-            title="AIでやりたいことから探す。"
-            description="AIノートは入口の整理術として残しつつ、ホームページは仕事・学習・発信・生活で再現できるAI活用辞典として育てます。"
-          />
-          <CtaButton href="/ai-use-cases" variant="secondary">
-            AIでできること一覧へ
-          </CtaButton>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {aiUseCaseCategories.map((category) => (
-            <a
-              key={category}
-              href={`/ai-use-cases#${category}`}
-              className="rounded-[8px] border border-stone-200 bg-white p-5 shadow-sm transition hover:border-teal-400 hover:text-teal-800"
+      <Section>
+        <SectionHeading
+          eyebrow="Start with a problem"
+          title="いま減らしたい作業から選ぶ。"
+          description="ツール名ではなく、今日の仕事に近い入口から始められます。"
+        />
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {entranceCards.map((item) => (
+            <article
+              key={item.slug}
+              className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
             >
-              <h2 className="text-2xl font-semibold text-stone-950">{category}</h2>
-              <p className="mt-3 leading-7 text-stone-600">
-                手順、プロンプト、確認ポイントを用途別に整理します。
-              </p>
-            </a>
-          ))}
-        </div>
-        <div className="mt-10 grid gap-4 rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <p className="text-sm font-bold tracking-[0.16em] text-teal-700 uppercase">
-              Published Guides
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold text-stone-950">
-              まず読める5本。
-            </h2>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {publishedAiUseCases.map((item) => (
-              <a
-                key={item.id}
-                href={`/ai-use-cases/${item.slug}`}
-                className="rounded-[8px] bg-stone-100 px-4 py-3 text-sm font-bold leading-6 text-stone-700 transition hover:text-teal-800"
+              <div>
+                <h2 className="text-2xl font-semibold text-stone-950">{item.title}</h2>
+                <p className="mt-4 leading-8 text-stone-600">{item.description}</p>
+              </div>
+              <CtaButton
+                href={item.href}
+                variant="secondary"
+                className="mt-6"
+                eventName="article_cta_click"
+                trackingId="home_problem_entrance"
+                contentSlug={item.slug}
               >
-                {item.title}
-              </a>
-            ))}
-          </div>
+                手順を見る
+              </CtaButton>
+            </article>
+          ))}
         </div>
       </Section>
 
-      <Section id="live" tone="soft">
+      <Section tone="soft">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
-            eyebrow="Available Now"
-            title="今このサイトだけで使えるもの。"
-            description="外部サービス未接続でも、無料キット、テンプレート、プロンプト、導入ガイドはこのサイト内で読めます。"
+            eyebrow="Recommended"
+            title="最初に読む5本。"
+            description="仕事で繰り返し発生しやすい作業から、公開中の実践ガイドを5本に絞りました。"
           />
-          <CtaButton href="/updates" variant="secondary">
-            更新情報を見る
+          <CtaButton href="/ai-use-cases" variant="secondary">
+            公開中の17件を見る
           </CtaButton>
         </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {liveActions.map(([title, description, href, cta]) => (
-            <article key={href} className="flex h-full flex-col justify-between rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
-              <div>
-                <h2 className="text-xl font-semibold leading-8 text-stone-950">{title}</h2>
-                <p className="mt-3 leading-7 text-stone-600">{description}</p>
-              </div>
-              <a
-                href={href}
-                className="mt-6 inline-flex min-h-11 items-center justify-center rounded-[8px] border border-stone-300 px-4 py-2 text-sm font-bold text-stone-950 transition hover:border-teal-500 hover:text-teal-800"
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {recommendedGuides.map((item) => (
+            <article
+              key={item.slug}
+              className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm"
+            >
+              <p className="text-sm font-bold text-teal-700">
+                {item.timeToTry}・{item.difficulty === "beginner" ? "はじめて" : "少し応用"}
+              </p>
+              <h2 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
+                {item.title}
+              </h2>
+              <p className="mt-3 leading-7 text-stone-600">{item.description}</p>
+              <CtaButton
+                href={`/ai-use-cases/${item.slug}`}
+                variant="secondary"
+                className="mt-5"
+                eventName="article_cta_click"
+                trackingId="home_recommended"
+                contentSlug={item.slug}
               >
-                {cta}
-              </a>
+                手順とプロンプトを見る
+              </CtaButton>
             </article>
           ))}
         </div>
       </Section>
 
       <Section>
-        <div className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr]">
-          <SectionHeading
-            eyebrow="Current Status"
-            title="現在の公開状態。"
-            description="未接続のサービスを稼働中に見せず、今使えるものと準備中のものを分けています。"
-          />
-          <div className="grid gap-4">
-            {launchStatuses.map(([name, status, description]) => (
-              <div key={name} className="grid gap-3 rounded-[8px] border border-stone-200 bg-white p-5 shadow-sm sm:grid-cols-[140px_120px_1fr] sm:items-center">
-                <p className="font-semibold text-stone-950">{name}</p>
-                <p className="rounded-[8px] bg-stone-100 px-3 py-2 text-center text-sm font-bold text-stone-600">
-                  {status}
-                </p>
-                <p className="leading-7 text-stone-600">{description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      <Section tone="soft">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeading
-            eyebrow="First Visit"
-            title="はじめて来た人の3ステップ。"
-            description="まず全体像を読み、やりたいこと別の手順を選び、無料キットでAIノートとして整理します。"
-          />
-          <ol className="grid gap-4">
-            {firstSteps.map((step, index) => (
-              <li key={step.href} className="grid gap-4 rounded-[8px] bg-white p-5 shadow-sm sm:grid-cols-[48px_1fr_auto] sm:items-center">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-teal-700 text-sm font-bold text-white">
-                  {index + 1}
-                </span>
-                <p className="font-semibold text-stone-950">{step.label}</p>
-                <CtaButton href={step.href} variant="secondary">
-                  開く
-                </CtaButton>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </Section>
-
-      <Section id="platforms" tone="soft">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="Platform Hub"
-            title="媒体ごとの役割を分け、本店に戻す。"
-            description="各媒体は別々に伸ばしつつ、最終的には無料DL、有料note、BOOTH商品へつなぐ設計にします。"
-          />
-          <CtaButton href="/media" variant="secondary">
-            媒体設計を見る
-          </CtaButton>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {primaryPlatforms.map((platform) => (
-            <PlatformCard key={platform.id} platform={platform} />
-          ))}
-        </div>
-      </Section>
-
-      <Section id="funnel">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeading
-            eyebrow="Funnel Map"
-            title="発見から購入まで、次の一手が見える導線。"
-            description="読者の流れは、媒体で出会い、本店で理解し、無料キット、有料note、買い切り商品へ進む形に整理します。"
-          />
-          <FunnelMap />
-        </div>
-      </Section>
-
-      <Section id="products" tone="soft">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="Featured Products"
-            title="現在利用できる商品と無料キット。"
-            description="公開済みで、実際に利用できる配布物だけを案内します。"
-          />
-          <CtaButton href="/products" variant="secondary">
-            商品一覧へ
-          </CtaButton>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </Section>
-
-      <Section id="library">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="Latest / Library Preview"
-            title="note、Zenn、Medium、自サイト記事を横断する。"
-            description="媒体ではなく、読者の段階、タグ、関連商品から記事を探せるライブラリへ誘導します。"
-          />
-          <CtaButton href="/library" variant="secondary">
-            記事ライブラリへ
-          </CtaButton>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {featuredArticles.map((article) => (
-            <ArticleCard key={article.id} article={article} />
-          ))}
-        </div>
-      </Section>
-
-      <Section tone="soft">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="Updates"
-            title="サイトの更新情報。"
-            description="外部サービス接続前でも、サイト内の公開状態と改善内容を静的に残します。"
-          />
-          <CtaButton href="/updates" variant="secondary">
-            更新情報一覧へ
-          </CtaButton>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
-          {latestUpdates.map((item) => (
-            <article key={item.id} className="rounded-[8px] border border-stone-200 bg-white p-6 shadow-sm">
-              <p className="text-sm font-bold text-teal-700">{item.category}</p>
-              <time className="mt-3 block text-sm text-stone-500" dateTime={item.date}>
-                {item.date}
-              </time>
-              <h2 className="mt-3 text-xl font-semibold leading-8 text-stone-950">
-                {item.title}
-              </h2>
-              <p className="mt-3 leading-7 text-stone-600">{item.description}</p>
-              <CtaButton href={item.href} variant="secondary" className="mt-6">
-                関連ページへ
-              </CtaButton>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      <Section tone="soft">
-        <NewsletterCta />
-      </Section>
-
-      <Section tone="dark">
-        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div className="grid gap-8 rounded-[8px] border border-teal-200 bg-teal-50 p-7 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="text-sm font-bold tracking-[0.16em] text-teal-200 uppercase">
-              Final CTA
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">
+              Free starter kit
             </p>
-            <h2 className="mt-3 text-4xl font-semibold leading-tight">
-              まずは読む順番を決め、無料キットで試す。
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              AIノートを1週間だけ試す。
             </h2>
-            <p className="mt-4 max-w-3xl leading-8 text-stone-300">
-              {siteConfig.name}は、複数媒体をただ並べる場所ではなく、読者を次の行動へ案内する本店です。
+            <p className="mt-4 max-w-3xl leading-8 text-stone-700">
+              基本テンプレート、コピペ用プロンプト10個、7日間ガイドをサイト内で無料公開しています。登録は不要です。
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <CtaButton href="/start" variant="light">
-              はじめての方へ
-            </CtaButton>
-            <CtaButton href="/free" variant="light">
-              無料キット
-            </CtaButton>
-            <CtaButton href="/products" variant="light">
-              商品を見る
-            </CtaButton>
+          <CtaButton
+            href="/free"
+            eventName="free_kit_click"
+            trackingId="home_free_kit"
+          >
+            無料キットを使う
+          </CtaButton>
+        </div>
+      </Section>
+
+      <Section tone="soft">
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">
+              Evidence reviews
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              使って確かめたレビューだけを公開する。
+            </h2>
+            <p className="mt-4 leading-8 text-stone-600">
+              入力、出力、誤り、修正量、向く場面を記録し、証拠と人の確認が揃うまでツールレビューや広告リンクは公開しません。
+            </p>
+            <p className="mt-5 rounded-[8px] bg-white px-4 py-3 text-sm font-bold text-stone-600">
+              現在、公開中のツールレビューとアフィリエイトリンクはありません。
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">
+              Editorial policy
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+              手順・検証・広告を分けて伝える。
+            </h2>
+            <ul className="mt-5 grid gap-3 text-stone-700">
+              <li>事実、実測結果、仮説を区別します。</li>
+              <li>広告を掲載する場合は、ページ上部とCTA付近で明示します。</li>
+              <li>クリック数と広告主が確認した成約数を区別します。</li>
+            </ul>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <CtaButton href="/about" variant="secondary">
+                運営・検証方針
+              </CtaButton>
+              <CtaButton href="/legal" variant="secondary">
+                法務・ポリシー
+              </CtaButton>
+            </div>
           </div>
         </div>
       </Section>

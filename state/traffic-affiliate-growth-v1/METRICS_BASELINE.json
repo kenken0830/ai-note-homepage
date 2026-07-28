@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "measured_at": "2026-07-26T00:00:00+09:00",
+  "measurement_precision": "date_only",
+  "production": {
+    "canonical_request_host": "ai-compass-journal.com",
+    "final_host": "www.ai-compass-journal.com",
+    "deployment_sha": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+    "sitemap_total_urls": 32,
+    "published_use_cases": 17,
+    "sitemap_use_cases": 17,
+    "http_errors": 0,
+    "noindex_urls_in_sitemap": 0,
+    "broken_internal_links": 0,
+    "orphan_sitemap_pages": 0,
+    "duplicate_titles": 0,
+    "canonical_redirect_mismatches": 17,
+    "missing_explicit_canonicals": 15,
+    "live_affiliate_links": 0
+  },
+  "search_console": {
+    "dns_verification_record_present": true,
+    "property_access_verified": false,
+    "sitemap_submission_verified": false,
+    "indexed_pages": null,
+    "excluded_pages": null,
+    "impressions": null,
+    "clicks": null,
+    "ctr": null,
+    "average_position": null,
+    "status": "HUMAN_ACTION_REQUIRED"
+  },
+  "vercel_analytics": {
+    "runtime_component_present": true,
+    "visitors": null,
+    "page_views": null,
+    "landing_pages": null,
+    "status": "COUNTS_REQUIRE_HUMAN_DASHBOARD_EXPORT"
+  },
+  "business": {
+    "article_cta_clicks": null,
+    "free_kit_clicks": null,
+    "affiliate_clicks": 0,
+    "affiliate_conversions_reported": 0,
+    "affiliate_conversions_approved": 0,
+    "approved_commission": null
+  }
+}

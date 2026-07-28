@@ -1,0 +1,25 @@
+schema_version: 1
+selection_basis: target_user_fit_and_commercial_intent_pending_search_console_data
+maximum_priority_items: 3
+items:
+  - slug: meeting-notes-to-minutes
+    priority: 1
+    target_intent: Japanese meeting transcription and minutes
+    notta_alignment: direct
+    status: selected_pending_search_data
+  - slug: write-email-reply
+    priority: 2
+    target_intent: practical workplace writing
+    notta_alignment: indirect
+    status: selected_pending_search_data
+  - slug: make-weekly-report
+    priority: 3
+    target_intent: recurring workplace reporting
+    notta_alignment: indirect
+    status: selected_pending_search_data
+reselection_gate:
+  required_evidence:
+    - search_console_query_export
+    - search_console_page_export
+    - vercel_landing_page_baseline
+  rule: replace_only_with_recorded_evidence

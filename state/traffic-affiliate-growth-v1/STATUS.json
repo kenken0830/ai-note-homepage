@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "program_id": "TRAFFIC-AFFILIATE-GROWTH-V1",
+  "updated_on": "2026-07-26",
+  "execution_status": "HUMAN_GATE_CONSOLIDATED",
+  "current_phase": "HUMAN_GATES",
+  "current_task": "T03_T07_T15",
+  "site_repository": "ai-note-homepage",
+  "growth_branch": "codex/traffic-affiliate-growth-v1",
+  "baseline_commit": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+  "production_commit": "630443ebbb8fb18607e9c57c0c4063254dbf2903",
+  "production_changed": false,
+  "search_console_status": "HUMAN_ACTION_REQUIRED",
+  "analytics_status": "INTEGRATION_VERIFIED_COUNTS_UNAVAILABLE",
+  "technical_seo_blockers": 0,
+  "homepage_clarity_status": "READY_FOR_HUMAN_REVIEW",
+  "priority_content_count": 3,
+  "notta_application": "SUBMITTED_PENDING_REVIEW",
+  "notta_program_approved": false,
+  "notta_tool_test": "NOT_STARTED",
+  "public_notta_review": 0,
+  "live_affiliate_links": 0,
+  "pr_created": true,
+  "pr_url": "https://github.com/kenken0830/ai-note-homepage/pull/65",
+  "preview_status": "READY",
+  "merged": false,
+  "open_gates": [
+    "SEARCH_CONSOLE_ACCESS_AND_EXPORT",
+    "VERCEL_PLAN_AND_ANALYTICS_EXPORT",
+    "NOTTA_EXTERNAL_DECISION",
+    "MERGE_AND_PUBLICATION"
+  ]
+}

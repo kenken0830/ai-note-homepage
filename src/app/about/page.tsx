@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "運営者について",
   description:
     "AI Compass Journal を運営している人と、このサイトの方針・安全境界を紹介します。",
+  alternates: { canonical: "/about" },
 };
 
 const principles = [

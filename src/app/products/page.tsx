@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "商品一覧",
   description:
     "現在利用できるAI Compass Journalの商品と無料キットを一覧できます。",
+  alternates: { canonical: "/products" },
 };
 
 const categories = [...new Set(publicProducts.map((product) => product.type))];

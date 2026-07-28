@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "audited_on": "2026-07-26",
+  "status": "REMEDIATION_REQUIRED",
+  "verified_strengths": [
+    "Hero identifies the site as an AI use-case dictionary",
+    "Free kit is available and directly linked",
+    "Published-use-case count is accurate"
+  ],
+  "blocking_or_distracting_sections": [
+    "Platform Hub",
+    "Funnel Map",
+    "Current Status implementation explanation",
+    "media library strategy",
+    "newsletter CTA without an active registration destination"
+  ],
+  "target_sections": [
+    "target user and outcome",
+    "problem-based entrances",
+    "maximum five recommended guides",
+    "evidence-review status",
+    "free starter kit",
+    "editorial verification and advertising policy"
+  ]
+}

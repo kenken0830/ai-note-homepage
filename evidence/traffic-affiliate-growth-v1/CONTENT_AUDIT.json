@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "audited_on": "2026-07-26",
+  "published_use_cases": 17,
+  "strengths": [
+    "Each public use case has a clear task title, prompt, steps, checks, and common mistakes",
+    "Published status controls static generation",
+    "No planned detail pages are generated"
+  ],
+  "gaps": [
+    "No Search Console query/page evidence is available",
+    "First-hand product evidence is absent",
+    "Verified author, reviewer, published, modified, and verified dates are not available in the use-case model",
+    "Correction intake is not visible"
+  ],
+  "priority_selection": [
+    {"slug": "meeting-notes-to-minutes", "basis": "direct target-user and Notta alignment"},
+    {"slug": "write-email-reply", "basis": "high-frequency workplace task"},
+    {"slug": "make-weekly-report", "basis": "recurring workplace task"}
+  ],
+  "selection_status": "ASSUMPTION_PENDING_SEARCH_CONSOLE_AND_ANALYTICS",
+  "full_rewrite_authorized": false
+}

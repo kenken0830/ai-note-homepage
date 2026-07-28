@@ -1,4 +1,5 @@
-const fallbackSiteUrl = "https://ai-note-homepage.vercel.app";
+const canonicalSiteUrl = "https://www.ai-compass-journal.com";
+const fallbackSiteUrl = canonicalSiteUrl;
 const defaultNoteUrl = "https://note.com/life_to_ai";
 const defaultGitHubUrl = "https://github.com/kenken0830/ai-note-homepage";
 
@@ -9,19 +10,49 @@ function normalizePublicEnv(value: string | null | undefined, fallback?: string)
   return normalized ? normalized : fallback;
 }
 
+function normalizeSiteUrl(value: string | null | undefined) {
+  const candidate = normalizePublicEnv(value, fallbackSiteUrl);
+
+  try {
+    const parsed = new URL(candidate);
+    if (
+      parsed.hostname === "ai-compass-journal.com" ||
+      parsed.hostname === "www.ai-compass-journal.com"
+    ) {
+      return canonicalSiteUrl;
+    }
+    return parsed.origin;
+  } catch {
+    return fallbackSiteUrl;
+  }
+}
+
+function normalizeNoteUrl(value: string | null | undefined) {
+  const candidate = normalizePublicEnv(value, defaultNoteUrl);
+
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "https:" && parsed.hostname === "note.com"
+      ? parsed.toString().replace(/\/$/, "")
+      : defaultNoteUrl;
+  } catch {
+    return defaultNoteUrl;
+  }
+}
+
 export const siteConfig = {
   name: "AI Compass Journal",
-  title: "AI Compass Journal | AIノートの本店・導線ハブ",
+  title: "AI Compass Journal | 仕事で使うAI実践ガイド",
   description:
-    "note、Zenn、Medium、BOOTH、GitHub、X、YouTubeを束ね、無料キットと買い切り商品へつなぐAI活用の導線ハブです。",
+    "会議メモ、メール返信、週報など、仕事で使うAIの手順・プロンプト・確認ポイントを実践形式で紹介します。",
   ogDescription:
-    "AIノートを学ぶ、使う、作る、売るための入口を、無料キット、商品、記事へ整理しています。",
-  siteUrl: normalizePublicEnv(process.env.NEXT_PUBLIC_SITE_URL, fallbackSiteUrl),
+    "やりたい仕事から、AIで進める手順と無料スターターキットを探せる実践ガイドです。",
+  siteUrl: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
   fallbackSiteUrl,
-  noteUrl: normalizePublicEnv(process.env.NEXT_PUBLIC_NOTE_URL, defaultNoteUrl),
+  noteUrl: normalizeNoteUrl(process.env.NEXT_PUBLIC_NOTE_URL),
   contactEmail: normalizePublicEnv(process.env.NEXT_PUBLIC_CONTACT_EMAIL),
   links: {
-    note: normalizePublicEnv(process.env.NEXT_PUBLIC_NOTE_URL, defaultNoteUrl),
+    note: normalizeNoteUrl(process.env.NEXT_PUBLIC_NOTE_URL),
     zenn: normalizePublicEnv(process.env.NEXT_PUBLIC_ZENN_URL, "#"),
     medium: normalizePublicEnv(process.env.NEXT_PUBLIC_MEDIUM_URL, "#"),
     booth: normalizePublicEnv(process.env.NEXT_PUBLIC_BOOTH_URL, "#"),

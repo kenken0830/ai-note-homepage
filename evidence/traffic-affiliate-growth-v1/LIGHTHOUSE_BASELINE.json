@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "measured_on": "2026-07-26",
+  "target": "local production build homepage",
+  "url": "http://127.0.0.1:3107/",
+  "mode": "Lighthouse lab data",
+  "scores": {
+    "performance": 99,
+    "accessibility": 100,
+    "best_practices": 96,
+    "seo": 100
+  },
+  "metrics": {
+    "largest_contentful_paint_ms": 2271,
+    "cumulative_layout_shift": 0,
+    "total_blocking_time_ms": 36
+  },
+  "limitations": [
+    "This is local lab data, not production field Core Web Vitals",
+    "The local Vercel Analytics endpoint returns 404 outside Vercel",
+    "Production Speed Insights and CrUX data remain unavailable"
+  ]
+}

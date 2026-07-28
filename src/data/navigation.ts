@@ -1,16 +1,16 @@
 import type { NavItem } from "@/types/content";
 
 export const primaryNavigation: NavItem[] = [
-  { label: "はじめて", href: "/start", showInHeader: true },
   { label: "AIでできること", href: "/ai-use-cases", showInHeader: true },
-  { label: "独自実験", href: "/experiments", showInHeader: true },
+  { label: "ワークフロー", href: "/workflows", showInHeader: true },
+  { label: "独自実験", href: "/experiments" },
   { label: "無料キット", href: "/free", showInHeader: true },
-  { label: "ガイド", href: "/guides", showInHeader: true },
+  { label: "はじめて", href: "/start" },
+  { label: "ガイド", href: "/guides" },
   { label: "プロンプト", href: "/prompts" },
-  { label: "ワークフロー", href: "/workflows" },
   { label: "商品", href: "/products" },
   { label: "記事", href: "/library" },
-  { label: "更新情報", href: "/updates", showInHeader: true },
+  { label: "更新情報", href: "/updates" },
   { label: "メディア", href: "/media" },
   { label: "メルマガ", href: "/newsletter" },
   { label: "運営者", href: "/about" },
@@ -21,8 +21,9 @@ export const headerNavigation = primaryNavigation.filter(
 );
 
 export const footerNavigation: NavItem[] = [
-  ...primaryNavigation,
-  { label: "English", href: "/en" },
+  ...primaryNavigation.filter(
+    (item) => !["/media", "/newsletter", "/experiments"].includes(item.href),
+  ),
   { label: "法務・ポリシー", href: "/legal" },
 ];
 

@@ -23,7 +23,7 @@ AI Compass JournalをVercelで公開する前後に確認する項目です。
 
 `ai-compass-journal.com` を Cloudflare Registrar で取得済み(2026-05-08)。Vercel に接続済みで、本番 URL として運用されています。
 
-- 本番 URL: `https://ai-compass-journal.com`(www への 307 リダイレクトあり)
+- 本番 URL: `https://www.ai-compass-journal.com`（apexからwwwへリダイレクト）
 - DNS: Cloudflare 管理(A レコード `@ → 76.76.21.21`、CNAME `www → cname.vercel-dns.com`、いずれも DNS only)
 - SSL: Vercel が自動発行
 - Vercel デフォルト URL `https://ai-note-homepage.vercel.app` も引き続き有効
@@ -32,7 +32,7 @@ AI Compass JournalをVercelで公開する前後に確認する項目です。
 
 最低限:
 
-- `NEXT_PUBLIC_SITE_URL`: 公開URL。本番値は `https://ai-compass-journal.com`
+- `NEXT_PUBLIC_SITE_URL`: 公開URL。本番値は最終配信ホストの `https://www.ai-compass-journal.com`
 - `NEXT_PUBLIC_NOTE_URL`: noteのURL。例 `https://note.com/life_to_ai`
 
 `NEXT_PUBLIC_SITE_URL` はsitemap、robots、OGPの基準URLになるため、Productionの本番URLに必ず設定してください。未設定時は一時的なfallback URLでビルドできますが、公開前に差し替える前提です。
@@ -59,7 +59,7 @@ AI Compass JournalをVercelで公開する前後に確認する項目です。
 
 ## 公開後に確認するURL一覧
 
-すべて `https://ai-compass-journal.com` 配下で確認します。
+すべて `https://www.ai-compass-journal.com` 配下で確認します。
 
 - `/`
 - `/start`

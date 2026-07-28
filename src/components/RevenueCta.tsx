@@ -56,6 +56,8 @@ export function RevenueCta({ slug }: RevenueCtaProps) {
             href={product.purchaseUrl}
             variant="light"
             trackingId={`use_case_revenue_${slug}_${product.id}`}
+            eventName="article_cta_click"
+            contentSlug={slug}
           >
             {label}
           </CtaButton>

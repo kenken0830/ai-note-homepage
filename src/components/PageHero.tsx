@@ -7,10 +7,16 @@ type PageHeroProps = {
   primaryCta?: {
     label: string;
     href: string;
+    eventName?: "cta_click" | "free_kit_click" | "article_cta_click";
+    trackingId?: string;
+    contentSlug?: string;
   };
   secondaryCta?: {
     label: string;
     href: string;
+    eventName?: "cta_click" | "free_kit_click" | "article_cta_click";
+    trackingId?: string;
+    contentSlug?: string;
   };
 };
 
@@ -38,10 +44,23 @@ export function PageHero({
             {(primaryCta || secondaryCta) ? (
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 {primaryCta ? (
-                  <CtaButton href={primaryCta.href}>{primaryCta.label}</CtaButton>
+                  <CtaButton
+                    href={primaryCta.href}
+                    eventName={primaryCta.eventName}
+                    trackingId={primaryCta.trackingId}
+                    contentSlug={primaryCta.contentSlug}
+                  >
+                    {primaryCta.label}
+                  </CtaButton>
                 ) : null}
                 {secondaryCta ? (
-                  <CtaButton href={secondaryCta.href} variant="secondary">
+                  <CtaButton
+                    href={secondaryCta.href}
+                    variant="secondary"
+                    eventName={secondaryCta.eventName}
+                    trackingId={secondaryCta.trackingId}
+                    contentSlug={secondaryCta.contentSlug}
+                  >
                     {secondaryCta.label}
                   </CtaButton>
                 ) : null}

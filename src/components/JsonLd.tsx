@@ -28,6 +28,11 @@ function getSiteUrl(): string {
   return url.replace(/\/$/, "");
 }
 
+function toIso8601Duration(value: string | undefined) {
+  const minutes = value?.match(/^(\d+)分$/);
+  return minutes ? `PT${minutes[1]}M` : undefined;
+}
+
 export function buildHowToSchema(useCase: AiUseCase) {
   const siteUrl = getSiteUrl();
   return {
@@ -36,16 +41,12 @@ export function buildHowToSchema(useCase: AiUseCase) {
     name: useCase.title,
     description: useCase.description,
     inLanguage: "ja",
-    totalTime: useCase.timeToTry ? `PT${useCase.timeToTry}` : undefined,
+    totalTime: toIso8601Duration(useCase.timeToTry),
     step: useCase.steps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
       name: `ステップ${index + 1}`,
       text: step,
-    })),
-    tool: useCase.tags?.map((tag) => ({
-      "@type": "HowToTool",
-      name: tag,
     })),
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -63,7 +64,7 @@ export function buildArticleSchema(useCase: AiUseCase) {
   const siteUrl = getSiteUrl();
   return {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
+    "@type": "Article",
     headline: useCase.title,
     description: useCase.description,
     inLanguage: "ja",
@@ -74,6 +75,11 @@ export function buildArticleSchema(useCase: AiUseCase) {
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/ai-use-cases/${useCase.slug}`,
+    },
+    author: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteUrl,
     },
     publisher: {
       "@type": "Organization",

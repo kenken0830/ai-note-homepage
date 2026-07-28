@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-07-26",
+  "status": "HUMAN_ACTION_REQUIRED",
+  "public_evidence": {
+    "dns_google_site_verification_record_present": true,
+    "robots_allows_crawling": true,
+    "sitemap_publicly_reachable": true,
+    "canonical_pages_return_200": true
+  },
+  "private_console_evidence": {
+    "property_access": "UNVERIFIED",
+    "property_type": "UNVERIFIED",
+    "sitemap_submitted": "UNVERIFIED",
+    "performance_export": "MISSING",
+    "page_indexing_export": "MISSING",
+    "url_inspection_17_pages": "MISSING"
+  },
+  "metrics": {
+    "indexed_pages": null,
+    "excluded_pages": null,
+    "impressions": null,
+    "clicks": null,
+    "ctr": null,
+    "average_position": null
+  },
+  "reason": "Google login and Search Console access are human-only gates. Public DNS does not prove property access or report contents."
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "derived_read_only": true,
+  "captured_on": "2026-07-26",
+  "source_repository": "ai-note-homepage-notta-pilot-contract",
+  "source_commit": "0442f2a6952ed5f897c12d3d25f818dfde17837d",
+  "canonical_files": [
+    "state/affiliate-notta-pilot/STATUS.json",
+    "state/affiliate-notta-pilot/TASK_GRAPH.yaml",
+    "evidence/affiliate-notta-pilot/receipts/APPLICATION_SUBMISSION.json",
+    "evidence/affiliate-notta-pilot/EVIDENCE_MANIFEST.json"
+  ],
+  "application": {
+    "route": "A8.net",
+    "external_program_id": "s00000024524001",
+    "external_program_id_type": "advertiser_program_id",
+    "status": "SUBMITTED_PENDING_REVIEW",
+    "submitted_on": "2026-07-26",
+    "exact_time": "NOT_PROVIDED"
+  },
+  "program_approved": false,
+  "tool_test_started": false,
+  "public_review": 0,
+  "live_affiliate_links": 0,
+  "current_task": "T03",
+  "current_gate": "EXTERNAL_PROGRAM_DECISION"
+}

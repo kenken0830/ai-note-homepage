@@ -33,10 +33,10 @@ export function GET() {
   lines.push(`> ${siteConfig.description}`);
   lines.push("");
   lines.push(
-    "AI Compass Journal は、note の保管庫ではなく、AI でやりたいことから、最適な手順・プロンプト・note・漫画・動画・テンプレ・商品に辿り着けるホームベースです。",
+    "AI Compass Journal は、仕事で使うAIを、やりたいことから手順・プロンプト・確認ポイントまで探せる実践ガイドです。",
   );
   lines.push(
-    "noteは日々の調査・実験ログ、ホームページは再現できる完成版の手順・プロンプト・テンプレートとして住み分けています。",
+    "公開済みの手順と無料キットを案内し、実測証拠がないツールレビューや広告リンクは公開しません。",
   );
   lines.push("");
 
@@ -49,9 +49,11 @@ export function GET() {
   lines.push(
     `- [AIでできること一覧](${siteUrl}/ai-use-cases): やりたいこと別に AI 活用を探す実践辞典`,
   );
-  lines.push(
-    `- [独自実験](${siteUrl}/experiments): Codex / Claude / Gemini をマルチエージェント合意で検証する独自データ集`,
-  );
+  if (publishedExperiments.length > 0) {
+    lines.push(
+      `- [独自実験](${siteUrl}/experiments): 再現可能な検証データ`,
+    );
+  }
   lines.push(
     `- [完全ガイド](${siteUrl}/guides): AIノート活用の章立てガイド`,
   );
@@ -68,6 +70,7 @@ export function GET() {
     `- [記事ライブラリ](${siteUrl}/library): note・漫画・動画・テンプレを横断するハブ`,
   );
   lines.push(`- [更新情報](${siteUrl}/updates): 公開記録と運用履歴`);
+  lines.push(`- [運営・検証方針](${siteUrl}/about): 編集と検証の方針`);
   lines.push("");
 
   lines.push("## やりたいこと別 AI 活用ユースケース(全公開ページ)");

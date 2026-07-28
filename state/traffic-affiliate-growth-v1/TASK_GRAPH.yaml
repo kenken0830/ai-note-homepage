@@ -1,0 +1,108 @@
+schema_version: 1
+program_id: TRAFFIC-AFFILIATE-GROWTH-V1
+current_phase: HUMAN_GATES
+current_task: T03_T07_T15
+tasks:
+  - id: T01
+    title: CURRENT STATE AUDIT
+    actor: codex
+    depends_on: []
+    status: completed
+  - id: T02
+    title: CONTRACT AND BASELINE FREEZE
+    actor: codex
+    depends_on: [T01]
+    status: completed
+  - id: T03
+    title: SEARCH CONSOLE BASELINE
+    actor: human_then_codex
+    human_gate: true
+    depends_on: [T02]
+    status: waiting_human
+  - id: T04
+    title: TECHNICAL SEO REMEDIATION
+    actor: codex
+    depends_on: [T01, T02]
+    status: completed
+  - id: T05
+    title: HOMEPAGE CLARITY
+    actor: codex
+    depends_on: [T01, T02]
+    status: completed
+  - id: T06
+    title: PRIORITY CONTENT SELECTION
+    actor: codex
+    depends_on: [T01]
+    status: completed
+  - id: T07
+    title: NOTTA EXTERNAL APPROVAL WAIT
+    actor: external_provider
+    external_gate: true
+    depends_on: []
+    status: waiting_external
+  - id: T08
+    title: NOTTA HUMAN TOOL TEST
+    actor: human
+    human_gate: true
+    depends_on: [T07]
+    status: blocked
+  - id: T09
+    title: NOTTA EVIDENCE PACK
+    actor: codex_and_human
+    depends_on: [T08]
+    status: blocked
+  - id: T10
+    title: NOTTA REVIEW IMPLEMENTATION
+    actor: codex
+    depends_on: [T09]
+    status: blocked
+  - id: T11
+    title: ANALYTICS AND ATTRIBUTION
+    actor: codex
+    depends_on: [T02]
+    status: completed
+  - id: T12
+    title: DISTRIBUTION ASSETS
+    actor: codex
+    depends_on: [T06]
+    status: completed
+  - id: T13
+    title: INDEPENDENT REVIEW
+    actor: independent_reviewer
+    depends_on: [T04, T05, T06, T11, T12]
+    status: completed
+  - id: T14
+    title: PR AND PREVIEW
+    actor: codex
+    depends_on: [T13]
+    status: completed
+  - id: T15
+    title: HUMAN MERGE AND PUBLICATION
+    actor: human
+    human_gate: true
+    depends_on: [T14]
+    status: waiting_human
+  - id: T16
+    title: PRODUCTION VERIFY
+    actor: codex_after_human_publication
+    depends_on: [T15]
+    status: blocked
+  - id: T17
+    title: OBSERVATION WINDOW
+    actor: codex_and_human
+    depends_on: [T16]
+    status: blocked
+  - id: T18
+    title: DATA-DRIVEN CHANGE REQUEST
+    actor: codex
+    depends_on: [T03, T17]
+    status: blocked
+human_gates:
+  - SEARCH_CONSOLE_ACCESS_AND_EXPORT
+  - NOTTA_EXTERNAL_DECISION
+  - NOTTA_TOOL_TEST
+  - SCREENSHOT_AND_EVIDENCE_APPROVAL
+  - ADVERTISING_AND_PRIVACY_APPROVAL
+  - AFFILIATE_DESTINATION_REGISTRATION
+  - MERGE_AND_PRODUCTION_PUBLICATION
+  - NOTE_AND_X_PUBLICATION

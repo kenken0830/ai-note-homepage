@@ -54,6 +54,7 @@ export const metadata: Metadata = {
   title: "記事ライブラリ",
   description:
     "note、Zenn、Medium、自サイト記事を横断して、source、tag、funnelStage、relatedProductIdsで管理する記事ハブです。",
+  alternates: { canonical: "/library" },
 };
 
 export default function LibraryPage() {

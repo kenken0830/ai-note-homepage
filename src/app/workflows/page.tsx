@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "AIノート活用ワークフロー",
   description:
     "会議メモ、読書メモ、毎日note、アイデアメモ、週次レビューを成果物へ変えるAIノート活用ワークフローを整理します。",
+  alternates: { canonical: "/workflows" },
 };
 
 export default function WorkflowsPage() {
