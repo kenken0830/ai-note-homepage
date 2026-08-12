@@ -1,0 +1,23 @@
+{
+  "schema": "factory_os.dstudio.publisher_profile_input_candidate.v1",
+  "mission_id": "FOS-3D-DSTUDIO-PUBLISHER-SUPPORT-ASSETS-001",
+  "status": "DEPLOYMENT_APPROVED",
+  "profile_name": "D-Studio 3D Assets",
+  "introduction": "Game-ready sci-fi and cyber 3D assets for Unity and real-time production.",
+  "about": "D-Studio 3D Assets creates practical 3D assets with optimized geometry, LODs, PBR materials, collision setup, documentation, and validated Unity packages.",
+  "website_candidate": "https://www.ai-compass-journal.com/d-studio",
+  "support_url_candidate": "https://www.ai-compass-journal.com/d-studio/support",
+  "support_email": {
+    "value_in_repository": "bonnyjames0830@gmail.com",
+    "source": "USER_APPROVED_PUBLIC_SUPPORT_EMAIL",
+    "publication_gate": "PASS"
+  },
+  "profile_image_candidates": [
+    "public/d-studio/DSTUDIO_PROFILE_IMAGE_160x160.png",
+    "public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png"
+  ],
+  "profile_image_brand_fit": "APPROVED_PRODUCT_SPECIFIC",
+  "provider_agreement": "NOT_REVIEWED_OR_ACCEPTED",
+  "publisher_profile_saved": false,
+  "package_draft_created": false
+}

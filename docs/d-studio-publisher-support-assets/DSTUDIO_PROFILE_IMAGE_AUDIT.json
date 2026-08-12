@@ -1,0 +1,54 @@
+{
+  "schema": "factory_os.dstudio.profile_image_audit.v1",
+  "mission_id": "FOS-3D-DSTUDIO-PUBLISHER-SUPPORT-ASSETS-001",
+  "status": "APPROVED_PRODUCT_SPECIFIC_PROFILE_IMAGE",
+  "source": {
+    "artifact": "CQSA R06 Media/Icon_160x160.png",
+    "size": 42191,
+    "sha256": "448aed4e9ec24a4efd3c63da740264be18c4fcbbec7b513739b8e637bc39be7c",
+    "read_only": true,
+    "ownership_evidence": [
+      "CQSA R06 paid-private Meshy rights binding",
+      "CQSA R06 gallery sanitization PASS",
+      "CQSA R06 local commercial readiness PASS"
+    ]
+  },
+  "outputs": [
+    {
+      "path": "public/d-studio/DSTUDIO_PROFILE_IMAGE_160x160.png",
+      "width": 160,
+      "height": 160,
+      "size": 42191,
+      "sha256": "448aed4e9ec24a4efd3c63da740264be18c4fcbbec7b513739b8e637bc39be7c",
+      "derivation": "EXACT_BYTE_COPY"
+    },
+    {
+      "path": "public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png",
+      "width": 512,
+      "height": 512,
+      "size": 290454,
+      "sha256": "7abd270a345ae36401f379df50b43fd7c5cd8856cc97f7430c12bacf402e9333",
+      "derivation": "DETERMINISTIC_LANCZOS_RESIZE_WITH_METADATA_REMOVAL"
+    }
+  ],
+  "checks": {
+    "user_owned": true,
+    "unity_logo": false,
+    "other_company_trademark": false,
+    "visible_text": false,
+    "exif_or_format_tags": 0,
+    "local_path_hits": 0,
+    "username_hits": 0,
+    "source_machine_path_hits": 0,
+    "decode_errors": 0,
+    "square": true,
+    "small_size_readable": true,
+    "new_logo_design_created": false
+  },
+  "brand_fit": {
+    "product_specific": true,
+    "assessment": "Approved by the user as the D-Studio Publisher Profile image candidate. It depicts CQSA rather than a neutral D-Studio brand mark.",
+    "human_approval_required": false,
+    "approved_path": "public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png"
+  }
+}

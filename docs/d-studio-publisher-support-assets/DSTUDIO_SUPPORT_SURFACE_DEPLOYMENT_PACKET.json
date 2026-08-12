@@ -1,0 +1,39 @@
+{
+  "schema": "factory_os.dstudio.support_surface_deployment_packet.v1",
+  "mission_id": "FOS-3D-DSTUDIO-PUBLISHER-SUPPORT-ASSETS-001",
+  "status": "DEPLOYMENT_APPROVED_LOCAL_FINAL_QA_PENDING",
+  "target_repository": "https://github.com/kenken0830/ai-note-homepage.git",
+  "target_branch": "main",
+  "deployment_route": "review branch -> pull request -> human merge -> existing Vercel GitHub integration",
+  "candidate_urls": [
+    "https://www.ai-compass-journal.com/d-studio",
+    "https://www.ai-compass-journal.com/d-studio/support"
+  ],
+  "source_files": [
+    "src/app/d-studio/page.tsx",
+    "src/app/d-studio/support/page.tsx",
+    "src/data/dStudio.ts",
+    "public/d-studio/cqsa-cover.png",
+    "public/d-studio/DSTUDIO_PROFILE_IMAGE_160x160.png",
+    "public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png"
+  ],
+  "pre_deployment_gates": [
+    "Public support email approved and committed to the D-Studio data authority",
+    "Product-specific 512x512 profile image approved",
+    "Review the two public pages and product-line status wording",
+    "Open, review, and merge a pull request to main"
+  ],
+  "post_deployment_checks": [
+    "Both candidate URLs return HTTP 200 without login",
+    "Website and Support URLs display D-Studio 3D Assets relationship",
+    "Support email link resolves to the approved public address",
+    "No local path, username, or debug text is present",
+    "Production deployment-status commit matches the merged GitHub main commit"
+  ],
+  "deployment_performed": false,
+  "publisher_profile_saved": false,
+  "package_draft_created": false,
+  "upload_performed": false,
+  "submit_performed": false,
+  "publish_performed": false
+}

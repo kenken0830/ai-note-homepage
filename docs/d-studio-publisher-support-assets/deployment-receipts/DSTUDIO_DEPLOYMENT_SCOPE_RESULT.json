@@ -1,0 +1,44 @@
+{
+  "schema": "factory_os.dstudio.deployment_scope_result.v1",
+  "mission_id": "FOS-3D-DSTUDIO-SUPPORT-SURFACE-DEPLOY-001",
+  "status": "PASS",
+  "scope_isolated": true,
+  "approved_content_file_count": 14,
+  "deployment_receipts_allowed": true,
+  "unrelated_dirty_paths_preserved": [
+    "next-env.d.ts",
+    ".git-alt-index",
+    ".git-alt-index-2",
+    ".git-alt-index-3",
+    ".git-alt-objects/",
+    ".localappdata/",
+    ".publish-tmp/",
+    "tree-data.txt"
+  ],
+  "pre_deploy_qa": {
+    "validate_content_assets": "PASS_11_ENTRIES",
+    "validate_revenue_routes": "PASS_27_ROUTES_17_PUBLISHED_USE_CASES",
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "production_build": "PASS_NEXT_16_2_10",
+    "static_routes": ["/d-studio", "/d-studio/support"],
+    "internal_link_occurrences": 63,
+    "internal_unique_links": 27,
+    "broken_links": 0,
+    "desktop_layout": "PASS_1440x1000",
+    "mobile_layout": "PASS_390x844",
+    "mobile_horizontal_overflow_px": 0,
+    "support_email_display": "PASS",
+    "support_navigation": "PASS",
+    "local_path_hits": 0,
+    "machine_username_hits": 0,
+    "debug_data_hits": 0,
+    "profile_image_metadata_tags": 0,
+    "profile_image_decode_errors": 0
+  },
+  "local_console": {
+    "page_specific_errors": 0,
+    "host_only_exclusion": "Vercel Analytics script 404 on non-Vercel localhost"
+  },
+  "cqsa_r06_changed": false
+}

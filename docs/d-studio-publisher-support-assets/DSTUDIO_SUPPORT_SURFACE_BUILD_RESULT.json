@@ -1,0 +1,41 @@
+{
+  "schema": "factory_os.dstudio.support_surface_build_result.v1",
+  "mission_id": "FOS-3D-DSTUDIO-PUBLISHER-SUPPORT-ASSETS-001",
+  "status": "PASS_WITH_HUMAN_CONTACT_GATE",
+  "runtime": {
+    "next": "16.2.10",
+    "build_mode": "production",
+    "dependency_lock_match": true,
+    "isolated_build_staging": true
+  },
+  "checks": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "production_build": "PASS",
+    "d_studio_route": "PASS_STATIC",
+    "support_route": "PASS_STATIC",
+    "internal_links_checked": 40,
+    "broken_links": 0,
+    "buyer_facing_local_path_hits": 0,
+    "buyer_facing_username_hits": 0,
+    "buyer_facing_mission_id_hits": 0,
+    "profile_image_metadata_leakage": 0,
+    "desktop_layout": "PASS_1440x1000",
+    "mobile_layout": "PASS_390x844",
+    "support_navigation": "PASS",
+    "contact_link": "GATED_UNTIL_HUMAN_EMAIL_APPROVAL",
+    "unauthorized_trademark": 0,
+    "unity_endorsement_claim": 0
+  },
+  "browser_console": {
+    "page_specific_errors": 0,
+    "page_specific_warnings": 0,
+    "local_host_exclusions": [
+      "favicon.ico is not present in the existing host site",
+      "Vercel Analytics script is unavailable on the local non-Vercel server"
+    ]
+  },
+  "external_deployment_performed": false,
+  "external_mutations": 0
+}
+
