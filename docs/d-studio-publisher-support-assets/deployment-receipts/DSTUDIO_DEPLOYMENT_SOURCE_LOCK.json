@@ -1,0 +1,29 @@
+{
+  "schema": "factory_os.dstudio.deployment_source_lock.v1",
+  "mission_id": "FOS-3D-DSTUDIO-SUPPORT-SURFACE-DEPLOY-001",
+  "captured_at": "2026-08-13T00:30:00+09:00",
+  "repository": "https://github.com/kenken0830/ai-note-homepage.git",
+  "base_branch": "main",
+  "base_commit": "b5f6bf8da4f41243ce532ea13cb4d3455e66122f",
+  "review_branch": "codex/dstudio-support-surface",
+  "production_route": "review branch -> pull request -> main merge -> existing Vercel GitHub integration",
+  "cqsa_r06": {
+    "size": 50052968,
+    "sha256": "bdb76aefcb3be39871caf93597b3af1c466b02d46e4363dc55aefc6dbfa2f0bf",
+    "changed": false
+  },
+  "approved_public_support_email": "bonnyjames0830@gmail.com",
+  "approved_profile_image": {
+    "path": "public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png",
+    "size": 290454,
+    "sha256": "7abd270a345ae36401f379df50b43fd7c5cd8856cc97f7430c12bacf402e9333"
+  },
+  "source_files": [
+    {"path":"src/app/d-studio/page.tsx","size":7548,"sha256":"83549cbb04bff2d04694aff8518243b5c354fac18bc8d7e847eaba4cdea2b471"},
+    {"path":"src/app/d-studio/support/page.tsx","size":6781,"sha256":"2c876927da232907acd9c475c2b0abe35a38674d16fa4f2ed6f3f63aef1feaa0"},
+    {"path":"src/data/dStudio.ts","size":1486,"sha256":"43a157d98b7fbdfd3e4656a2bb371e5a32a39c34bd2b7f7b0d999e76b7409ac3"},
+    {"path":"public/d-studio/cqsa-cover.png","size":1802092,"sha256":"2d7933c87706d3035dee3d2b0273c3609fcbd777865255f3aee52a5cae5c98b9"},
+    {"path":"public/d-studio/DSTUDIO_PROFILE_IMAGE_160x160.png","size":42191,"sha256":"448aed4e9ec24a4efd3c63da740264be18c4fcbbec7b513739b8e637bc39be7c"},
+    {"path":"public/d-studio/DSTUDIO_PROFILE_IMAGE_512x512.png","size":290454,"sha256":"7abd270a345ae36401f379df50b43fd7c5cd8856cc97f7430c12bacf402e9333"}
+  ]
+}

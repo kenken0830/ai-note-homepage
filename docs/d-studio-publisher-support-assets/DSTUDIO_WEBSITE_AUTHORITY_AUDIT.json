@@ -1,0 +1,49 @@
+{
+  "schema": "factory_os.dstudio.website_authority_audit.v1",
+  "mission_id": "FOS-3D-DSTUDIO-PUBLISHER-SUPPORT-ASSETS-001",
+  "status": "PASS",
+  "canonical_project_path": "D:/Cursor/ai-note-homepage",
+  "git_root": "D:/Cursor/ai-note-homepage",
+  "repository": "https://github.com/kenken0830/ai-note-homepage.git",
+  "local_review_branch": "codex/pr-a-public-safety",
+  "production_branch": "main",
+  "production_path": "GitHub main -> existing Vercel integration -> public domains",
+  "public_domains": [
+    {
+      "url": "https://ai-compass-journal.com/",
+      "status": 200,
+      "final_url": "https://www.ai-compass-journal.com/"
+    },
+    {
+      "url": "https://ai-note-homepage.vercel.app/",
+      "status": 200,
+      "final_url": "https://ai-note-homepage.vercel.app/"
+    }
+  ],
+  "production_binding": {
+    "deployment_status_commit": "b5f6bf8da4f41243ce532ea13cb4d3455e66122f",
+    "github_remote_main_commit": "b5f6bf8da4f41243ce532ea13cb4d3455e66122f",
+    "exact_match": true,
+    "environment": "production",
+    "last_successful_deploy": "CURRENT_PRODUCTION_RESPONSE_CONFIRMED; exact deployment timestamp is not exposed by the public receipt"
+  },
+  "existing_contact_surface": "AI Compass Journal contact infrastructure exists but is not a D-Studio support authority",
+  "existing_dstudio_support_surface": false,
+  "candidate_routes": [
+    "/d-studio",
+    "/d-studio/support"
+  ],
+  "authority_evidence": [
+    "D:/Cursor/CURSOR_PROJECT_INVENTORY.csv",
+    "D:/Cursor/CURSOR_PRODUCT_INVENTORY.csv",
+    "D:/Cursor/SCAN_COVERAGE.md",
+    "docs/launch-checklist.md",
+    "docs/production-update-flow.md",
+    "https://www.ai-compass-journal.com/deployment-status"
+  ],
+  "new_repository_created": false,
+  "new_domain_created": false,
+  "new_hosting_account_created": false,
+  "external_deployment_performed": false
+}
+
