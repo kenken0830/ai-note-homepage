@@ -42,6 +42,8 @@ function normalizeNoteUrl(value: string | null | undefined) {
 
 export const siteConfig = {
   name: "AI Compass Journal",
+  operatorName: "D × MirAI",
+  contactUrl: "https://note.com/life_to_ai/message",
   title: "AI Compass Journal | 仕事で使うAI実践ガイド",
   description:
     "会議メモ、メール返信、週報など、仕事で使うAIの手順・プロンプト・確認ポイントを実践形式で紹介します。",

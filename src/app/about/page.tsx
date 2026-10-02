@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const principles = [
   {
     title: "noteは実験ログ、HPは完成版",
-    body: "noteは毎日の実験・気づき・失敗を記録する場所、ホームページは再現できる手順・プロンプト・テンプレートを保存版として整理する場所として住み分けています。",
+    body: "noteは調査や実験・気づき・失敗を記録する場所、ホームページは再現できる手順・プロンプト・テンプレートを保存版として整理する場所として住み分けています。",
   },
   {
     title: "未確認情報を断定しない",
@@ -41,10 +41,9 @@ const principles = [
 
 const updatesByPlatform = [
   {
-    name: "note",
-    role: "毎日の実験ログ・有料記事・漫画",
+    name: "note「D × MirAI｜AI一人会社をつくる」",
+    role: "調査や実験の記録・有料記事・漫画",
     href: siteConfig.links.note,
-    cadence: "毎日",
   },
 ];
 
@@ -98,12 +97,15 @@ export default function AboutPage() {
             Operator
           </p>
           <h2 className="mt-3 text-3xl font-semibold text-stone-950">
-            毎日 note を書きながら、HP に保存版を積み上げる。
+            運営・執筆：{siteConfig.operatorName}
           </h2>
           <p className="mt-4 leading-8 text-stone-600">
-            運営者は毎日 note で「実験ログ」「有料の判断基準」「漫画」を発信しながら、同じテーマを 5
-            回以上書いた段階でホームページの完成版手順へ昇格させる運用を続けています。
-            HP は note の保管庫ではなく、note を踏まえた再現できる手順とプロンプトの集まりとして育てます。
+            AI Compass Journal は、仕事や発信でAIを使うための手順、プロンプト、確認ポイントをまとめた実践ガイドです。
+            noteでは調査や実験の記録を発信し、このサイトでは読者が試し直せる手順を整理しています。
+          </p>
+          <p className="mt-4 leading-8 text-stone-600">
+            手順の説明例と、実際に試した検証結果を区別します。ツールを評価する記事には、
+            確認日、利用条件、入力素材、結果、手直しした箇所、検証の限界を記載します。
           </p>
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -115,19 +117,16 @@ export default function AboutPage() {
               <div>
                 <h3 className="text-xl font-semibold text-stone-950">{p.name}</h3>
                 <p className="mt-3 text-sm leading-7 text-stone-600">{p.role}</p>
-                <p className="mt-3 text-xs font-bold text-teal-700">
-                  更新頻度: {p.cadence}
-                </p>
               </div>
               <div className="mt-6 text-sm font-bold">
                 {p.href && p.href !== "#" ? (
                   <ExternalLink
                     href={p.href}
-                    source={p.name.toLowerCase()}
+                    source="note"
                     medium="about_operator_links"
                     className="text-teal-700 hover:text-teal-900"
                   >
-                    {p.name} を見る
+                    {"note"} を見る
                   </ExternalLink>
                 ) : (
                   <span className="text-xs font-bold text-stone-500">
@@ -137,6 +136,33 @@ export default function AboutPage() {
               </div>
             </article>
           ))}
+        </div>
+      </Section>
+
+      <Section>
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-semibold text-stone-950">
+            記事・権利・プライバシーに関するお問い合わせ
+          </h2>
+          <p className="mt-4 leading-8 text-stone-600">
+            記事の誤り、掲載内容の権利、プライバシーに関するご連絡は、noteの
+            「クリエイターへのお問い合わせ」からお送りください。
+            対象ページのURLと、確認してほしい箇所をお知らせください。
+            個別相談や法人導入支援の窓口ではありません。
+          </p>
+          <p className="mt-4">
+            <a
+              href={siteConfig.contactUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-teal-700 underline underline-offset-4 hover:text-teal-900"
+            >
+              noteのクリエイターへのお問い合わせ（外部ページ）
+            </a>
+          </p>
+          <p className="mt-4 text-sm leading-7 text-stone-600">
+            送信先はnoteの外部ページです。パスワード、本人確認書類、決済情報などの機密情報は送らないでください。
+          </p>
         </div>
       </Section>
 
@@ -200,7 +226,7 @@ export default function AboutPage() {
             セルフサービスで完結する商品設計
           </h2>
           <p className="mt-4 leading-7 text-stone-600">
-            現在は個別相談や法人導入支援を受け付けず、無料キット、有料note、BOOTHの買い切り商品に集中しています。購入前後に個別対応を必要としない形で、手順とテンプレートを整備します。
+            現在は個別相談や法人導入支援を受け付けていません。無料キット、有料note、BOOTHの買い切り商品を中心に、手順とテンプレートを自分で使える形に整えています。実際に利用できる商品は、公開済みの配布・販売ページで案内します。
           </p>
         </div>
       </Section>
