@@ -11,7 +11,7 @@ Status: `FROZEN_BEFORE_IMPLEMENTATION`
 ## Public safety and technical SEO
 
 - Published use-case count: 17
-- Sitemap use-case count: 17
+- Sitemap use-case count: 17 + the generated tool guides in `src/data/toolGuides.generated.ts` (3 as of 2026-11-10)
 - Planned/draft use-case exposure: 0
 - Live affiliate links before approval: 0
 - Public Notta review before approval: 0

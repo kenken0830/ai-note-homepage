@@ -3,6 +3,15 @@ import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
 
 export const updates: UpdateItem[] = [
   {
+    id: "tool-guides-from-note-2026-11-10",
+    date: "2026-11-10",
+    title: "道具の名前から探せる実践ガイドを3本追加しました",
+    description:
+      "noteでよく読まれた記事をもとに、Claude CodeとCodexの使い分け、Gemini GemsとNotebookLMで作る資料つきの専属AI、NotebookLMで論点を圧縮する問いの立て方を、手順とコピペ用プロンプトつきで整理しました。",
+    href: "/ai-use-cases/claude-code-vs-codex",
+    category: "辞典",
+  },
+  {
     id: "choose-minimal-ai-stack-use-case-live-2026-07-06",
     date: "2026-07-06",
     title: "AIで自分に必要な最小ツールセットを決める方法の詳細ページを公開しました",
