@@ -107,10 +107,21 @@ const sitemapUseCases = new Set(
     (match) => match[1],
   ),
 );
+// Tool guides generated from note articles live in toolGuides.generated.ts and are counted separately,
+// so the 17 hand-curated base use cases stay pinned above.
+const toolGuideSource = fs.existsSync(path.join(root, "src/data/toolGuides.generated.ts"))
+  ? read("src/data/toolGuides.generated.ts")
+  : "";
+const toolGuideSlugs = [...toolGuideSource.matchAll(/"slug":\s*"([a-z0-9-]+)"/g)].map((match) => match[1]);
 requireCondition(
-  sitemapUseCases.size === publishedCount,
+  new Set([...slugs, ...toolGuideSlugs]).size === slugs.length + toolGuideSlugs.length,
+  "DUPLICATE_TOOL_GUIDE_SLUG",
+  "found",
+);
+requireCondition(
+  sitemapUseCases.size === publishedCount + toolGuideSlugs.length,
   "SITEMAP_USE_CASE_COUNT",
-  `${sitemapUseCases.size}/${publishedCount}`,
+  `${sitemapUseCases.size}/${publishedCount}+${toolGuideSlugs.length}`,
 );
 requireCondition(
   !builtSitemap.includes("https://ai-compass-journal.com"),

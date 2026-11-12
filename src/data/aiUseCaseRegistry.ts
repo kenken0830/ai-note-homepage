@@ -3,6 +3,7 @@ import {
   aiUseCaseCategories,
   aiUseCases as baseAiUseCases,
 } from "@/data/aiUseCases";
+import { toolGuideUseCases } from "@/data/toolGuides.generated";
 
 const emailReplyUseCase: AiUseCase = {
   id: "email-reply",
@@ -367,9 +368,13 @@ const useCaseOverrides = new Map<string, AiUseCase>([
 
 export { aiUseCaseCategories };
 
-export const aiUseCases = baseAiUseCases.map(
-  (useCase) => useCaseOverrides.get(useCase.id) ?? useCase,
-);
+// 道具名ガイド (toolGuides.generated.ts) は読まれる型なので先頭に並べる。
+export const aiUseCases = [
+  ...toolGuideUseCases,
+  ...baseAiUseCases.map(
+    (useCase) => useCaseOverrides.get(useCase.id) ?? useCase,
+  ),
+];
 
 // PR Cでcanonical payloadへ接続するまで、サイト側の単一公開判定として扱う。
 export const publishedAiUseCases = aiUseCases.filter(
