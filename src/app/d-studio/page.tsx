@@ -5,6 +5,13 @@ import {
   dStudioCapabilities,
   dStudioProductLines,
 } from "@/data/dStudio";
+import { assetStorefronts } from "@/data/storefronts";
+
+const storeLabels: Record<string, string> = {
+  booth: "BOOTH (largest catalog, includes free assets)",
+  fab: "Fab (Epic Games marketplace)",
+  unity: "Unity Asset Store",
+};
 
 export const metadata: Metadata = {
   title: "D-Studio 3D Assets",
@@ -56,6 +63,12 @@ export default function DStudioPage() {
               >
                 Open support guide
               </Link>
+              <a
+                href="#where-to-buy"
+                className="inline-flex min-h-12 items-center justify-center rounded-lg border border-cyan-300/60 bg-black/20 px-6 py-3 text-sm font-bold text-cyan-100 transition hover:border-cyan-200 hover:text-white"
+              >
+                Where to buy
+              </a>
               <a
                 href="#product-lines"
                 className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white/30 bg-black/20 px-6 py-3 text-sm font-bold text-white transition hover:border-cyan-200 hover:text-cyan-100"
@@ -121,6 +134,33 @@ export default function DStudioPage() {
                   {product.status}
                 </p>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="where-to-buy" className="border-t border-white/10 bg-[#0a101a] px-5 py-20 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="text-xs font-bold tracking-[0.24em] text-cyan-300 uppercase">
+            Where to buy
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold sm:text-5xl">
+            D-Studio assets are sold on three stores.
+          </h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            {assetStorefronts.map((store) => (
+              <a
+                key={store.id}
+                href={store.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-white/20 px-6 py-6 transition hover:border-cyan-300 hover:text-cyan-100"
+              >
+                <span className="block text-xl font-semibold">{store.name}</span>
+                <span className="mt-2 block text-sm leading-7 text-slate-300">
+                  {storeLabels[store.id] ?? store.platform}
+                </span>
+              </a>
             ))}
           </div>
         </div>
