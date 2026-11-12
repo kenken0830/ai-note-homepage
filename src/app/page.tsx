@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { CtaButton } from "@/components/CtaButton";
 import { Section } from "@/components/Section";
 import { SectionHeading } from "@/components/SectionHeading";
+import { StorefrontGrid } from "@/components/StorefrontGrid";
 import { publishedAiUseCases } from "@/data/aiUseCaseRegistry";
+import { storefrontGroups } from "@/data/storefronts";
 
 export const metadata: Metadata = {
   title: "仕事で使うAIの実践ガイド",
@@ -174,6 +176,22 @@ export default function Home() {
       </Section>
 
       <Section tone="soft">
+        <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">
+          Works & stores
+        </p>
+        <h2 className="mt-3 text-3xl font-semibold text-stone-950">
+          記事と3D素材は、ここで公開しています。
+        </h2>
+        {storefrontGroups.map((group) => (
+          <div key={group.id} className="mt-10">
+            <h3 className="text-xl font-semibold text-stone-950">{group.title}</h3>
+            <p className="mt-2 leading-8 text-stone-600">{group.description}</p>
+            <StorefrontGrid items={group.items} placement={`home_${group.id}`} />
+          </div>
+        ))}
+      </Section>
+
+      <Section>
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.16em] text-teal-700">

@@ -8,7 +8,7 @@ export const primaryNavigation: NavItem[] = [
   { label: "はじめて", href: "/start" },
   { label: "ガイド", href: "/guides" },
   { label: "プロンプト", href: "/prompts" },
-  { label: "商品", href: "/products" },
+  { label: "作品と販売先", href: "/products", showInHeader: true },
   { label: "記事", href: "/library" },
   { label: "更新情報", href: "/updates" },
   { label: "メディア", href: "/media" },
