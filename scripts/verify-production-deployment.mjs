@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 const args = new Map();
 for (const raw of process.argv.slice(2)) {
   const [key, ...valueParts] = raw.split("=");
@@ -32,6 +35,20 @@ const expectedPublishedUseCaseSlugs = new Set([
   "structure-note-article",
   "write-email-reply",
 ]);
+
+// Tool guides generated from note articles (src/data/toolGuides.generated.ts) are published use cases too.
+// Read them from the checked-out source so this list does not need a hand edit for every new guide.
+try {
+  const generated = fs.readFileSync(
+    path.join(process.cwd(), "src/data/toolGuides.generated.ts"),
+    "utf8",
+  );
+  for (const match of generated.matchAll(/"slug":\s*"([a-z0-9-]+)"/g)) {
+    expectedPublishedUseCaseSlugs.add(match[1]);
+  }
+} catch {
+  // No generated guides in this checkout: the curated list above is the whole set.
+}
 
 const plannedUseCaseSlugs = ["make-todo-list", "summarize-research-notes"];
 

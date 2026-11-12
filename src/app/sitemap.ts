@@ -23,6 +23,7 @@ const ROUTE_CONFIG: Record<
   "/workflows": { priority: 0.7, changeFrequency: "monthly" },
   "/updates": { priority: 0.6, changeFrequency: "weekly" },
   "/products": { priority: 0.5, changeFrequency: "monthly" },
+  "/works": { priority: 0.5, changeFrequency: "monthly" },
   "/about": { priority: 0.4, changeFrequency: "yearly" },
 };
 
