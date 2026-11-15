@@ -1,0 +1,26 @@
+{
+  "_readme": "動画の説明欄に書く短いリンク /go/<コード> の飛び先の表。コードは変えない(数が続くように)。飛び先 to だけを替える。to はホームページ内のパス(/ で始まる)か、BOOTH・Unity Asset Store・Fab の https の URL。",
+  "links": {
+    "jcv-booth-m10": {
+      "to": "/d-studio#where-to-buy",
+      "kit": "jcv",
+      "store": "booth",
+      "video": "m10",
+      "note": "JCV は出品前。BOOTH に出したら、その商品ページの URL に替える。"
+    },
+    "jcv-unity-m10": {
+      "to": "/d-studio#where-to-buy",
+      "kit": "jcv",
+      "store": "unity",
+      "video": "m10",
+      "note": "JCV は出品前(審査待ち)。Unity Asset Store に出たら、その商品ページの URL に替える。"
+    },
+    "jcv-fab-m10": {
+      "to": "/d-studio#where-to-buy",
+      "kit": "jcv",
+      "store": "fab",
+      "video": "m10",
+      "note": "JCV は出品前。Fab に出したら、その商品ページの URL に替える。"
+    }
+  }
+}
