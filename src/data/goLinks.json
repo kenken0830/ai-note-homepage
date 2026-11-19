@@ -21,6 +21,34 @@
       "store": "fab",
       "video": "m10",
       "note": "JCV は出品前。Fab に出したら、その商品ページの URL に替える。"
+    },
+    "jsk-fab-ss01": {
+      "to": "https://www.fab.com/listings/ab4d8f75-8859-4b94-ae70-64308156b8f7",
+      "kit": "jsk",
+      "store": "fab",
+      "video": "ss01",
+      "note": "Substack Issue #1(11/25 から)。飛び先は Fab の JSK のページ。Unity へ替えるのは本社が決めてから。"
+    },
+    "jsk-fab-sn01": {
+      "to": "https://www.fab.com/listings/ab4d8f75-8859-4b94-ae70-64308156b8f7",
+      "kit": "jsk",
+      "store": "fab",
+      "video": "sn01",
+      "note": "Substack Notes 1本目(11/27)。飛び先は Fab の JSK のページ。"
+    },
+    "jsk-fab-sn02": {
+      "to": "https://www.fab.com/listings/ab4d8f75-8859-4b94-ae70-64308156b8f7",
+      "kit": "jsk",
+      "store": "fab",
+      "video": "sn02",
+      "note": "Substack Notes 2本目(11/30)。飛び先は Fab の JSK のページ。"
+    },
+    "jsk-fab-sn03": {
+      "to": "https://www.fab.com/listings/ab4d8f75-8859-4b94-ae70-64308156b8f7",
+      "kit": "jsk",
+      "store": "fab",
+      "video": "sn03",
+      "note": "Substack Notes 3本目(12/2)。飛び先は Fab の JSK のページ。"
     }
   }
 }
